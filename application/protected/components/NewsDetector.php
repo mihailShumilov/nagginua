@@ -6,7 +6,7 @@
  * Date: 07.03.14
  * Time: 13:41
  */
-class NewsParser extends CApplicationComponent
+class NewsDetector extends CApplicationComponent
 {
     private $url;
     private $categoryPattern;
@@ -37,7 +37,16 @@ class NewsParser extends CApplicationComponent
     {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
             try {
-                return file_get_contents($url);
+                $opts = array(
+                    'http' => array(
+                        'method' => "GET",
+                        'header' => "Accept-language: ru\r\n" .
+                            "Cookie: foo=bar\r\n"
+                    )
+                );
+
+                $context = stream_context_create($opts);
+                return file_get_contents($url, false, $context);
             } catch (Exception $e) {
 
             }

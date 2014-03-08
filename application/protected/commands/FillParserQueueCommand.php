@@ -13,7 +13,7 @@ class FillParserQueueCommand extends CConsoleCommand
     {
         if ($sourceList = Source::model()->active()->findAll()) {
             foreach ($sourceList as $source) {
-                $parser = new NewsParser($source);
+                $parser = new NewsDetector($source);
                 $parser->run();
             }
         }
