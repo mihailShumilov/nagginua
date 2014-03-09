@@ -26,33 +26,11 @@ class NewsDetector extends CApplicationComponent
 
     public function run()
     {
-        $firstPage = $this->load($this->url);
+        $firstPage = PageLoader::load($this->url);
         $this->detectNewsLinks($firstPage);
         $this->detectCategoryLinks($firstPage);
         $this->processCategoryLinks();
         $this->fillParserQueue();
-    }
-
-    protected function load($url)
-    {
-        if (filter_var($url, FILTER_VALIDATE_URL)) {
-            try {
-                $opts = array(
-                    'http' => array(
-                        'method' => "GET",
-                        'header' => "Accept-language: ru\r\n" .
-                            "Cookie: foo=bar\r\n"
-                    )
-                );
-
-                $context = stream_context_create($opts);
-                return file_get_contents($url, false, $context);
-            } catch (Exception $e) {
-
-            }
-        } else {
-            throw new Exception("No valid url: `{$url}`");
-        }
     }
 
     private function detectCategoryLinks($content)
@@ -98,7 +76,7 @@ class NewsDetector extends CApplicationComponent
             $cnt = 0;
             foreach ($this->categoryLinks as $url) {
                 $cnt++;
-                if ($content = $this->load($this->url . $url)) {
+                if ($content = PageLoader::load($this->url . $url)) {
                     $this->detectNewsLinks($content);
                 }
                 $percentage = round($cnt / sizeof($this->categoryLinks) * 100, 2);

@@ -5,7 +5,10 @@ Yii::import('application.models._base.BaseParserQueue');
 class ParserQueue extends BaseParserQueue
 {
 
-    const  STATUS_NEW = 'new';
+    const STATUS_NEW       = 'new';
+    const STATUS_INPROCESS = 'in_progress';
+    const STATUS_FAIL      = 'fail';
+    const STATUS_DONE      = 'done';
 
     public static function model($className = __CLASS__)
     {

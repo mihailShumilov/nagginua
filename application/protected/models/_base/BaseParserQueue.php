@@ -16,7 +16,7 @@
  * @property string $created_at
  * @property string $updated_at
  *
- * @property Sources $source
+ * @property Source $source
  */
 abstract class BaseParserQueue extends GxActiveRecord
 {
@@ -56,7 +56,7 @@ abstract class BaseParserQueue extends GxActiveRecord
     public function relations()
     {
         return array(
-            'source' => array(self::BELONGS_TO, 'Sources', 'source_id'),
+            'source' => array(self::BELONGS_TO, 'Source', 'source_id'),
         );
     }
 

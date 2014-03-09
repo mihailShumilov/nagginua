@@ -14,8 +14,12 @@ class ParseNewsCommand extends CConsoleCommand
         $dataReader      = $getLinksCommand->query();
         while (($row = $dataReader->read()) !== false) {
             if ($queueItem = ParserQueue::model()->findByPk($row['id'])) {
-                $np = new NewsParser($queueItem);
+                try {
+                    $np = new NewsParser($queueItem);
                 $np->run();
+                } catch (Exception $e) {
+                    echo $e->getMessage() . "\n";
+                }
             }
 
         }
