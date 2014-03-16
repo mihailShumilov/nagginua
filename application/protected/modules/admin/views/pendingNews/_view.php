@@ -14,7 +14,9 @@
     <?php echo GxHtml::encode($data->title); ?>
     <br/>
     <?php echo GxHtml::encode($data->getAttributeLabel('content')); ?>:
-    <?php echo GxHtml::encode($data->content); ?>
+    <iframe src="data:text/html;base64,<?php echo base64_encode(
+        "<html><meta http-equiv='Content-Type' content='text/html; charset=utf-8'><body>{$data->content}</body></html>"
+    ); ?>"></iframe>
     <br/>
     <?php echo GxHtml::encode($data->getAttributeLabel('search_content')); ?>:
     <?php echo GxHtml::encode($data->search_content); ?>

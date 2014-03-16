@@ -28,10 +28,10 @@ class PendingNewsController extends GxController
                 'actions' => array('admin', 'delete'),
                 'users'   => array('admin'),
             ),
-            array(
-                'deny',
-                'users' => array('*'),
-            ),
+//            array(
+//                'deny',
+//                'users' => array('*'),
+//            ),
         );
     }
 
