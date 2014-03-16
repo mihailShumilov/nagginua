@@ -101,7 +101,7 @@ class NewsDetector extends CApplicationComponent
                     print_r($pqItem->getErrors());
                 }
             } catch (CDbException $e) {
-
+                print_r($e->getMessage());
             }
         }
     }

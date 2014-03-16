@@ -48,20 +48,24 @@ class NewsParser extends CApplicationComponent
                     $tidy->cleanRepair();
                     $content = $tidy->value;
                 }
-                $pn             = new PendingNews();
-                $pn->source_id  = $this->source->id;
-                $pn->title      = $title;
-                $pn->content    = $content;
-                $pn->status     = PendingNews::STATUS_NEW;
-                $pn->group_hash = md5(time());
-                $pn->created_at = new CDbExpression("NEW()");
-                if ($pn->save()) {
-                    $this->parserQueue->status = ParserQueue::STATUS_DONE;
-                    $this->parserQueue->save();
-                } else {
-                    print_r($pn->getErrors());
-                    $this->parserQueue->status = ParserQueue::STATUS_FAIL;
-                    $this->parserQueue->save();
+                if ($searchContent = trim(strip_tags($content))) {
+
+                    $pn                 = new PendingNews();
+                    $pn->source_id      = $this->source->id;
+                    $pn->title          = $title;
+                    $pn->content        = $content;
+                    $pn->search_content = $searchContent;
+                    $pn->status         = PendingNews::STATUS_NEW;
+                    $pn->group_hash     = md5(time());
+                    $pn->created_at     = new CDbExpression("NEW()");
+                    if ($pn->save()) {
+                        $this->parserQueue->status = ParserQueue::STATUS_DONE;
+                        $this->parserQueue->save();
+                    } else {
+                        print_r($pn->getErrors());
+                        $this->parserQueue->status = ParserQueue::STATUS_FAIL;
+                        $this->parserQueue->save();
+                    }
                 }
             } else {
                 throw new Exception('Looks like we couldn\'t find the content. :(');

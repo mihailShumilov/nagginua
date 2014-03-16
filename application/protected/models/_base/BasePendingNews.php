@@ -13,6 +13,7 @@
  * @property integer $source_id
  * @property string $title
  * @property string $content
+ * @property string $search_content
  * @property string $status
  * @property string $group_hash
  * @property string $created_at
@@ -46,13 +47,17 @@ abstract class BasePendingNews extends GxActiveRecord
     public function rules()
     {
         return array(
-            array('source_id, title, content, group_hash, created_at', 'required'),
+            array('source_id, title, content, search_content, group_hash, created_at', 'required'),
             array('source_id', 'numerical', 'integerOnly' => true),
             array('status', 'length', 'max' => 10),
             array('group_hash', 'length', 'max' => 45),
             array('update_at', 'safe'),
             array('status, update_at', 'default', 'setOnEmpty' => true, 'value' => null),
-            array('id, source_id, title, content, status, group_hash, created_at, update_at', 'safe', 'on' => 'search'),
+            array(
+                'id, source_id, title, content, search_content, status, group_hash, created_at, update_at',
+                'safe',
+                'on' => 'search'
+            ),
         );
     }
 
@@ -71,15 +76,16 @@ abstract class BasePendingNews extends GxActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => Yii::t('app', 'ID'),
-            'source_id' => null,
-            'title' => Yii::t('app', 'Title'),
-            'content' => Yii::t('app', 'Content'),
-            'status' => Yii::t('app', 'Status'),
-            'group_hash' => Yii::t('app', 'Group Hash'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'update_at' => Yii::t('app', 'Update At'),
-            'source' => null,
+            'id'             => Yii::t('app', 'ID'),
+            'source_id'      => null,
+            'title'          => Yii::t('app', 'Title'),
+            'content'        => Yii::t('app', 'Content'),
+            'search_content' => Yii::t('app', 'Search Content'),
+            'status'         => Yii::t('app', 'Status'),
+            'group_hash'     => Yii::t('app', 'Group Hash'),
+            'created_at'     => Yii::t('app', 'Created At'),
+            'update_at'      => Yii::t('app', 'Update At'),
+            'source'         => null,
         );
     }
 
@@ -91,6 +97,7 @@ abstract class BasePendingNews extends GxActiveRecord
         $criteria->compare('source_id', $this->source_id);
         $criteria->compare('title', $this->title, true);
         $criteria->compare('content', $this->content, true);
+        $criteria->compare('search_content', $this->search_content, true);
         $criteria->compare('status', $this->status, true);
         $criteria->compare('group_hash', $this->group_hash, true);
         $criteria->compare('created_at', $this->created_at, true);

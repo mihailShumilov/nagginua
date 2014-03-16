@@ -16,7 +16,7 @@ class ParseNewsCommand extends CConsoleCommand
             if ($queueItem = ParserQueue::model()->findByPk($row['id'])) {
                 try {
                     $np = new NewsParser($queueItem);
-                $np->run();
+                    $np->run();
                 } catch (Exception $e) {
                     echo $e->getMessage() . "\n";
                 }

@@ -12,16 +12,14 @@ class PageLoader extends CApplicationComponent
     {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
             try {
-                $opts = array(
-                    'http' => array(
-                        'method' => "GET",
-                        'header' => "Accept-language: ru\r\n" .
-                            "Cookie: foo=bar\r\n"
-                    )
-                );
-
-                $context = stream_context_create($opts);
-                return file_get_contents($url, false, $context);
+                $ch      = curl_init();
+                $timeout = 5;
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+                $data = curl_exec($ch);
+                curl_close($ch);
+                return $data;
             } catch (Exception $e) {
                 return false;
             }
