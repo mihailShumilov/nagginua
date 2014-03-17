@@ -106,4 +106,15 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+
+    public function actionTestSearch()
+    {
+        $sSql = 'SELECT id FROM search_content WHERE MATCH(' . Yii::app()->sphinx->quoteValue(
+                '"ООН не поддержал резолюцию по Украине из-за России"/1'
+            ) . ')';
+        $ids  = Yii::app()->sphinx->createCommand($sSql)->queryAll();
+        echo "<pre>";
+        print_r($ids);
+        Yii::app()->end();
+    }
 }

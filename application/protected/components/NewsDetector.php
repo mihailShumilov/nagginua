@@ -36,7 +36,7 @@ class NewsDetector extends CApplicationComponent
     private function detectCategoryLinks($content)
     {
         if ($content) {
-            $this->categoryLinks = $this->linkDetector($content, $this->categoryPattern);
+            $this->categoryLinks = $this->linkDetector($content, $this->categoryPattern, false);
         } else {
             throw new Exception("No content data");
         }
@@ -51,7 +51,7 @@ class NewsDetector extends CApplicationComponent
         }
     }
 
-    private function linkDetector($content, $pattern)
+    private function linkDetector($content, $pattern, $is_news = true)
     {
         if ($content && $pattern) {
             $returnLink = array();
@@ -60,10 +60,17 @@ class NewsDetector extends CApplicationComponent
                 foreach ($results[1] as $link) {
                     $link = str_replace($this->url, '', $link);
                     if (preg_match("/^{$pattern}$/i", $link)) {
-                        $returnLink[] = $link;
+                        if ($is_news) {
+                            $this->addToParserQueue($link);
+                        } else {
+                            $returnLink[] = $link;
+                        }
+
                     }
                 }
                 return $returnLink;
+            } else {
+                Yii::log("No links found");
             }
         } else {
             throw new Exception("No content or pattern data");
@@ -85,6 +92,24 @@ class NewsDetector extends CApplicationComponent
         }
     }
 
+    private function addToParserQueue($link)
+    {
+        try {
+            $pqItem             = new ParserQueue();
+            $pqItem->source_id  = $this->sourceId;
+            $pqItem->url        = $link;
+            $pqItem->status     = ParserQueue::STATUS_NEW;
+            $pqItem->created_at = new CDbExpression('NOW()');
+            if ($pqItem->save()) {
+
+            } else {
+                print_r($pqItem->getErrors());
+            }
+        } catch (CDbException $e) {
+//                print_r($e->getMessage());
+        }
+    }
+
     private function fillParserQueue()
     {
         $this->newsLinks = array_unique($this->newsLinks);
@@ -101,7 +126,7 @@ class NewsDetector extends CApplicationComponent
                     print_r($pqItem->getErrors());
                 }
             } catch (CDbException $e) {
-                print_r($e->getMessage());
+//                print_r($e->getMessage());
             }
         }
     }
