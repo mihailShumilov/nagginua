@@ -50,6 +50,11 @@ class NewsParser extends CApplicationComponent
                 }
                 if ($searchContent = trim(strip_tags($content))) {
 
+                    $searchContent = preg_replace('/\n/', ' ', $searchContent);
+                    $searchContent = preg_replace("/[^а-я ]/ui", "", $searchContent);
+                    $searchContent = preg_replace('/\s+/', ' ', $searchContent);
+
+
                     $pn                 = new PendingNews();
                     $pn->source_id      = $this->source->id;
                     $pn->title          = $title;

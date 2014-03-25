@@ -10,15 +10,16 @@ class SimilarDetectCommand extends CConsoleCommand
 {
     public function run($args)
     {
-        $getLinksCommand = Yii::app()->db->createCommand(
-            "SELECT * FROM " . PendingNews::model()->tableName() . " WHERE status = 'new'"
+        $getUnprocessedNews = Yii::app()->db->createCommand(
+            "SELECT * FROM " . PendingNews::model()->tableName(
+            ) . " WHERE processed = 0 and status = 'pending' ORDER BY id ASC"
         );
-        $dataReader      = $getLinksCommand->query();
+        $dataReader         = $getUnprocessedNews->query();
         while (($row = $dataReader->read()) !== false) {
-            if ($queueItem = ParserQueue::model()->findByPk($row['id'])) {
+            if ($pn = PendingNews::model()->findByPk($row['id'])) {
                 try {
-                    $np = new NewsParser($queueItem);
-                    $np->run();
+                    $sd = new SimilarDetector($pn);
+                    $sd->detect();
                 } catch (Exception $e) {
                     echo $e->getMessage() . "\n";
                 }
