@@ -23,26 +23,30 @@ class SimilarDetector extends CApplicationComponent
     {
         if ($data = $this->searchByContent()) {
             $ids_to_update   = array();
-            $ids_to_update[] = $this->news->id;
-            $group_hash      = md5(microtime());
+//            $ids_to_update[] = $this->news->id;
             foreach ($data as $ids) {
                 if ($ids['weight'] > 16000) {
                     $ids_to_update[] = $ids['id'];
                 }
             }
-            sort($ids_to_update);
+            if ($ids_to_update) {
+                sort($ids_to_update);
+                $group_hash = $ids_to_update[0];
 
-            $fPn        = PendingNews::model()->findByPk($ids_to_update[0]);
-            $group_hash = $fPn->group_hash;
-
-            foreach ($ids_to_update as $id) {
-                $pn = PendingNews::model()->findByPk($id);
-                if ($pn->group_hash != $group_hash) {
-                    $pn->group_hash = $group_hash;
-                    $pn->processed  = 1;
-                    $pn->save();
+                foreach ($ids_to_update as $id) {
+                    $pn = PendingNews::model()->findByPk($id);
+                    if ($pn->group_hash != $group_hash) {
+                        $pn->group_hash = $group_hash;
+                        $pn->processed  = 1;
+                        $pn->save();
+                    }
                 }
+                $this->news->group_hash = $group_hash;
+            } else {
+                $this->news->group_hash = $this->news->id;
             }
+        } else {
+            $this->news->group_hash = $this->news->id;
         }
         $this->news->processed = 1;
         $this->news->save();
