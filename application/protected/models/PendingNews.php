@@ -33,4 +33,14 @@ class PendingNews extends BasePendingNews
             return false;
         }
     }
+
+    protected function afterSave()
+    {
+
+        $sSql   = "INSERT INTO pending_news_rt VALUES({$this->id}, '{$this->id}', " . Yii::app()->sphinx->quoteValue(
+                $this->title
+            ) . ", " . Yii::app()->sphinx->quoteValue($this->search_content) . ")";
+        $result = Yii::app()->sphinx->createCommand($sSql)->execute();
+        return parent::afterSave();
+    }
 }

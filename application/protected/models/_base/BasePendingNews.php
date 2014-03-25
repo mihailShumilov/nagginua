@@ -16,6 +16,7 @@
  * @property string $search_content
  * @property string $status
  * @property string $group_hash
+ * @property integer $processed
  * @property string $created_at
  * @property string $update_at
  *
@@ -48,13 +49,13 @@ abstract class BasePendingNews extends GxActiveRecord
     {
         return array(
             array('source_id, title, content, search_content, group_hash, created_at', 'required'),
-            array('source_id', 'numerical', 'integerOnly' => true),
+            array('source_id, processed', 'numerical', 'integerOnly' => true),
             array('status', 'length', 'max' => 10),
             array('group_hash', 'length', 'max' => 45),
             array('update_at', 'safe'),
-            array('status, update_at', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('status, processed, update_at', 'default', 'setOnEmpty' => true, 'value' => null),
             array(
-                'id, source_id, title, content, search_content, status, group_hash, created_at, update_at',
+                'id, source_id, title, content, search_content, status, group_hash, processed, created_at, update_at',
                 'safe',
                 'on' => 'search'
             ),
@@ -83,6 +84,7 @@ abstract class BasePendingNews extends GxActiveRecord
             'search_content' => Yii::t('app', 'Search Content'),
             'status'         => Yii::t('app', 'Status'),
             'group_hash'     => Yii::t('app', 'Group Hash'),
+            'processed'      => Yii::t('app', 'Processed'),
             'created_at'     => Yii::t('app', 'Created At'),
             'update_at'      => Yii::t('app', 'Update At'),
             'source'         => null,
@@ -100,6 +102,7 @@ abstract class BasePendingNews extends GxActiveRecord
         $criteria->compare('search_content', $this->search_content, true);
         $criteria->compare('status', $this->status, true);
         $criteria->compare('group_hash', $this->group_hash, true);
+        $criteria->compare('processed', $this->processed);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('update_at', $this->update_at, true);
 

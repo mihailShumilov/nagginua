@@ -36,5 +36,9 @@ return array(
 				),
 			),
 		),
-	),
+        'sphinx' => array(
+            'class'            => 'system.db.CDbConnection',
+            'connectionString' => 'mysql:host=127.0.0.1;port=9306',
+        ),
+    ),
 );
