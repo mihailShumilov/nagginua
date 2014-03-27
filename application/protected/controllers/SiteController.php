@@ -109,12 +109,33 @@ class SiteController extends Controller
 
     public function actionTestSearch()
     {
-        $sSql = 'SELECT id FROM search_content WHERE MATCH(' . Yii::app()->sphinx->quoteValue(
-                '"ООН не поддержал резолюцию по Украине из-за России"/1'
-            ) . ')';
+        $searchPhrase = '"Москва говорит голосом СССР - посол - Политические новости Украины - Сергеев заявил, что не теряет оптимизма"';
+        $sSql         = 'SELECT * FROM search_content WHERE MATCH(' . Yii::app()->sphinx->quoteValue(
+                '' . $searchPhrase . '/4'
+            ) . ')
+OPTION ranker = expr(\'sum(exact_hit+10*(min_hit_pos==1)+lcs)*1000 +bm25\')';
         $ids  = Yii::app()->sphinx->createCommand($sSql)->queryAll();
-        echo "<pre>";
-        print_r($ids);
+
+        echo "<h1>Search Phrase:<br/>$searchPhrase</h1>";
+
+        $pn_id = array();
+        foreach ($ids as $id) {
+            $pn_id[] = $id['id'];
+            echo "<h2>Weight: " . $id['weight'] . "</h2>";
+            $pn = PendingNews::model()->findByPk($id['id']);
+            echo "<h3>" . $pn->title . "</h3>";
+            echo "<p>" . $pn->search_content . "</p>";
+            echo "<hr/>";
+        }
+        Yii::app()->end();
+    }
+
+    public function actionWPTest()
+    {
+        $wp = new Wordpress();
+        $wp->getAuthCookie();
+        $wp->createPost();
+//        $wp->getPost(1);
         Yii::app()->end();
     }
 }
