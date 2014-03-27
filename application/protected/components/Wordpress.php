@@ -29,42 +29,27 @@ class Wordpress extends CApplicationComponent
         }
     }
 
-    public function getPost($postID)
-    {
-        echo "<pre>";
-        print_r($this->makeRequest($this->wpUrl . "get_post/", array("post_id" => 1)));
-    }
-
-    public function createPost()
+    public function createPost($title, $content)
     {
         $nonce = $this->getNonce("posts", "create_post");
-//        $params = array(
-//            "blog_id"  => 1,
-//            "username" => "admin",
-//            "password" => "admin_na",
-//            "nonce" =>  $nonce->nonce,
-//            "content"  => array(
-//                "post_type"    => "post",
-//                "post_status"  => "draft",
-//                "post_title"   => "TEST title",
-//                "post_author"  => "1",
-//                "post_content" => "<h1>POST CONTENT</h1>",
-//                "post_date"    => date("Y-m-d H:i:s")
-//            )
-//        );
+
         $params = array(
             "nonce"   => $nonce->nonce,
             "status"  => "draft",
-            "title"   => "TEST title",
-            "content" => "<h1>POST CONTENT</h1>",
+            "title"   => $title,
+            "content" => $content,
             "author"  => "admin",
             "cookie"  => $this->getAuthCookie()
         );
-        echo "<pre>";
-        print_r($this->makeRequest($this->wpUrl . "posts/create_post/", $params));
+        $result = $this->makeRequest($this->wpUrl . "posts/create_post/", $params);
+        if ("ok" == $result->status) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public function getNonce($controller, $method)
+    protected function getNonce($controller, $method)
     {
         $params = array(
             "controller" => $controller,
@@ -74,7 +59,7 @@ class Wordpress extends CApplicationComponent
         return $this->makeRequest($this->wpUrl . "core/get_nonce/", $params);
     }
 
-    public function getAuthCookie()
+    protected function getAuthCookie()
     {
         $nonce  = $this->getNonce("auth", "generate_auth_cookie");
         $params = array(
