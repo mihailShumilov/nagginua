@@ -97,6 +97,10 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-        'wpurl' => 'http://na.loc/api/'
+        'wp' => array(
+            'url'      => 'http://na.loc/api/',
+            'login'    => 'admin',
+            'password' => 'admin_na'
+        )
     ),
 );

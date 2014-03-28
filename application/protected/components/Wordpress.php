@@ -8,11 +8,15 @@
  */
 class Wordpress extends CApplicationComponent
 {
-    private $wpUrl = '';
+    private $url = '';
+    private $login = '';
+    private $password = '';
 
     public function __construct()
     {
-        $this->wpUrl = Yii::app()->params['wpurl'];
+        $this->url      = Yii::app()->params['wp']['url'];
+        $this->login    = Yii::app()->params['wp']['login'];
+        $this->password = Yii::app()->params['wp']['password'];
     }
 
     protected function makeRequest($url, $params = array())
@@ -41,7 +45,7 @@ class Wordpress extends CApplicationComponent
             "author"  => "admin",
             "cookie"  => $this->getAuthCookie()
         );
-        $result = $this->makeRequest($this->wpUrl . "posts/create_post/", $params);
+        $result = $this->makeRequest($this->url . "posts/create_post/", $params);
         if ("ok" == $result->status) {
             return true;
         } else {
@@ -56,7 +60,7 @@ class Wordpress extends CApplicationComponent
             "method"     => $method,
             "callback"   => "?"
         );
-        return $this->makeRequest($this->wpUrl . "core/get_nonce/", $params);
+        return $this->makeRequest($this->url . "core/get_nonce/", $params);
     }
 
     protected function getAuthCookie()
@@ -64,11 +68,11 @@ class Wordpress extends CApplicationComponent
         $nonce  = $this->getNonce("auth", "generate_auth_cookie");
         $params = array(
             "nonce"    => $nonce->nonce,
-            "username" => "admin",
-            "password" => "admin_na"
+            "username" => $this->login,
+            "password" => $this->password
         );
 
-        $result = $this->makeRequest($this->wpUrl . "auth/generate_auth_cookie/", $params);
+        $result = $this->makeRequest($this->url . "auth/generate_auth_cookie/", $params);
         return $result->cookie;
 
     }
