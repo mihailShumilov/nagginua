@@ -127,6 +127,12 @@ class JSON_API_Post
         $wp_post = get_post($this->id);
         $this->import_wp_object($wp_post);
 
+        if (!empty($values["custom"])) {
+            foreach ($values["custom"] as $metakey => $metavalue) {
+                update_post_meta($this->id, $metakey, $metavalue);
+            }
+        }
+
         return $this->id;
     }
 

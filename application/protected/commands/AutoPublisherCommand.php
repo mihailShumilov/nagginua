@@ -39,7 +39,7 @@ class AutoPublisherCommand extends CConsoleCommand
             if (($result = $dr->read()) !== false) {
                 if ($pn = PendingNews::model()->findByPk($result['id'])) {
                     $wp = new Wordpress();
-                    if ($wp->createPost($pn->title, $pn->content, "publish")) {
+                    if ($wp->createPost($pn->title, $pn->content, $pn->source->url, "publish")) {
                         $pn->status = 'approved';
                         $pn->save();
 
@@ -55,6 +55,7 @@ class AutoPublisherCommand extends CConsoleCommand
                             );
                         }
                     }
+                    break;
                 }
             }
         }

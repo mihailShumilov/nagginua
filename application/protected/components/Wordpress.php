@@ -22,12 +22,12 @@ class Wordpress extends CApplicationComponent
     protected function makeRequest($url, $params = array(), $post = false)
     {
         if ($url && !empty($params)) {
-            $result = '';
+            $result  = '';
+            $request = http_build_query($params);
             if ($post) {
-                $result = PageLoader::load($url, $params);
+                $result = PageLoader::load($url, $request);
             } else {
-                $request = http_build_query($params);
-                $result  = PageLoader::load($url . "?" . $request);
+                $result = PageLoader::load($url . "?" . $request);
             }
             if ("?" == substr($result, 0, 1)) {
                 $result = preg_replace('/.+?({.+}).+/', '$1', $result);
@@ -38,7 +38,7 @@ class Wordpress extends CApplicationComponent
         }
     }
 
-    public function createPost($title, $content, $status = "draft")
+    public function createPost($title, $content, $source, $status = "draft")
     {
         $nonce = $this->getNonce("posts", "create_post");
 
@@ -48,7 +48,8 @@ class Wordpress extends CApplicationComponent
             "title"   => $title,
             "content" => $content,
             "author"  => "admin",
-            "cookie"  => $this->getAuthCookie()
+            "cookie" => $this->getAuthCookie(),
+            "custom" => array("source" => $source)
         );
         $result = $this->makeRequest($this->url . "posts/create_post/", $params, true);
         if ("ok" == $result->status) {
