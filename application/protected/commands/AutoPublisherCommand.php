@@ -38,8 +38,14 @@ class AutoPublisherCommand extends CConsoleCommand
             $dr = $getOneNews->query();
             if (($result = $dr->read()) !== false) {
                 if ($pn = PendingNews::model()->findByPk($result['id'])) {
+
+                    $imageLink = false;
+//                    if(preg_match_all("/(https?:\/\/.*\.(?:png|jpg))/i", $pn->content, $images)){
+//                        $imageLink = PageLoader::loadFile($images[1][0]);
+//                    }
+
                     $wp = new Wordpress();
-                    if ($wp->createPost($pn->title, $pn->content, $pn->source->url, "publish")) {
+                    if ($wp->createPost($pn->title, $pn->content, $pn->source->url, "publish", $imageLink)) {
                         $pn->status = 'approved';
                         $pn->save();
 
@@ -55,7 +61,7 @@ class AutoPublisherCommand extends CConsoleCommand
                             );
                         }
                     }
-                    break;
+//                    break;
                 }
             }
         }

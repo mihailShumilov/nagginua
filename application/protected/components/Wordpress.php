@@ -38,7 +38,7 @@ class Wordpress extends CApplicationComponent
         }
     }
 
-    public function createPost($title, $content, $source, $status = "draft")
+    public function createPost($title, $content, $source, $status = "draft", $attachment = false)
     {
         $nonce = $this->getNonce("posts", "create_post");
 
@@ -49,8 +49,12 @@ class Wordpress extends CApplicationComponent
             "content" => $content,
             "author"  => "admin",
             "cookie" => $this->getAuthCookie(),
-            "custom" => array("source" => $source)
+            "custom" => array("source" => $source),
         );
+        if ($attachment) {
+            echo "\n ATT \n";
+            $params["attachment"] = "@{$attachment}";
+        }
         $result = $this->makeRequest($this->url . "posts/create_post/", $params, true);
         if ("ok" == $result->status) {
             return true;

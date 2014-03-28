@@ -31,4 +31,13 @@ class PageLoader extends CApplicationComponent
             throw new Exception("No valid url: `{$url}`");
         }
     }
+
+    public static function loadFile($url)
+    {
+        if ($url) {
+            $tmpfname = tempnam(sys_get_temp_dir(), "img_");
+            file_put_contents($tmpfname, fopen($url, 'r'));
+            return $tmpfname;
+        }
+    }
 } 
