@@ -8,7 +8,7 @@
  */
 class PageLoader extends CApplicationComponent
 {
-    public static function load($url)
+    public static function load($url, $postParams = false)
     {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
             try {
@@ -17,6 +17,10 @@ class PageLoader extends CApplicationComponent
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+                if (isset($postParams) && !empty($postParams)) {
+                    curl_setopt($ch, CURLOPT_POST, 1);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $postParams);
+                }
                 $data = curl_exec($ch);
                 curl_close($ch);
                 return $data;

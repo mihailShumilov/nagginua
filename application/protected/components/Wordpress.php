@@ -19,11 +19,16 @@ class Wordpress extends CApplicationComponent
         $this->password = Yii::app()->params['wp']['password'];
     }
 
-    protected function makeRequest($url, $params = array())
+    protected function makeRequest($url, $params = array(), $post = false)
     {
         if ($url && !empty($params)) {
-            $request = http_build_query($params);
-            $result = PageLoader::load($url . "?" . $request);
+            $result = '';
+            if ($post) {
+                $result = PageLoader::load($url, $params);
+            } else {
+                $request = http_build_query($params);
+                $result  = PageLoader::load($url . "?" . $request);
+            }
             if ("?" == substr($result, 0, 1)) {
                 $result = preg_replace('/.+?({.+}).+/', '$1', $result);
             }
@@ -33,19 +38,19 @@ class Wordpress extends CApplicationComponent
         }
     }
 
-    public function createPost($title, $content)
+    public function createPost($title, $content, $status = "draft")
     {
         $nonce = $this->getNonce("posts", "create_post");
 
         $params = array(
             "nonce"   => $nonce->nonce,
-            "status"  => "draft",
+            "status" => $status,
             "title"   => $title,
             "content" => $content,
             "author"  => "admin",
             "cookie"  => $this->getAuthCookie()
         );
-        $result = $this->makeRequest($this->url . "posts/create_post/", $params);
+        $result = $this->makeRequest($this->url . "posts/create_post/", $params, true);
         if ("ok" == $result->status) {
             return true;
         } else {
