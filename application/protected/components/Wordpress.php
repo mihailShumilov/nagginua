@@ -23,10 +23,12 @@ class Wordpress extends CApplicationComponent
     {
         if ($url && !empty($params)) {
             $result  = '';
-            $request = http_build_query($params);
+//            $request = http_build_query($params);
             if ($post) {
-                $result = PageLoader::load($url, $request);
+                $result = PageLoader::load($url, $params);
             } else {
+                $request = http_build_query($params);
+
                 $result = PageLoader::load($url . "?" . $request);
             }
             if ("?" == substr($result, 0, 1)) {
@@ -49,13 +51,15 @@ class Wordpress extends CApplicationComponent
             "content" => $content,
             "author"  => "admin",
             "cookie" => $this->getAuthCookie(),
-            "custom" => array("source" => $source),
+            "custom[source]" => $source,
         );
         if ($attachment) {
             echo "\n ATT \n";
             $params["attachment"] = "@{$attachment}";
+            echo $params["attachment"] . "\n";
         }
         $result = $this->makeRequest($this->url . "posts/create_post/", $params, true);
+//        $result = $this->makeRequest("http://na.loc/uploadCheck.php", $params, true);
         if ("ok" == $result->status) {
             return true;
         } else {

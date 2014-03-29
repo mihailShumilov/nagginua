@@ -18,6 +18,7 @@ class PageLoader extends CApplicationComponent
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
                 if (isset($postParams) && !empty($postParams)) {
+                    curl_setopt($ch, CURLOPT_HTTP_VERSION, '1.1');
                     curl_setopt($ch, CURLOPT_POST, 1);
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $postParams);
                 }
@@ -35,7 +36,7 @@ class PageLoader extends CApplicationComponent
     public static function loadFile($url)
     {
         if ($url) {
-            $tmpfname = tempnam(sys_get_temp_dir(), "img_");
+            $tmpfname = tempnam(sys_get_temp_dir(), "img_") . ".png";
             file_put_contents($tmpfname, fopen($url, 'r'));
             return $tmpfname;
         }

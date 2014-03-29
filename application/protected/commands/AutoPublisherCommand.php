@@ -47,9 +47,9 @@ class AutoPublisherCommand extends CConsoleCommand
                 if ($pn = PendingNews::model()->findByPk($result['id'])) {
 
                     $imageLink = false;
-//                    if(preg_match_all("/(https?:\/\/.*\.(?:png|jpg))/i", $pn->content, $images)){
-//                        $imageLink = PageLoader::loadFile($images[1][0]);
-//                    }
+                    if (preg_match_all('/(https?:\/\/.*\.(?:png|jpg))/i', $pn->content, $images)) {
+                        $imageLink = PageLoader::loadFile($images[1][0]);
+                    }
 
                     $wp = new Wordpress();
                     if ($wp->createPost($pn->title, $pn->content, $pn->source->url, "publish", $imageLink)) {
@@ -68,6 +68,7 @@ class AutoPublisherCommand extends CConsoleCommand
                             );
                         }
                     }
+                    unset($imageLink);
 //                    break;
                 }
             }
