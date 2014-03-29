@@ -28,7 +28,7 @@ class NewsParser extends CApplicationComponent
 
     public function run()
     {
-        echo "Try parse `{$this->url}`\n";
+//        echo "Try parse `{$this->url}`\n";
         if ($html = PageLoader::load($this->url)) {
             if (function_exists('tidy_parse_string')) {
                 $tidy = tidy_parse_string($html, array(), 'UTF8');

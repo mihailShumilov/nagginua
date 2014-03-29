@@ -10,8 +10,9 @@ class AutoPublisherCommand extends CConsoleCommand
 {
     public function run($args)
     {
-        $getNews    = Yii::app()->db->createCommand(
-            "
+        echo "Start auto publisher\n";
+
+        $searchSql = "
                         SELECT group_hash, group_concat(id) AS ids, count(id) AS cnt
                         FROM pending_news
                         WHERE
@@ -19,10 +20,16 @@ class AutoPublisherCommand extends CConsoleCommand
                             AND status = 'pending'
                         GROUP BY group_hash
                         HAVING cnt < 7
-                        ORDER BY group_hash ASC, cnt DESC"
-        );
+                        ORDER BY group_hash ASC, cnt DESC";
+
+        $newsCount = PendingNews::model()->countBySql("SELECT count(group_hash) FROM ({$searchSql}) as gh");
+        $counter   = 0;
+        $getNews   = Yii::app()->db->createCommand($searchSql);
         $dataReader = $getNews->query();
         while (($row = $dataReader->read()) !== false) {
+
+            $counter++;
+
             $newsId   = explode(",", $row['ids']);
             $newsId[] = $row['group_hash'];
 
@@ -64,6 +71,8 @@ class AutoPublisherCommand extends CConsoleCommand
 //                    break;
                 }
             }
+            $percent = round($counter / $newsCount * 100, 2);
+            echo "Completed {$percent}% ({$counter} of {$newsCount})\r";
         }
     }
 } 

@@ -18,6 +18,7 @@ class NewsDetector extends CApplicationComponent
 
     public function __construct(Source $source)
     {
+        echo "Start parsing: {$source->label}\n";
         $this->url             = $source->url;
         $this->categoryPattern = $source->category_pattern;
         $this->newsPattern     = $source->news_pattern;
@@ -112,21 +113,23 @@ class NewsDetector extends CApplicationComponent
 
     private function fillParserQueue()
     {
-        $this->newsLinks = array_unique($this->newsLinks);
-        foreach ($this->newsLinks as $link) {
-            try {
-                $pqItem             = new ParserQueue();
-                $pqItem->source_id  = $this->sourceId;
-                $pqItem->url        = $link;
-                $pqItem->status     = ParserQueue::STATUS_NEW;
-                $pqItem->created_at = new CDbExpression('NOW()');
-                if ($pqItem->save()) {
+        if ($this->newsLinks && !empty($this->newsLinks)) {
+            $this->newsLinks = array_unique($this->newsLinks);
+            foreach ($this->newsLinks as $link) {
+                try {
+                    $pqItem             = new ParserQueue();
+                    $pqItem->source_id  = $this->sourceId;
+                    $pqItem->url        = $link;
+                    $pqItem->status     = ParserQueue::STATUS_NEW;
+                    $pqItem->created_at = new CDbExpression('NOW()');
+                    if ($pqItem->save()) {
 
-                } else {
-                    print_r($pqItem->getErrors());
-                }
-            } catch (CDbException $e) {
+                    } else {
+                        print_r($pqItem->getErrors());
+                    }
+                } catch (CDbException $e) {
 //                print_r($e->getMessage());
+                }
             }
         }
     }
