@@ -121,6 +121,9 @@ class JSON_API_Post
             include_once ABSPATH . '/wp-admin/includes/image.php';
             $attachment_id       = media_handle_upload('attachment', $this->id);
             $this->attachments[] = new JSON_API_Attachment($attachment_id);
+            if (isset($values['is_featured_image'])) {
+                set_post_thumbnail($this->id, $attachment_id);
+            }
             unset($_FILES['attachment']);
         }
 

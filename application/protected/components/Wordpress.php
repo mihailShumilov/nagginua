@@ -31,7 +31,7 @@ class Wordpress extends CApplicationComponent
 
                 $result = PageLoader::load($url . "?" . $request);
             }
-            if ("?" == substr($result, 0, 1)) {
+            if ("?" == substr(trim($result), 0, 1)) {
                 $result = preg_replace('/.+?({.+}).+/', '$1', $result);
             }
             return json_decode($result);
@@ -54,9 +54,10 @@ class Wordpress extends CApplicationComponent
             "custom[source]" => $source,
         );
         if ($attachment) {
-            echo "\n ATT \n";
+//            echo "\n ATT \n";
             $params["attachment"] = "@{$attachment}";
-            echo $params["attachment"] . "\n";
+            $params["is_featured_image"] = true;
+//            echo $params["attachment"] . "\n";
         }
         $result = $this->makeRequest($this->url . "posts/create_post/", $params, true);
 //        $result = $this->makeRequest("http://na.loc/uploadCheck.php", $params, true);

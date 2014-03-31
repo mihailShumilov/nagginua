@@ -68,7 +68,9 @@ class AutoPublisherCommand extends CConsoleCommand
                             );
                         }
                     }
-                    unset($imageLink);
+                    if ($imageLink) {
+                        unlink($imageLink);
+                    }
 //                    break;
                 }
             }
