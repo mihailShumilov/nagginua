@@ -38,13 +38,15 @@ class NewsParser extends CApplicationComponent
 
             $readability                          = new Readability($html, $this->url);
             $readability->debug                   = false;
-            $readability->convertLinksToFootnotes = true;
+            $readability->convertLinksToFootnotes = false;
             $result                               = $readability->init();
             if ($result) {
                 $title   = $readability->getTitle()->textContent;
                 $content = $readability->getContent()->innerHTML;
+                $content = $this->processStopWords($content);
+                $content = preg_replace('/\n/', ' ', $content);
                 if (function_exists('tidy_parse_string')) {
-                    $tidy = tidy_parse_string($content, array('indent' => true, 'show-body-only' => true), 'UTF8');
+                    $tidy = tidy_parse_string($content, array('show-body-only' => true), 'UTF8');
                     $tidy->cleanRepair();
                     $content = $tidy->value;
                 }
@@ -86,5 +88,15 @@ class NewsParser extends CApplicationComponent
         if (!strpos($link, "http")) {
             return $this->source->url . $link;
         }
+    }
+
+    private function processStopWords($content)
+    {
+        foreach (ContentStopWords::model()->findAll("source_id = :si", array(":si" => $this->source->id)) as $csw) {
+            if ($pos = strpos($content, $csw->word)) {
+                $content = substr($content, 0, $pos);
+            }
+        }
+        return $content;
     }
 } 

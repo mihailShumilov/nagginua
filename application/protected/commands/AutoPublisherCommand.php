@@ -77,5 +77,6 @@ class AutoPublisherCommand extends CConsoleCommand
             $percent = round($counter / $newsCount * 100, 2);
             echo "Completed {$percent}% ({$counter} of {$newsCount})\r";
         }
+        echo "\nAuto publisher completed\n";
     }
 } 

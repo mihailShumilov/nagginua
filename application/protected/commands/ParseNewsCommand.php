@@ -26,8 +26,10 @@ class ParseNewsCommand extends CConsoleCommand
                 }
                 $percent = round($counter / $newsCount * 100, 2);
                 echo "Completed {$percent}% ({$counter} of {$newsCount})\r";
+//                break;
             }
 
         }
+        echo "\nNews parsing completed\n";
     }
 }
