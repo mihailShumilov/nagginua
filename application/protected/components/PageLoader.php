@@ -37,7 +37,14 @@ class PageLoader extends CApplicationComponent
     {
         if ($url) {
             $tmpfname = tempnam(sys_get_temp_dir(), "img_") . ".png";
-            file_put_contents($tmpfname, fopen($url, 'r'));
+            $fp = fopen($tmpfname, "w");
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_FILE, $fp);
+
+            $data = curl_exec($ch);
+
+            curl_close($ch);
+            fclose($fp);
             return $tmpfname;
         }
     }
