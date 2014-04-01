@@ -45,7 +45,8 @@ class NewsParser extends CApplicationComponent
                 $content = $readability->getContent()->innerHTML;
                 $content = $this->processStopWords($content);
                 $content = preg_replace('/\n/', ' ', $content);
-                $content = strip_tags($content, "<p><div><img><span><br>");
+                $content = strip_tags($content, "<p><div><img><span><br><ul><li>");
+                $content = $this->fixUrls($content);
                 if (function_exists('tidy_parse_string')) {
                     $tidy = tidy_parse_string($content, array('show-body-only' => true, 'wrap' => 0), 'UTF8');
                     $tidy->cleanRepair();
@@ -100,6 +101,12 @@ class NewsParser extends CApplicationComponent
                 $content = substr($content, 0, $pos);
             }
         }
+        return $content;
+    }
+
+    private function fixUrls($content)
+    {
+        $content = preg_replace('/src=("(\/[^"]+)")/', "src=\"{$this->source->url}$2\"", $content);
         return $content;
     }
 } 
