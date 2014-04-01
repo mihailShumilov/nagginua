@@ -36,13 +36,14 @@ class PageLoader extends CApplicationComponent
     public static function loadFile($url)
     {
         if ($url) {
+            $timeout = 5;
             $tmpfname = tempnam(sys_get_temp_dir(), "img_") . ".png";
             $fp = fopen($tmpfname, "w");
-            $ch = curl_init($url);
+            $ch      = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_FILE, $fp);
-
-            $data = curl_exec($ch);
-
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+            curl_exec($ch);
             curl_close($ch);
             fclose($fp);
             return $tmpfname;

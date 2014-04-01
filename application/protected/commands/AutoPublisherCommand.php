@@ -47,7 +47,7 @@ class AutoPublisherCommand extends CConsoleCommand
                 if ($pn = PendingNews::model()->findByPk($result['id'])) {
 
                     $imageLink = false;
-                    if (preg_match_all('/(https?:\/\/.*\.(?:png|jpg))/i', $pn->content, $images)) {
+                    if (preg_match_all('/(https?:\/\/[a-z0-9\/_а-я\-\.]*\.(?:png|jpg))/i', $pn->content, $images)) {
                         $imageLink = PageLoader::loadFile($images[1][0]);
                     }
 
