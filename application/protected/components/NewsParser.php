@@ -45,11 +45,14 @@ class NewsParser extends CApplicationComponent
                 $content = $readability->getContent()->innerHTML;
                 $content = $this->processStopWords($content);
                 $content = preg_replace('/\n/', ' ', $content);
+                $content = strip_tags($content, "<p><div><img><span><br>");
                 if (function_exists('tidy_parse_string')) {
-                    $tidy = tidy_parse_string($content, array('show-body-only' => true), 'UTF8');
+                    $tidy = tidy_parse_string($content, array('show-body-only' => true, 'wrap' => 0), 'UTF8');
                     $tidy->cleanRepair();
                     $content = $tidy->value;
                 }
+//                echo $content;
+//                echo "\nURL: {$this->url}\n";
                 if ($searchContent = trim(strip_tags($content))) {
 
                     $searchContent = preg_replace('/\n/', ' ', $searchContent);
