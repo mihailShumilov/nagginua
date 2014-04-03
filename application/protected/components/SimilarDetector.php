@@ -57,7 +57,7 @@ class SimilarDetector extends CApplicationComponent
         return $this->search($this->news->title);
     }
 
-    protected function searchByContent()
+    public function searchByContent()
     {
         return $this->search($this->news->search_content);
     }
