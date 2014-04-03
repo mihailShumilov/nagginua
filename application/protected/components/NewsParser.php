@@ -42,8 +42,9 @@ class NewsParser extends CApplicationComponent
             $result                               = $readability->init();
             if ($result) {
                 $title   = $readability->getTitle()->textContent;
+                $title = $this->processTitleStopWords($title);
                 $content = $readability->getContent()->innerHTML;
-                $content = $this->processStopWords($content);
+                $content = $this->processContentStopWords($content);
                 $content = preg_replace('/\n/', ' ', $content);
                 $content = strip_tags($content, "<p><div><img><span><br><ul><li>");
                 $content = $this->fixUrls($content);
@@ -94,7 +95,7 @@ class NewsParser extends CApplicationComponent
         }
     }
 
-    private function processStopWords($content)
+    private function processContentStopWords($content)
     {
         foreach (ContentStopWords::model()->findAll("source_id = :si", array(":si" => $this->source->id)) as $csw) {
             if ($pos = strpos($content, $csw->word)) {
@@ -102,6 +103,16 @@ class NewsParser extends CApplicationComponent
             }
         }
         return $content;
+    }
+
+    private function processTitleStopWords($title)
+    {
+        foreach (TitleStopWords::model()->findAll("source_id = :si", array(":si" => $this->source->id)) as $csw) {
+            if ($pos = strpos($title, $csw->word)) {
+                $title = substr($title, 0, $pos);
+            }
+        }
+        return $title;
     }
 
     private function fixUrls($content)
