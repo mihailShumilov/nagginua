@@ -25,7 +25,7 @@ class SimilarDetector extends CApplicationComponent
             $ids_to_update   = array();
 //            $ids_to_update[] = $this->news->id;
             foreach ($data as $ids) {
-                if ($ids['weight'] > 16000) {
+                if ($ids['weight'] > 15000) {
                     $ids_to_update[] = $ids['id'];
                 }
             }
