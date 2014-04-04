@@ -40,8 +40,15 @@ class Wordpress extends CApplicationComponent
         }
     }
 
-    public function createPost($title, $content, $source, $status = "draft", $attachment = false, $categories = array())
-    {
+    public function createPost(
+        $title,
+        $content,
+        $source,
+        $status = "draft",
+        $attachment = false,
+        $categories = array(),
+        $tags = array()
+    ) {
         $nonce = $this->getNonce("posts", "create_post");
 
         $params = array(
@@ -61,6 +68,9 @@ class Wordpress extends CApplicationComponent
         }
         if (!empty($categories)) {
             $params['categories'] = implode(",", $categories);
+        }
+        if (!empty($tags)) {
+            $params['tags'] = implode(",", $tags);
         }
         $result = $this->makeRequest($this->url . "posts/create_post/", $params, true);
 //        $result = $this->makeRequest("http://na.loc/uploadCheck.php", $params, true);

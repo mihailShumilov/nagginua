@@ -58,7 +58,8 @@ class AutoPublisherCommand extends CConsoleCommand
                         $pn->source->url,
                         "publish",
                         $imageLink,
-                        $this->detectCategories($pn->search_content)
+                        $this->detectCategories($pn->search_content),
+                        KeywordDetector::detect($pn->search_content)
                     )
                     ) {
                         $pn->status = 'approved';
