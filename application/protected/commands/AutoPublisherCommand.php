@@ -91,7 +91,7 @@ class AutoPublisherCommand extends CConsoleCommand
     protected function detectCategories($content)
     {
         $content = strtolower($content);
-        $categorySlugs = array();
+        $categorySlugs = array('all');
         foreach (Categories::model()->findAll() as $cat) {
             foreach (explode(",", $cat->keyword) as $word) {
                 if (strpos($content, $word) > 0) {
