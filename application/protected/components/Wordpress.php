@@ -40,7 +40,7 @@ class Wordpress extends CApplicationComponent
         }
     }
 
-    public function createPost($title, $content, $source, $status = "draft", $attachment = false)
+    public function createPost($title, $content, $source, $status = "draft", $attachment = false, $categories = array())
     {
         $nonce = $this->getNonce("posts", "create_post");
 
@@ -58,6 +58,9 @@ class Wordpress extends CApplicationComponent
             $params["attachment"] = "@{$attachment}";
             $params["is_featured_image"] = true;
 //            echo $params["attachment"] . "\n";
+        }
+        if (!empty($categories)) {
+            $params['categories'] = implode(",", $categories);
         }
         $result = $this->makeRequest($this->url . "posts/create_post/", $params, true);
 //        $result = $this->makeRequest("http://na.loc/uploadCheck.php", $params, true);
@@ -90,5 +93,10 @@ class Wordpress extends CApplicationComponent
         $result = $this->makeRequest($this->url . "auth/generate_auth_cookie/", $params);
         return $result->cookie;
 
+    }
+
+    public function getCategories()
+    {
+        return $this->makeRequest($this->url . "get_category_index/");
     }
 } 

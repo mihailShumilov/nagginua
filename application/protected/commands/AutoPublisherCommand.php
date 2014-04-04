@@ -52,7 +52,15 @@ class AutoPublisherCommand extends CConsoleCommand
                     }
 
                     $wp = new Wordpress();
-                    if ($wp->createPost($pn->title, $pn->content, $pn->source->url, "publish", $imageLink)) {
+                    if ($wp->createPost(
+                        $pn->title,
+                        $pn->content,
+                        $pn->source->url,
+                        "publish",
+                        $imageLink,
+                        $this->detectCategories($pn->search_content)
+                    )
+                    ) {
                         $pn->status = 'approved';
                         $pn->save();
 
@@ -78,5 +86,20 @@ class AutoPublisherCommand extends CConsoleCommand
             echo "Completed {$percent}% ({$counter} of {$newsCount})\r";
         }
         echo "\nAuto publisher completed\n";
+    }
+
+    protected function detectCategories($content)
+    {
+        $content = strtolower($content);
+        $categorySlugs = array();
+        foreach (Categories::model()->findAll() as $cat) {
+            foreach (explode(",", $cat->keyword) as $word) {
+                if (strpos($content, $word) > 0) {
+                    $categorySlugs[] = $cat->slug;
+                    break;
+                }
+            }
+        }
+        return $categorySlugs;
     }
 } 
