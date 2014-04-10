@@ -57,12 +57,12 @@ class SimilarDetector extends CApplicationComponent
         return $this->search($this->news->title);
     }
 
-    public function searchByContent()
+    public function searchByContent($index_name = 'search_content')
     {
-        return $this->search($this->news->search_content);
+        return $this->search($this->news->search_content, $index_name);
     }
 
-    protected function search($content)
+    protected function search($content, $index_name = 'search_content')
     {
         if ($content) {
             $content = preg_replace('/\n/', ' ', $content);
@@ -72,7 +72,7 @@ class SimilarDetector extends CApplicationComponent
             $content = preg_replace("/^'/", "", $content);
             $content = preg_replace("/'$/", "", $content);
             $content = substr($content, 0, 1000);
-            $sSql    = 'SELECT * FROM search_content WHERE MATCH(\'"' . $content . '"/4\')
+            $sSql = 'SELECT * FROM ' . $index_name . ' WHERE MATCH(\'"' . $content . '"/4\')
                 OPTION ranker = expr(\'sum(exact_hit+10*(min_hit_pos==1)+lcs)*1000 +bm25\')';
             return Yii::app()->sphinx->createCommand($sSql)->queryAll();
         } else {
