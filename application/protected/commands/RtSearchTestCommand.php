@@ -12,7 +12,7 @@ class RtSearchTestCommand extends CConsoleCommand
     {
         if ($pn = PendingNews::model()->findByPk($args[0])) {
             $sd = new SimilarDetector($pn);
-            print_r($sd->searchByContent('pending_news_rt'));
+            print_r($sd->searchByTitleContent('pending_news_rt'));
         } else {
             echo "Pending news with id: `{$args[0]}` was not found\n";
         }
