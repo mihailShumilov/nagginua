@@ -36,12 +36,12 @@ class PendingNews extends BasePendingNews
 
     protected function afterSave()
     {
-        if ($this->isNewRecord) {
-            $sSql   = "INSERT INTO pending_news_rt VALUES({$this->id}, '{$this->id}', " . Yii::app()->sphinx->quoteValue(
-                $this->title
-            ) . ", " . Yii::app()->sphinx->quoteValue($this->search_content) . ")";
-        $result = Yii::app()->sphinx->createCommand($sSql)->execute();
-        }
-        return parent::afterSave();
+//        if ($this->isNewRecord) {
+//            $sSql   = "INSERT INTO pending_news_rt VALUES({$this->id}, '{$this->id}', " . Yii::app()->sphinx->quoteValue(
+//                $this->title
+//            ) . ", " . Yii::app()->sphinx->quoteValue($this->search_content) . ")";
+//        $result = Yii::app()->sphinx->createCommand($sSql)->execute();
+//        }
+//        return parent::afterSave();
     }
 }
