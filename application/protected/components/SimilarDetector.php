@@ -1,5 +1,8 @@
 <?php
 
+Yii::import('application.extensions.DocumentHash');
+
+
 /**
  * Created by PhpStorm.
  * User: godson
@@ -22,10 +25,10 @@ class SimilarDetector extends CApplicationComponent
     public function detect()
     {
         if ($data = $this->searchByContent()) {
-            $ids_to_update   = array();
+            $ids_to_update = array();
 //            $ids_to_update[] = $this->news->id;
             foreach ($data as $ids) {
-                if ($ids['weight'] > 15000) {
+                if ($ids['weight'] > 75) {
                     $ids_to_update[] = $ids['id'];
                 }
             }
@@ -70,16 +73,49 @@ class SimilarDetector extends CApplicationComponent
     protected function search($content, $index_name = 'search_content')
     {
         if ($content) {
-            $content = preg_replace('/\n/', ' ', $content);
-            $content = preg_replace("/[^а-я ]/ui", "", $content);
-            $content = preg_replace('/\s+/', ' ', $content);
-            $content = Yii::app()->sphinx->quoteValue($content);
-            $content = preg_replace("/^'/", "", $content);
-            $content = preg_replace("/'$/", "", $content);
-            $content = substr($content, 0, 1000);
-            $sSql = 'SELECT * FROM ' . $index_name . ' WHERE MATCH(\'"' . $content . '"/4\')
-                OPTION ranker = expr(\'sum(exact_hit+10*(min_hit_pos==1)+lcs)*1000 +bm25\')';
-            return Yii::app()->sphinx->createCommand($sSql)->queryAll();
+            $returnIds = array();
+            $dh        = new DocumentHash($content);
+            if ($results = ItemsHashesSummary::model()->findAll(
+                "full_hash = :full_hash AND length = :length",
+                array(":full_hash" => $dh->docMD5, ":length" => $dh->length)
+            )
+            ) {
+                foreach ($results as $ihs) {
+                    $returnIds[] = array('id' => $ihs->doc_id, 'weight' => 100);
+                }
+            }
+            $hashClause = "0";
+            foreach ($dh->getCrc32array() as $token_hash) {
+                $hashClause .= " OR word_hash=$token_hash";
+            }
+
+            $findCmd = Yii::app()->db->createCommand(
+                "SELECT doc_id, COUNT(id) as inters FROM items_hashes WHERE 1 AND ($hashClause) GROUP BY doc_id HAVING inters>1"
+            );
+
+            $dataReader = $findCmd->query();
+            while (($row = $dataReader->read()) !== false) {
+
+                $result2     = ItemsHashesSummary::model()->findByPk($row['doc_id']);
+                $length      = $result2->length;
+                $length      = min($length, $dh->length);
+                $weight      = ($row['inters'] / $length) * 100;
+                $returnIds[] = array('id' => $row['doc_id'], 'weight' => $weight);
+            }
+
+            return $returnIds;
+//            $content = preg_replace('/\n/', ' ', $content);
+//            $content = preg_replace("/[^а-я ]/ui", "", $content);
+//            $content = preg_replace('/\s+/', ' ', $content);
+//            $content = Yii::app()->sphinx->quoteValue($content);
+//            $content = preg_replace("/^'/", "", $content);
+//            $content = preg_replace("/'$/", "", $content);
+//            $content = substr($content, 0, 1000);
+//            $sSql = 'SELECT * FROM ' . $index_name . ' WHERE MATCH(\'"' . $content . '"/4\')
+//                OPTION ranker = expr(\'sum(exact_hit+10*(min_hit_pos==1)+lcs)*1000 +bm25\')';
+//            return Yii::app()->sphinx->createCommand($sSql)->queryAll();
+
+
         } else {
             return false;
         }

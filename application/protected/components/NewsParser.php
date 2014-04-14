@@ -1,5 +1,6 @@
 <?php
 Yii::import('application.extensions.readability.Readability');
+Yii::import('application.extensions.DocumentHash');
 
 /**
  * Created by PhpStorm.
@@ -61,7 +62,6 @@ class NewsParser extends CApplicationComponent
                     $searchContent = preg_replace("/[^а-я ]/ui", "", $searchContent);
                     $searchContent = preg_replace('/\s+/', ' ', $searchContent);
 
-
                     $pn                 = new PendingNews();
                     $pn->source_id      = $this->source->id;
                     $pn->title          = $title;
@@ -73,6 +73,7 @@ class NewsParser extends CApplicationComponent
                     if ($pn->save()) {
                         $this->parserQueue->status = ParserQueue::STATUS_DONE;
                         $this->parserQueue->save();
+                        $this->fillSearchDB($searchContent, $pn->id);
                     } else {
                         print_r($pn->getErrors());
                         $this->parserQueue->status = ParserQueue::STATUS_FAIL;
@@ -119,5 +120,28 @@ class NewsParser extends CApplicationComponent
     {
         $content = preg_replace('/src=("(\/[^"]+)")/', "src=\"{$this->source->url}$2\"", $content);
         return $content;
+    }
+
+    private function fillSearchDB($content, $newsID)
+    {
+        $dh = new DocumentHash($content);
+
+        $ihs            = new ItemsHashesSummary();
+        $ihs->doc_id    = $newsID;
+        $ihs->full_hash = $dh->docMD5;
+        $tockens        = array_unique($dh->getCrc32array());
+        $ihs->length    = sizeof($tockens);
+        $ihs->save();
+
+        foreach ($tockens as $token) {
+            $ih            = new ItemsHashes();
+            $ih->doc_id    = $newsID;
+            $ih->word_hash = $token;
+            if (!$ih->save()) {
+                print_r($ih->getErrors());
+                die;
+            }
+        }
+
     }
 } 
