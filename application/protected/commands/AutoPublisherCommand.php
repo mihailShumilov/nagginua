@@ -46,40 +46,22 @@ class AutoPublisherCommand extends CConsoleCommand
             if (($result = $dr->read()) !== false) {
                 if ($pn = PendingNews::model()->findByPk($result['id'])) {
 
-                    $imageLink = false;
-                    if (preg_match_all('/(https?:\/\/[a-z0-9\/_а-я\-\.]*\.(?:png|jpg))/i', $pn->content, $images)) {
-                        $imageLink = PageLoader::loadFile($images[1][0]);
+
+                    $pn->status = 'approved';
+                    $pn->save();
+
+                    $newsId = array_unique($newsId);
+                    $key    = array_search($result['id'], $newsId);
+                    if ($key !== false) {
+                        unset($newsId[$key]);
+                    }
+                    if ($newsId && !empty($newsId)) {
+                        PendingNews::model()->updateAll(
+                            array("status" => "rejected"),
+                            "id IN(" . implode(",", $newsId) . ")"
+                        );
                     }
 
-                    $wp = new Wordpress();
-                    if ($wp->createPost(
-                        $pn->title,
-                        $pn->content,
-                        $pn->source->url,
-                        "publish",
-                        $imageLink,
-                        $this->detectCategories($pn->search_content),
-                        KeywordDetector::detect($pn->search_content)
-                    )
-                    ) {
-                        $pn->status = 'approved';
-                        $pn->save();
-
-                        $newsId = array_unique($newsId);
-                        $key    = array_search($result['id'], $newsId);
-                        if ($key !== false) {
-                            unset($newsId[$key]);
-                        }
-                        if ($newsId && !empty($newsId)) {
-                            PendingNews::model()->updateAll(
-                                array("status" => "rejected"),
-                                "id IN(" . implode(",", $newsId) . ")"
-                            );
-                        }
-                    }
-                    if ($imageLink) {
-                        unlink($imageLink);
-                    }
 //                    break;
                 }
             }
