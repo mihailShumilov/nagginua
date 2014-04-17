@@ -62,20 +62,25 @@ class NewsParser extends CApplicationComponent
                     $searchContent = preg_replace("/[^а-я ]/ui", "", $searchContent);
                     $searchContent = preg_replace('/\s+/', ' ', $searchContent);
 
-                    $pn                 = new PendingNews();
-                    $pn->source_id      = $this->source->id;
-                    $pn->title          = $title;
-                    $pn->content        = $content;
-                    $pn->search_content = $searchContent;
-                    $pn->status         = PendingNews::STATUS_NEW;
-                    $pn->group_hash     = md5(time());
-                    $pn->created_at     = new CDbExpression("NEW()");
-                    if ($pn->save()) {
-                        $this->parserQueue->status = ParserQueue::STATUS_DONE;
-                        $this->parserQueue->save();
-                        $this->fillSearchDB($searchContent, $pn->id);
+                    if (count(explode(" ", $searchContent)) >= Settings::get('news_min_length')) {
+                        $pn                 = new PendingNews();
+                        $pn->source_id      = $this->source->id;
+                        $pn->title          = $title;
+                        $pn->content        = $content;
+                        $pn->search_content = $searchContent;
+                        $pn->status         = PendingNews::STATUS_NEW;
+                        $pn->group_hash     = md5(time());
+                        $pn->created_at     = new CDbExpression("NEW()");
+                        if ($pn->save()) {
+                            $this->parserQueue->status = ParserQueue::STATUS_DONE;
+                            $this->parserQueue->save();
+                            $this->fillSearchDB($searchContent, $pn->id);
+                        } else {
+                            print_r($pn->getErrors());
+                            $this->parserQueue->status = ParserQueue::STATUS_FAIL;
+                            $this->parserQueue->save();
+                        }
                     } else {
-                        print_r($pn->getErrors());
                         $this->parserQueue->status = ParserQueue::STATUS_FAIL;
                         $this->parserQueue->save();
                     }
