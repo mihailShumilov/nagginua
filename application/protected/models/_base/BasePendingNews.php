@@ -11,6 +11,7 @@
  *
  * @property integer $id
  * @property integer $source_id
+ * @property integer $pq_id
  * @property string $title
  * @property string $content
  * @property string $search_content
@@ -20,6 +21,7 @@
  * @property string $created_at
  * @property string $update_at
  *
+ * @property ParserQueue $pq
  * @property Sources $source
  */
 abstract class BasePendingNews extends GxActiveRecord
@@ -49,13 +51,13 @@ abstract class BasePendingNews extends GxActiveRecord
     {
         return array(
             array('source_id, title, content, search_content, group_hash, created_at', 'required'),
-            array('source_id, processed', 'numerical', 'integerOnly' => true),
+            array('source_id, pq_id, processed', 'numerical', 'integerOnly' => true),
             array('status', 'length', 'max' => 10),
             array('group_hash', 'length', 'max' => 45),
             array('update_at', 'safe'),
-            array('status, processed, update_at', 'default', 'setOnEmpty' => true, 'value' => null),
+            array('pq_id, status, processed, update_at', 'default', 'setOnEmpty' => true, 'value' => null),
             array(
-                'id, source_id, title, content, search_content, status, group_hash, processed, created_at, update_at',
+                'id, source_id, pq_id, title, content, search_content, status, group_hash, processed, created_at, update_at',
                 'safe',
                 'on' => 'search'
             ),
@@ -65,6 +67,7 @@ abstract class BasePendingNews extends GxActiveRecord
     public function relations()
     {
         return array(
+            'pq'     => array(self::BELONGS_TO, 'ParserQueue', 'pq_id'),
             'source' => array(self::BELONGS_TO, 'Sources', 'source_id'),
         );
     }
@@ -79,6 +82,7 @@ abstract class BasePendingNews extends GxActiveRecord
         return array(
             'id'             => Yii::t('app', 'ID'),
             'source_id'      => null,
+            'pq_id'          => null,
             'title'          => Yii::t('app', 'Title'),
             'content'        => Yii::t('app', 'Content'),
             'search_content' => Yii::t('app', 'Search Content'),
@@ -87,6 +91,7 @@ abstract class BasePendingNews extends GxActiveRecord
             'processed'      => Yii::t('app', 'Processed'),
             'created_at'     => Yii::t('app', 'Created At'),
             'update_at'      => Yii::t('app', 'Update At'),
+            'pq'             => null,
             'source'         => null,
         );
     }
@@ -97,6 +102,7 @@ abstract class BasePendingNews extends GxActiveRecord
 
         $criteria->compare('id', $this->id);
         $criteria->compare('source_id', $this->source_id);
+        $criteria->compare('pq_id', $this->pq_id);
         $criteria->compare('title', $this->title, true);
         $criteria->compare('content', $this->content, true);
         $criteria->compare('search_content', $this->search_content, true);

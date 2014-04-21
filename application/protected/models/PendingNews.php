@@ -16,6 +16,7 @@ class PendingNews extends BasePendingNews
     {
         return array(
             'source' => array(self::BELONGS_TO, 'Source', 'source_id'),
+            'pq' => array(self::BELONGS_TO, 'ParserQueue', 'pq_id'),
         );
     }
 

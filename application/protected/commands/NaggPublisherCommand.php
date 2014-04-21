@@ -27,10 +27,18 @@ class NaggPublisherCommand extends CConsoleCommand
                 }
 
                 $wp = new Wordpress();
+                $customFields = array();
+                if ($pn->source) {
+                    $customFields["source"] = $pn->source->url;
+                }
+                if ($pn->pq) {
+                    $customFields["url"] = $pn->pq->url;
+                }
+
                 if ($wp->createPost(
                     $pn->title,
                     $pn->content,
-                    $pn->source->url,
+                    $customFields,
                     "publish",
                     $imageLink,
                     $this->detectCategories($pn->search_content),

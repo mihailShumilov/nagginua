@@ -58,8 +58,11 @@ class Wordpress extends CApplicationComponent
             "content" => $content,
             "author"  => "admin",
             "cookie" => $this->getAuthCookie(),
-            "custom[source]" => $source,
+//            "custom[source]" => $source,
         );
+        foreach ($source as $key => $val) {
+            $params["custom[$key]"] = $val;
+        }
         if ($attachment) {
 //            echo "\n ATT \n";
             $params["attachment"] = "@{$attachment}";

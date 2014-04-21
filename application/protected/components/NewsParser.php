@@ -70,6 +70,7 @@ class NewsParser extends CApplicationComponent
                         $pn->search_content = $searchContent;
                         $pn->status         = PendingNews::STATUS_NEW;
                         $pn->group_hash     = md5(time());
+                        $pn->pq_id = $this->parserQueue->id;
                         $pn->created_at     = new CDbExpression("NEW()");
                         if ($pn->save()) {
                             $this->parserQueue->status = ParserQueue::STATUS_DONE;
