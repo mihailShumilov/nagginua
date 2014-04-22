@@ -34,23 +34,59 @@ class SimilarDetector extends CApplicationComponent
             }
             if ($ids_to_update) {
                 sort($ids_to_update);
-                $group_hash = $ids_to_update[0];
 
-                foreach ($ids_to_update as $id) {
-                    $pn = PendingNews::model()->findByPk($id);
-                    if ($pn->group_hash != $group_hash) {
-                        $pn->group_hash = $group_hash;
-                        $pn->processed  = 1;
-                        $pn->save();
+                //check to existing accepted or rejected news
+                $getOneNews = Yii::app()->db->createCommand(
+                    "SELECT id, status
+                    FROM pending_news
+                    WHERE id IN (" . implode(",", $ids_to_update) . ") AND status in ('approved','rejected')"
+                );
+
+                $dr          = $getOneNews->query();
+                $run         = true;
+                $rejectedIds = array();
+                while (($result = $dr->read()) !== false) {
+                    $run = false;
+                    if (!in_array($result['status'], array('approved', 'rejected'))) {
+                        $rejectedIds[] = $result['id'];
+//                        if($pn = PendingNews::model()->findByPk($result['id'])){
+//                            $pn->status = 'rejected';
+//                            $pn->processed  = 1;
+//                            $pn->save();
+//                        }
                     }
                 }
-                $this->news->group_hash = $group_hash;
+                if (!$run) {
+                    $rejectedIds[] = $this->news->id;
+                }
+                if ($rejectedIds) {
+                    PendingNews::model()->updateAll(
+                        array("status" => "rejected", "processed" => 1),
+                        "id IN(" . implode(",", $rejectedIds) . ")"
+                    );
+                }
+
+                if ($run) {
+
+                    $group_hash = $ids_to_update[0];
+
+                    foreach ($ids_to_update as $id) {
+                        $pn = PendingNews::model()->findByPk($id);
+                        if ($pn->group_hash != $group_hash) {
+                            $pn->group_hash = $group_hash;
+                            $pn->processed  = 1;
+                            $pn->save();
+                        }
+                    }
+                    $this->news->group_hash = $group_hash;
+                }
             } else {
                 $this->news->group_hash = $this->news->id;
             }
         } else {
             $this->news->group_hash = $this->news->id;
         }
+        $this->news->refresh();
         $this->news->processed = 1;
         $this->news->save();
     }
