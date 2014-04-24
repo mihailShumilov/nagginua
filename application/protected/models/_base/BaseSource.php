@@ -14,12 +14,15 @@
  * @property string $url
  * @property string $category_pattern
  * @property string $news_pattern
+ * @property string $thumb_pattern
  * @property integer $active
  * @property string $created_at
  * @property string $updated_at
  *
+ * @property ContentStopWords[] $contentStopWords
  * @property ParserQueue[] $parserQueues
  * @property PendingNews[] $pendingNews
+ * @property TitleStopWords[] $titleStopWords
  */
 abstract class BaseSource extends GxActiveRecord
 {
@@ -49,16 +52,16 @@ abstract class BaseSource extends GxActiveRecord
         return array(
             array('label, url', 'required'),
             array('active', 'numerical', 'integerOnly' => true),
-            array('label, url, category_pattern, news_pattern', 'length', 'max' => 255),
+            array('label, url, category_pattern, news_pattern, thumb_pattern', 'length', 'max' => 255),
             array('created_at, updated_at', 'safe'),
             array(
-                'category_pattern, news_pattern, active, created_at, updated_at',
+                'category_pattern, news_pattern, thumb_pattern, active, created_at, updated_at',
                 'default',
                 'setOnEmpty' => true,
-                'value' => null
+                'value'      => null
             ),
             array(
-                'id, label, url, category_pattern, news_pattern, active, created_at, updated_at',
+                'id, label, url, category_pattern, news_pattern, thumb_pattern, active, created_at, updated_at',
                 'safe',
                 'on' => 'search'
             ),
@@ -68,8 +71,10 @@ abstract class BaseSource extends GxActiveRecord
     public function relations()
     {
         return array(
-            'parserQueues' => array(self::HAS_MANY, 'ParserQueue', 'source_id'),
-            'pendingNews' => array(self::HAS_MANY, 'PendingNews', 'source_id'),
+            'contentStopWords' => array(self::HAS_MANY, 'ContentStopWords', 'source_id'),
+            'parserQueues'     => array(self::HAS_MANY, 'ParserQueue', 'source_id'),
+            'pendingNews'      => array(self::HAS_MANY, 'PendingNews', 'source_id'),
+            'titleStopWords'   => array(self::HAS_MANY, 'TitleStopWords', 'source_id'),
         );
     }
 
@@ -81,16 +86,19 @@ abstract class BaseSource extends GxActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => Yii::t('app', 'ID'),
-            'label' => Yii::t('app', 'Label'),
-            'url' => Yii::t('app', 'Url'),
+            'id'               => Yii::t('app', 'ID'),
+            'label'            => Yii::t('app', 'Label'),
+            'url'              => Yii::t('app', 'Url'),
             'category_pattern' => Yii::t('app', 'Category Pattern'),
-            'news_pattern' => Yii::t('app', 'News Pattern'),
-            'active' => Yii::t('app', 'Active'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'parserQueues' => null,
-            'pendingNews' => null,
+            'news_pattern'     => Yii::t('app', 'News Pattern'),
+            'thumb_pattern'    => Yii::t('app', 'Thumb Pattern'),
+            'active'           => Yii::t('app', 'Active'),
+            'created_at'       => Yii::t('app', 'Created At'),
+            'updated_at'       => Yii::t('app', 'Updated At'),
+            'contentStopWords' => null,
+            'parserQueues'     => null,
+            'pendingNews'      => null,
+            'titleStopWords'   => null,
         );
     }
 
@@ -103,6 +111,7 @@ abstract class BaseSource extends GxActiveRecord
         $criteria->compare('url', $this->url, true);
         $criteria->compare('category_pattern', $this->category_pattern, true);
         $criteria->compare('news_pattern', $this->news_pattern, true);
+        $criteria->compare('thumb_pattern', $this->thumb_pattern, true);
         $criteria->compare('active', $this->active);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);

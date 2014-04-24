@@ -150,4 +150,17 @@ class NewsParser extends CApplicationComponent
         }
 
     }
+
+    private function detectThumb($html)
+    {
+        //            print_r($html);
+        $doc                     = new DOMDocument();
+        $doc->preserveWhiteSpace = false;
+        libxml_use_internal_errors(true);
+        $doc->loadHTML($html);
+        $xpath    = new DOMXpath($doc);
+        $elements = $xpath->query("//*[@id='material-image']")->item(0);
+        print_r($elements->attributes->getNamedItem('src')->nodeValue);
+        die();
+    }
 } 
