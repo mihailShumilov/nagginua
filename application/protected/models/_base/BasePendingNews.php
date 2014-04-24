@@ -69,7 +69,7 @@ abstract class BasePendingNews extends GxActiveRecord
     {
         return array(
             'source' => array(self::BELONGS_TO, 'Sources', 'source_id'),
-            'pq'     => array(self::BELONGS_TO, 'ParserQueue', 'pq_id'),
+            'pq' => array(self::BELONGS_TO, 'ParserQueue', 'pq_id'),
         );
     }
 
@@ -87,14 +87,14 @@ abstract class BasePendingNews extends GxActiveRecord
             'title'          => Yii::t('app', 'Title'),
             'content'        => Yii::t('app', 'Content'),
             'search_content' => Yii::t('app', 'Search Content'),
-            'thumb_src'      => Yii::t('app', 'Thumb Src'),
+            'thumb_src' => Yii::t('app', 'Thumb Src'),
             'status'         => Yii::t('app', 'Status'),
             'group_hash'     => Yii::t('app', 'Group Hash'),
             'processed'      => Yii::t('app', 'Processed'),
             'created_at'     => Yii::t('app', 'Created At'),
             'update_at'      => Yii::t('app', 'Update At'),
             'source'         => null,
-            'pq'             => null,
+            'pq'        => null,
         );
     }
 
