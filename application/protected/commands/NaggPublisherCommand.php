@@ -28,11 +28,14 @@ class NaggPublisherCommand extends CConsoleCommand
 
                 $wp = new Wordpress();
                 $customFields = array();
+                $customFields["pending_news_id"] = $pn->id;
+                $customFields["pending_news_status"] = $pn->status;
                 if ($pn->source) {
                     $customFields["source"] = $pn->source->url;
                 }
                 if ($pn->pq) {
                     $customFields["url"] = $pn->pq->url;
+                    $customFields["parser_queue_id"] = $pn->pq_id;
                 }
 
                 if ($wp->createPost(
