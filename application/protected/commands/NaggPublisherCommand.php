@@ -22,8 +22,8 @@ class NaggPublisherCommand extends CConsoleCommand
             $counter++;
             if ($pn = PendingNews::model()->findByPk($row['id'])) {
                 $imageLink = false;
-                if (preg_match_all('/(https?:\/\/[a-z0-9\/_а-я\-\.]*\.(?:png|jpg))/i', $pn->content, $images)) {
-                    $imageLink = PageLoader::loadFile($images[1][0]);
+                if ($pn->thumb_src) {
+                    $imageLink = PageLoader::loadFile($pn->thumb_src);
                 }
 
                 $wp = new Wordpress();
