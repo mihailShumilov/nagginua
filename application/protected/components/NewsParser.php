@@ -70,6 +70,7 @@ class NewsParser extends CApplicationComponent
                         $pn->search_content = $searchContent;
                         $pn->status         = PendingNews::STATUS_NEW;
                         $pn->group_hash     = md5(time());
+                        $pn->thumb_src = $this->detectThumb($html, $content);
                         $pn->pq_id = $this->parserQueue->id;
                         $pn->created_at     = new CDbExpression("NEW()");
                         if ($pn->save()) {
@@ -128,6 +129,14 @@ class NewsParser extends CApplicationComponent
         return $content;
     }
 
+    private function fixUrl($url)
+    {
+        if ("/" == substr($url, 0, 1)) {
+            $url = $this->source->url . $url;
+        }
+        return $url;
+    }
+
     private function fillSearchDB($content, $newsID)
     {
         $dh = new DocumentHash($content);
@@ -151,16 +160,26 @@ class NewsParser extends CApplicationComponent
 
     }
 
-    private function detectThumb($html)
+    private function detectThumb($html, $preparedHtml)
     {
-        //            print_r($html);
-        $doc                     = new DOMDocument();
-        $doc->preserveWhiteSpace = false;
-        libxml_use_internal_errors(true);
-        $doc->loadHTML($html);
-        $xpath    = new DOMXpath($doc);
-        $elements = $xpath->query("//*[@id='material-image']")->item(0);
-        print_r($elements->attributes->getNamedItem('src')->nodeValue);
-        die();
+        $thumbSrc = false;
+        if ($this->source->thumb_pattern) {
+
+            $doc                     = new DOMDocument();
+            $doc->preserveWhiteSpace = false;
+            libxml_use_internal_errors(true);
+            $doc->loadHTML($html);
+            $xpath = new DOMXpath($doc);
+            if ($elements = $xpath->query($this->source->thumb_pattern)->item(0)) {
+                $thumbSrc = $this->fixUrl($elements->attributes->getNamedItem('src')->nodeValue);
+            }
+        }
+
+        if (!$thumbSrc) {
+            if (preg_match_all('/(https?:\/\/[a-z0-9\/_а-я\-\.]*\.(?:png|jpg))/i', $preparedHtml, $images)) {
+                $thumbSrc = $images[1][0];
+            }
+        }
+        return $thumbSrc;
     }
 } 
