@@ -13,8 +13,14 @@ class FillParserQueueCommand extends CConsoleCommand
     {
         if ($sourceList = Source::model()->active()->findAll()) {
             foreach ($sourceList as $source) {
-                $parser = new NewsDetector($source);
-                $parser->run();
+                Yii::app()->getDb()->setActive(false);
+                $pid = pcntl_fork();
+                Yii::app()->getDb()->setActive(true);
+                if (!$pid) {
+                    $parser = new NewsDetector($source);
+                    $parser->run();
+                }
+
             }
         }
     }
