@@ -56,12 +56,16 @@ class NewsParser extends CApplicationComponent
                 }
 //                echo $content;
 //                echo "\nURL: {$this->url}\n";
+
+                $content = $this->processExcludeElements($content);
+
+
                 if ($searchContent = trim(strip_tags($content))) {
 
                     $searchContent = preg_replace('/\n/', ' ', $searchContent);
                     $searchContent = preg_replace("/[^а-я ]/ui", "", $searchContent);
                     $searchContent = preg_replace('/\s+/', ' ', $searchContent);
-
+                    print_r(count(explode(" ", $searchContent)));
                     if (count(explode(" ", $searchContent)) >= Settings::get('news_min_length')) {
                         $pn                 = new PendingNews();
                         $pn->source_id      = $this->source->id;
@@ -181,5 +185,31 @@ class NewsParser extends CApplicationComponent
             }
         }
         return $thumbSrc;
+    }
+
+    private function processExcludeElements($html)
+    {
+        if ($patterns = ExcludeElements::model()->findAll(
+            "source_id = :source_id",
+            array(":source_id" => $this->source->id)
+        )
+        ) {
+            $htmlDoc = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
+            $doc = new DOMDocument("1.0", "utf-8");
+            $doc->preserveWhiteSpace = false;
+            libxml_use_internal_errors(true);
+            $doc->loadHTML($htmlDoc);
+            $xpath = new DOMXpath($doc);
+
+            foreach ($patterns as $pattern) {
+
+                if ($element = $xpath->query($pattern)->item(0)) {
+                    $replace = $doc->saveHTML($element);
+                    $html    = str_replace($replace, '', $html);
+                }
+
+            }
+        }
+        return $html;
     }
 } 

@@ -39,7 +39,7 @@ class NewsDetector extends CApplicationComponent
         if ($content) {
             $this->categoryLinks = $this->linkDetector($content, $this->categoryPattern, false);
         } else {
-            throw new Exception("No content data");
+            print_r("No content data 42");
         }
     }
 
@@ -48,7 +48,7 @@ class NewsDetector extends CApplicationComponent
         if ($content) {
             $this->newsLinks = $this->linkDetector($content, $this->newsPattern);
         } else {
-            throw new Exception("No content data");
+            print_r("No content data 51");
         }
     }
 
