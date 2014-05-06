@@ -31,68 +31,82 @@ class NewsParser extends CApplicationComponent
     {
 //        echo "Try parse `{$this->url}`\n";
         if ($html = PageLoader::load($this->url)) {
-            if (function_exists('tidy_parse_string')) {
-                $tidy = tidy_parse_string($html, array(), 'UTF8');
-                $tidy->cleanRepair();
-                $html = $tidy->value;
-            }
-
-            $readability                          = new Readability($html, $this->url);
-            $readability->debug                   = false;
-            $readability->convertLinksToFootnotes = false;
-            $result                               = $readability->init();
-            if ($result) {
-                $title   = $readability->getTitle()->textContent;
-                $title = $this->processTitleStopWords($title);
-                $content = $readability->getContent()->innerHTML;
-                $content = $this->processContentStopWords($content);
-                $content = preg_replace('/\n/', ' ', $content);
-                $content = strip_tags($content, "<p><div><img><span><br><ul><li>");
-                $content = $this->fixUrls($content);
+            try {
                 if (function_exists('tidy_parse_string')) {
-                    $tidy = tidy_parse_string($content, array('show-body-only' => true, 'wrap' => 0), 'UTF8');
+                    $tidy = tidy_parse_string($html, array(), 'UTF8');
                     $tidy->cleanRepair();
-                    $content = $tidy->value;
+                    $html = $tidy->value;
                 }
+
+                $readability                          = new Readability($html, $this->url);
+                $readability->debug                   = false;
+                $readability->convertLinksToFootnotes = false;
+                $result                               = $readability->init();
+                if ($result) {
+                    $title   = $readability->getTitle()->textContent;
+                    $title   = $this->processTitleStopWords($title);
+                    $content = $readability->getContent()->innerHTML;
+                    $content = $this->processContentStopWords($content);
+                    $content = preg_replace('/\n/', ' ', $content);
+                    $content = strip_tags($content, "<p><div><img><span><br><ul><li>");
+                    $content = $this->fixUrls($content);
+                    if (function_exists('tidy_parse_string')) {
+                        $tidy = tidy_parse_string($content, array('show-body-only' => true, 'wrap' => 0), 'UTF8');
+                        $tidy->cleanRepair();
+                        $content = $tidy->value;
+                    }
 //                echo $content;
 //                echo "\nURL: {$this->url}\n";
 
-                $content = $this->processExcludeElements($content);
+                    $content = $this->processExcludeElements($content);
+                    if ($date = $this->processPublishDate($html)) {
+                        if (!(date("Y-m-d") == date("Y-m-d", $date))) {
+                            throw new CException("Old post");
+                        }
+                    }
 
 
-                if ($searchContent = trim(strip_tags($content))) {
+                    if ($searchContent = trim(strip_tags($content))) {
 
-                    $searchContent = preg_replace('/\n/', ' ', $searchContent);
-                    $searchContent = preg_replace("/[^а-я ]/ui", "", $searchContent);
-                    $searchContent = preg_replace('/\s+/', ' ', $searchContent);
-                    print_r(count(explode(" ", $searchContent)));
-                    if (count(explode(" ", $searchContent)) >= Settings::get('news_min_length')) {
-                        $pn                 = new PendingNews();
-                        $pn->source_id      = $this->source->id;
-                        $pn->title          = $title;
-                        $pn->content        = $content;
-                        $pn->search_content = $searchContent;
-                        $pn->status         = PendingNews::STATUS_NEW;
-                        $pn->group_hash     = md5(time());
-                        $pn->thumb_src = $this->detectThumb($html, $content);
-                        $pn->pq_id = $this->parserQueue->id;
-                        $pn->created_at     = new CDbExpression("NEW()");
-                        if ($pn->save()) {
-                            $this->parserQueue->status = ParserQueue::STATUS_DONE;
-                            $this->parserQueue->save();
-                            $this->fillSearchDB($searchContent, $pn->id);
+                        $searchContent = preg_replace('/\n/', ' ', $searchContent);
+                        $searchContent = preg_replace("/[^а-я ]/ui", "", $searchContent);
+                        $searchContent = preg_replace('/\s+/', ' ', $searchContent);
+
+                        if (count(explode(" ", $searchContent)) >= Settings::get('news_min_length')) {
+                            $pn                 = new PendingNews();
+                            $pn->source_id      = $this->source->id;
+                            $pn->title          = $title;
+                            $pn->content        = $content;
+                            $pn->search_content = $searchContent;
+                            $pn->status         = PendingNews::STATUS_NEW;
+                            $pn->group_hash     = md5(time());
+                            $pn->thumb_src      = $this->detectThumb($html, $content);
+                            $pn->pq_id          = $this->parserQueue->id;
+                            $pn->created_at     = new CDbExpression("NEW()");
+                            if ($pn->save()) {
+                                $this->parserQueue->status = ParserQueue::STATUS_DONE;
+                                $this->parserQueue->save();
+                                $this->fillSearchDB($searchContent, $pn->id);
+                            } else {
+                                print_r($pn->getErrors());
+                                $this->parserQueue->status = ParserQueue::STATUS_FAIL;
+                                $this->parserQueue->save();
+                            }
                         } else {
-                            print_r($pn->getErrors());
                             $this->parserQueue->status = ParserQueue::STATUS_FAIL;
                             $this->parserQueue->save();
                         }
-                    } else {
-                        $this->parserQueue->status = ParserQueue::STATUS_FAIL;
-                        $this->parserQueue->save();
                     }
+                } else {
+                    throw new Exception('Looks like we couldn\'t find the content. :(');
                 }
-            } else {
-                throw new Exception('Looks like we couldn\'t find the content. :(');
+            } catch (Exception $e) {
+//                echo "\n";
+//                print_r($e->getMessage());
+//                echo "\n";
+
+                $this->parserQueue->status = ParserQueue::STATUS_FAIL;
+                $this->parserQueue->save();
             }
         } else {
             $this->parserQueue->status = ParserQueue::STATUS_FAIL;
@@ -195,15 +209,14 @@ class NewsParser extends CApplicationComponent
         )
         ) {
             $htmlDoc = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
-            $doc = new DOMDocument("1.0", "utf-8");
+            $doc     = new DOMDocument("1.0", "utf-8");
             $doc->preserveWhiteSpace = false;
             libxml_use_internal_errors(true);
             $doc->loadHTML($htmlDoc);
             $xpath = new DOMXpath($doc);
 
             foreach ($patterns as $pattern) {
-
-                if ($element = $xpath->query($pattern)->item(0)) {
+                if ($element = $xpath->query($pattern->pattern)->item(0)) {
                     $replace = $doc->saveHTML($element);
                     $html    = str_replace($replace, '', $html);
                 }
@@ -211,5 +224,24 @@ class NewsParser extends CApplicationComponent
             }
         }
         return $html;
+    }
+
+    private function processPublishDate($html)
+    {
+        if ($patterns = SourcesSettings::getAll($this->source->id, 'date_pattern')) {
+            $doc                     = new DOMDocument("1.0", "utf-8");
+            $doc->preserveWhiteSpace = false;
+            libxml_use_internal_errors(true);
+            $doc->loadHTML($html);
+            $xpath = new DOMXpath($doc);
+
+            foreach ($patterns as $pattern) {
+
+                if ($publishDate = $xpath->evaluate($pattern->value)) {
+                    $publishDate = strtotime($publishDate);
+                    return $publishDate;
+                }
+            }
+        }
     }
 } 
