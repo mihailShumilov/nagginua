@@ -32,10 +32,11 @@ class RssNewsDetector extends CApplicationComponent
             if ($newsLinks = $xpath->query($pattern->value)) {
                 for ($i = 0; $i < $newsLinks->length; $i++) {
                     $item = $newsLinks->item($i);
+                    $url = str_replace($this->source->source->url, '', $item->nodeValue);
                     try {
                         $pqItem             = new ParserQueue();
                         $pqItem->source_id  = $this->source->source_id;
-                        $pqItem->url        = $item->nodeValue;
+                        $pqItem->url = $url;
                         $pqItem->status     = ParserQueue::STATUS_NEW;
                         $pqItem->created_at = new CDbExpression('NOW()');
                         if ($pqItem->save()) {
