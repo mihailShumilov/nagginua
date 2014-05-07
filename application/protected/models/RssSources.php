@@ -8,4 +8,20 @@ class RssSources extends BaseRssSources
     {
         return parent::model($className);
     }
+
+    public function relations()
+    {
+        return array(
+            'source' => array(self::BELONGS_TO, 'Source', 'source_id'),
+        );
+    }
+
+    public function scopes()
+    {
+        return array(
+            'active' => array(
+                'condition' => 'active=1',
+            ),
+        );
+    }
 }
