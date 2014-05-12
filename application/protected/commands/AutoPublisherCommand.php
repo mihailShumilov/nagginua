@@ -37,7 +37,7 @@ class AutoPublisherCommand extends CConsoleCommand
                 "
                                 SELECT id, length(search_content) AS len
                                 FROM pending_news
-                                WHERE id IN (" . implode(",", $newsId) . ")
+                                WHERE id IN ('" . implode("','", $newsId) . "')
                 ORDER BY len DESC, id ASC
                 LIMIT 1"
             );
@@ -58,7 +58,7 @@ class AutoPublisherCommand extends CConsoleCommand
                     if ($newsId && !empty($newsId)) {
                         PendingNews::model()->updateAll(
                             array("status" => "rejected"),
-                            "id IN(" . implode(",", $newsId) . ")"
+                            "id IN('" . implode("', '", $newsId) . "')"
                         );
                     }
 
