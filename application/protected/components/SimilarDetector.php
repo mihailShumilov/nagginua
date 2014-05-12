@@ -28,7 +28,7 @@ class SimilarDetector extends CApplicationComponent
             $ids_to_update = array();
 //            $ids_to_update[] = $this->news->id;
             foreach ($data as $ids) {
-                if ($ids['weight'] > 75) {
+                if ($ids['weight'] > Settings::get('similar_weight')) {
                     $ids_to_update[] = $ids['id'];
                 }
             }
