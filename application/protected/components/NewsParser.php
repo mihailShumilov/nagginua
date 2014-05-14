@@ -171,8 +171,8 @@ class NewsParser extends CApplicationComponent
             $ih->doc_id    = $newsID;
             $ih->word_hash = $token;
             if (!$ih->save()) {
-                print_r($ih->getErrors());
-                die;
+//                print_r($ih->getErrors());
+//                die;
             }
         }
 

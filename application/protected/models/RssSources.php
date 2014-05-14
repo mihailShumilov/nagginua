@@ -19,9 +19,15 @@ class RssSources extends BaseRssSources
     public function scopes()
     {
         return array(
-            'active' => array(
+            'active'      => array(
                 'condition' => 'active=1',
             ),
+            'not_is_full' => array(
+                'condition' => 'is_full=0'
+            ),
+            'is_full'     => array(
+                'condition' => 'is_full=1'
+            )
         );
     }
 }
