@@ -67,6 +67,18 @@ class RssNewsParser extends CApplicationComponent
                                 $newsParams['image_src'] = $images[1][0];
                             }
                         }
+                        if (!isset($newsParams['image_src'])) {
+                            if ($node->nodeName == 'enclosure') {
+                                if (preg_match_all(
+                                    '/(https?:\/\/[a-z0-9\/_а-я\-\.]*\.(?:png|jpg))/i',
+                                    $node->getAttribute('url'),
+                                    $images
+                                )
+                                ) {
+                                    $newsParams['image_src'] = $images[1][0];
+                                }
+                            }
+                        }
                     }
 
                     try {
