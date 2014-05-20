@@ -13,14 +13,26 @@ class ParseNewsCommand extends CConsoleCommand
         echo "Start news parsing\n";
         $newsCount = ParserQueue::model()->count("status=:status", array(":status" => "new"));
         $counter   = 0;
-        $getLinksCommand = Yii::app()->db->createCommand("SELECT * FROM parser_queue WHERE status = 'new'");
-        $dataReader      = $getLinksCommand->query();
-        while (($row = $dataReader->read()) !== false) {
+//        $getLinksCommand = Yii::app()->db->createCommand("SELECT * FROM parser_queue WHERE status = 'new'");
+//        $dataReader      = $getLinksCommand->query();
+//        while (($row = $dataReader->read()) !== false) {
+        while (($row = Yii::app()->db->createCommand("SELECT * FROM parser_queue WHERE status = 'new' LIMIT 1")->query(
+            )->read()) !== false) {
             if ($queueItem = ParserQueue::model()->findByPk($row['id'])) {
                 $counter++;
                 try {
-                    $np = new NewsParser($queueItem);
-                    $np->run();
+                    if (!LockParserQueue::isLocked($queueItem->id)) {
+
+                        if (LockParserQueue::lock($queueItem->id)) {
+                            $np = new NewsParser($queueItem);
+                            $np->run();
+                            LockParserQueue::unLock($queueItem->id);
+                        } else {
+                            continue;
+                        }
+                    } else {
+                        continue;
+                    }
                 } catch (Exception $e) {
                     echo $e->getMessage() . "\n";
                 }
