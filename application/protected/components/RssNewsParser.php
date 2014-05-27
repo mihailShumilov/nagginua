@@ -93,7 +93,7 @@ class RssNewsParser extends CApplicationComponent
                                 $newsParams['source'],
                                 $newsParams['title'],
                                 $newsParams['content'],
-                                $newsParams['image_src'],
+                                isset($newsParams['image_src']) ? $newsParams['image_src'] : false,
                                 PendingNews::STATUS_NEW,
                                 $pqItem
                             );
