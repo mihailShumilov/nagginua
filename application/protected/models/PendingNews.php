@@ -7,6 +7,7 @@ class PendingNews extends BasePendingNews
 {
 
     const STATUS_NEW = 'pending';
+    const STATUS_SUSPENDED = 'suspended';
 
     public static function model($className = __CLASS__)
     {
@@ -60,7 +61,7 @@ class PendingNews extends BasePendingNews
         if ($searchContent = trim(strip_tags($content))) {
 
             $searchContent = preg_replace('/\n/', ' ', $searchContent);
-            $searchContent = preg_replace("/[^а-я ]/ui", "", $searchContent);
+            $searchContent = preg_replace("/[^а-яa-z ]/ui", "", $searchContent);
             $searchContent = preg_replace('/\s+/', ' ', $searchContent);
 
             if (count(explode(" ", $searchContent)) >= Settings::get('news_min_length')) {
