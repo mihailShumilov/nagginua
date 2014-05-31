@@ -16,20 +16,34 @@ class NewsParser extends CApplicationComponent
      */
     private $source;
     private $url;
+    /**
+     * @var ParserQueue ParserQueue
+     */
     private $parserQueue;
+    /**
+     * @var PendingNews PendingNews
+     */
+    private $pendingNews;
 
-    public function __construct(ParserQueue $pq)
+    /**
+     * @param ParserQueue $pq
+     * @param PendingNews $pn
+     */
+    public function __construct(ParserQueue $pq, PendingNews $pn = null)
     {
         $pq->status = ParserQueue::STATUS_INPROCESS;
         $pq->save();
         $this->source      = $pq->source;
         $this->url         = $this->prepareUrl($pq->url);
         $this->parserQueue = $pq;
+        if ($pn) {
+            $this->pendingNews = $pn;
+        }
     }
 
     public function run()
     {
-//        echo "Try parse `{$this->url}`\n";
+        echo "Try parse `{$this->url}`\n";
         if ($html = PageLoader::load($this->url)) {
             try {
                 if (function_exists('tidy_parse_string')) {
@@ -48,7 +62,7 @@ class NewsParser extends CApplicationComponent
                     $content = $readability->getContent()->innerHTML;
                     $content = $this->processContentStopWords($content);
                     $content = preg_replace('/\n/', ' ', $content);
-                    $content = strip_tags($content, "<p><div><img><span><br><ul><li>");
+                    $content = strip_tags($content, "<p><div><img><span><br><ul><li><embed><iframe>");
                     $content = $this->fixUrls($content);
                     if (function_exists('tidy_parse_string')) {
                         $tidy = tidy_parse_string($content, array('show-body-only' => true, 'wrap' => 0), 'UTF8');
@@ -69,28 +83,49 @@ class NewsParser extends CApplicationComponent
                     if ($searchContent = trim(strip_tags($content))) {
 
                         $searchContent = preg_replace('/\n/', ' ', $searchContent);
-                        $searchContent = preg_replace("/[^а-я ]/ui", "", $searchContent);
+                        $searchContent = preg_replace("/[^а-яa-z ]/ui", "", $searchContent);
                         $searchContent = preg_replace('/\s+/', ' ', $searchContent);
 
                         if (count(explode(" ", $searchContent)) >= Settings::get('news_min_length')) {
-                            $pn                 = new PendingNews();
-                            $pn->source_id      = $this->source->id;
-                            $pn->title          = $title;
-                            $pn->content        = $content;
-                            $pn->search_content = $searchContent;
-                            $pn->status         = PendingNews::STATUS_NEW;
-                            $pn->group_hash     = md5(time());
-                            $pn->thumb_src      = $this->detectThumb($html, $content);
-                            $pn->pq_id          = $this->parserQueue->id;
-                            $pn->created_at     = new CDbExpression("NEW()");
-                            if ($pn->save()) {
-                                $this->parserQueue->status = ParserQueue::STATUS_DONE;
-                                $this->parserQueue->save();
-                                $this->fillSearchDB($searchContent, $pn->id);
+                            if ($this->pendingNews) {
+                                $this->pendingNews->content        = $content;
+                                $this->pendingNews->search_content = $searchContent;
+                                $this->pendingNews->status         = PendingNews::STATUS_NEW;
+
+                                if (!$this->pendingNews->thumb_src) {
+                                    $this->pendingNews->thumb_src = $this->detectThumb($html, $content);
+                                }
+                                if ($this->pendingNews->save()) {
+                                    $this->parserQueue->status = ParserQueue::STATUS_DONE;
+                                    $this->parserQueue->save();
+                                    $this->fillSearchDB($searchContent, $this->pendingNews->id);
+                                    return true;
+                                } else {
+                                    print_r($this->pendingNews->getErrors());
+                                    $this->parserQueue->status = ParserQueue::STATUS_FAIL;
+                                    $this->parserQueue->save();
+                                }
                             } else {
-                                print_r($pn->getErrors());
-                                $this->parserQueue->status = ParserQueue::STATUS_FAIL;
-                                $this->parserQueue->save();
+                                $pn                 = new PendingNews();
+                                $pn->source_id      = $this->source->id;
+                                $pn->title          = $title;
+                                $pn->content        = $content;
+                                $pn->search_content = $searchContent;
+                                $pn->status         = PendingNews::STATUS_NEW;
+                                $pn->group_hash     = md5(time());
+                                $pn->thumb_src      = $this->detectThumb($html, $content);
+                                $pn->pq_id          = $this->parserQueue->id;
+                                $pn->created_at     = new CDbExpression("NEW()");
+                                if ($pn->save()) {
+                                    $this->parserQueue->status = ParserQueue::STATUS_DONE;
+                                    $this->parserQueue->save();
+                                    $this->fillSearchDB($searchContent, $pn->id);
+                                    return true;
+                                } else {
+                                    print_r($pn->getErrors());
+                                    $this->parserQueue->status = ParserQueue::STATUS_FAIL;
+                                    $this->parserQueue->save();
+                                }
                             }
                         } else {
                             $this->parserQueue->status = ParserQueue::STATUS_FAIL;

@@ -27,6 +27,12 @@ class RssSources extends BaseRssSources
             ),
             'is_full'     => array(
                 'condition' => 'is_full=1'
+            ),
+            'is_combine'  => array(
+                'condition' => 'is_combine=1'
+            ),
+            'not_is_combine' => array(
+                'condition' => 'is_combine=0'
             )
         );
     }

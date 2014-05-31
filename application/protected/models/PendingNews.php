@@ -72,7 +72,7 @@ class PendingNews extends BasePendingNews
                 $pn->content        = $content;
                 $pn->search_content = $searchContent;
                 $pn->status         = $status;
-                $pn->group_hash     = md5(time());
+                $pn->group_hash = md5(microtime());
                 $pn->thumb_src      = $image_src;
                 if ($parser_queue) {
                     $pn->pq_id = $parser_queue->id;

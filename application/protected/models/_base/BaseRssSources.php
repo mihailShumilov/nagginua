@@ -14,6 +14,7 @@
  * @property string $url
  * @property integer $active
  * @property integer $is_full
+ * @property integer $is_combine
  * @property string $created_at
  * @property string $updated_at
  *
@@ -46,11 +47,16 @@ abstract class BaseRssSources extends GxActiveRecord
     {
         return array(
             array('source_id, url', 'required'),
-            array('source_id, active, is_full', 'numerical', 'integerOnly' => true),
+            array('source_id, active, is_full, is_combine', 'numerical', 'integerOnly' => true),
             array('url', 'length', 'max' => 255),
             array('created_at, updated_at', 'safe'),
-            array('active, is_full, created_at, updated_at', 'default', 'setOnEmpty' => true, 'value' => null),
-            array('id, source_id, url, active, is_full, created_at, updated_at', 'safe', 'on' => 'search'),
+            array(
+                'active, is_full, is_combine, created_at, updated_at',
+                'default',
+                'setOnEmpty' => true,
+                'value'      => null
+            ),
+            array('id, source_id, url, active, is_full, is_combine, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
 
@@ -74,6 +80,7 @@ abstract class BaseRssSources extends GxActiveRecord
             'url'        => Yii::t('app', 'Url'),
             'active'     => Yii::t('app', 'Active'),
             'is_full'    => Yii::t('app', 'Is Full'),
+            'is_combine' => Yii::t('app', 'Is Combine'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'source'     => null,
@@ -89,6 +96,7 @@ abstract class BaseRssSources extends GxActiveRecord
         $criteria->compare('url', $this->url, true);
         $criteria->compare('active', $this->active);
         $criteria->compare('is_full', $this->is_full);
+        $criteria->compare('is_combine', $this->is_combine);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 
