@@ -18,7 +18,7 @@
         <?php echo $form->dropDownList(
             $model,
             'source_id',
-            GxHtml::listDataEx(Sources::model()->findAllAttributes(null, true)),
+            GxHtml::listDataEx(Source::model()->findAllAttributes(null, true)),
             array('prompt' => Yii::t('app', 'All'))
         ); ?>
     </div>

@@ -7,9 +7,8 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
-
-	// preloading 'log' component
+    'name'      => 'News Aggregator',
+    // preloading 'log' component
 	'preload'=>array('log'),
 
 	// autoloading model and component classes
@@ -85,11 +84,7 @@ return array(
 				),
 				*/
 			),
-		),
-        'sphinx' => array(
-            'class'            => 'system.db.CDbConnection',
-            'connectionString' => 'mysql:host=127.0.0.1;port=9306',
-        ),
+        )
     ),
 
 	// application-level parameters that can be accessed

@@ -56,7 +56,7 @@ Yii::app()->clientScript->registerScript(
             array(
                 'name'   => 'source_id',
                 'value'  => 'GxHtml::valueEx($data->source)',
-                'filter' => GxHtml::listDataEx(Sources::model()->findAllAttributes(null, true)),
+                'filter' => GxHtml::listDataEx(Source::model()->findAllAttributes(null, true)),
             ),
             'word',
             array(

@@ -4,7 +4,7 @@
     <?php     $form = $this->beginWidget(
         'GxActiveForm',
         array(
-            'id' => 'title-stop-words-form',
+            'id'                   => 'title-stop-words-form',
             'enableAjaxValidation' => false,
         )
     );
@@ -24,7 +24,7 @@
         <?php echo $form->dropDownList(
             $model,
             'source_id',
-            GxHtml::listDataEx(Sources::model()->findAllAttributes(null, true))
+            GxHtml::listDataEx(Source::model()->findAllAttributes(null, true))
         ); ?>
         <?php echo $form->error($model, 'source_id'); ?>
     </div>

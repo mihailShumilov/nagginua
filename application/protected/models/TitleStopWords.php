@@ -8,4 +8,11 @@ class TitleStopWords extends BaseTitleStopWords
     {
         return parent::model($className);
     }
+
+    public function relations()
+    {
+        return array(
+            'source' => array(self::BELONGS_TO, 'Source', 'source_id'),
+        );
+    }
 }

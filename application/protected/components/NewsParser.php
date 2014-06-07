@@ -243,8 +243,8 @@ class NewsParser extends CApplicationComponent
             array(":source_id" => $this->source->id)
         )
         ) {
-            $htmlDoc = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
-            $doc     = new DOMDocument("1.0", "utf-8");
+            $htmlDoc                 = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
+            $doc                     = new DOMDocument("1.0", "utf-8");
             $doc->preserveWhiteSpace = false;
             libxml_use_internal_errors(true);
             $doc->loadHTML($htmlDoc);
@@ -279,4 +279,66 @@ class NewsParser extends CApplicationComponent
             }
         }
     }
+
+    public function parse($html, $url, Source $source = null)
+    {
+        if ($source) {
+            $this->source = $source;
+        }
+        try {
+            $parsedNews = array();
+            if (function_exists('tidy_parse_string')) {
+                $tidy = tidy_parse_string($html, array(), 'UTF8');
+                $tidy->cleanRepair();
+                $html = $tidy->value;
+            }
+
+            $readability                          = new Readability($html, $url);
+            $readability->debug                   = false;
+            $readability->convertLinksToFootnotes = false;
+            $result                               = $readability->init();
+            if ($result) {
+                $title   = $readability->getTitle()->textContent;
+                $title   = $this->processTitleStopWords($title);
+                $content = $readability->getContent()->innerHTML;
+                $content = $this->processContentStopWords($content);
+                $content = preg_replace('/\n/', ' ', $content);
+                $content = strip_tags($content, "<p><div><img><span><br><ul><li><embed><iframe>");
+                $content = $this->fixUrls($content);
+                if (function_exists('tidy_parse_string')) {
+                    $tidy = tidy_parse_string($content, array('show-body-only' => true, 'wrap' => 0), 'UTF8');
+                    $tidy->cleanRepair();
+                    $content = $tidy->value;
+                }
+
+                $content = $this->processExcludeElements($content);
+
+                $date = $this->processPublishDate($html);
+
+
+                if ($searchContent = trim(strip_tags($content))) {
+
+                    $searchContent = preg_replace('/\n/', ' ', $searchContent);
+                    $searchContent = preg_replace("/[^а-яa-z ]/ui", "", $searchContent);
+                    $searchContent = preg_replace('/\s+/', ' ', $searchContent);
+
+
+                    $parsedNews['title']         = $title;
+                    $parsedNews['content']       = $content;
+                    $parsedNews['searchContent'] = $searchContent;
+                    $parsedNews['thumb']         = $this->detectThumb($html, $content);
+                    $parsedNews['date']          = $date;
+
+
+                }
+            } else {
+                throw new Exception('Looks like we couldn\'t find the content. :(');
+            }
+        } catch (Exception $e) {
+            $parsedNews['error'] = $e->getMessage();
+
+        }
+        return $parsedNews;
+    }
+
 } 
