@@ -17,6 +17,7 @@ class PageLoader extends CApplicationComponent
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                 if (isset($postParams) && !empty($postParams)) {
                     curl_setopt($ch, CURLOPT_HTTP_VERSION, '1.1');
                     curl_setopt($ch, CURLOPT_POST, 1);
