@@ -151,8 +151,10 @@ class NewsParser extends CApplicationComponent
 
     private function prepareUrl($link)
     {
-        if (!strpos($link, "http")) {
+        if (strpos($link, "http") === false) {
             return $this->source->url . $link;
+        } else {
+            return $link;
         }
     }
 
