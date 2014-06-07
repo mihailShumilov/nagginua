@@ -18,7 +18,7 @@ Yii::app()->clientScript->registerScript(
    return false;
    });
    $('.search-form form').submit(function(){
-   $.fn.yiiGridView.update('sources-settings-grid', {
+   $.fn.yiiGridView.update('Source-settings-grid', {
    data: $(this).serialize()
    });
    return false;
@@ -48,7 +48,7 @@ Yii::app()->clientScript->registerScript(
 <?php $this->widget(
     'zii.widgets.grid.CGridView',
     array(
-        'id'           => 'sources-settings-grid',
+        'id'           => 'Source-settings-grid',
         'dataProvider' => $model->search(),
         'filter'       => $model,
         'columns'      => array(
@@ -56,7 +56,7 @@ Yii::app()->clientScript->registerScript(
             array(
                 'name'   => 'source_id',
                 'value'  => 'GxHtml::valueEx($data->source)',
-                'filter' => GxHtml::listDataEx(Sources::model()->findAllAttributes(null, true)),
+                'filter' => GxHtml::listDataEx(Source::model()->findAllAttributes(null, true)),
             ),
             'name',
             'value',

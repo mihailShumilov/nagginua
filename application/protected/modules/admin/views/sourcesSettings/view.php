@@ -35,7 +35,7 @@ $this->menu = array(
                 'type'  => 'raw',
                 'value' => $model->source !== null ? GxHtml::link(
                         GxHtml::encode(GxHtml::valueEx($model->source)),
-                        array('sources/view', 'id' => GxActiveRecord::extractPkValue($model->source, true))
+                        array('Source/view', 'id' => GxActiveRecord::extractPkValue($model->source, true))
                     ) : null,
             ),
             'name',

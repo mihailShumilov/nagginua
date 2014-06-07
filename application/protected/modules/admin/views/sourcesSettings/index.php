@@ -1,17 +1,17 @@
 <?php
 
 $this->breadcrumbs = array(
-    SourcesSettings::label(2),
+    SourceSettings::label(2),
     Yii::t('app', 'Index'),
 );
 
 $this->menu = array(
-    array('label' => Yii::t('app', 'Create') . ' ' . SourcesSettings::label(), 'url' => array('create')),
-    array('label' => Yii::t('app', 'Manage') . ' ' . SourcesSettings::label(2), 'url' => array('admin')),
+    array('label' => Yii::t('app', 'Create') . ' ' . SourceSettings::label(), 'url' => array('create')),
+    array('label' => Yii::t('app', 'Manage') . ' ' . SourceSettings::label(2), 'url' => array('admin')),
 );
 ?>
 
-    <h1><?php echo GxHtml::encode(SourcesSettings::label(2)); ?></h1>
+    <h1><?php echo GxHtml::encode(SourceSettings::label(2)); ?></h1>
 
 <?php $this->widget(
     'zii.widgets.CListView',
