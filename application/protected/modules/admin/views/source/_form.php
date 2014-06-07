@@ -4,7 +4,7 @@
     <?php     $form = $this->beginWidget(
         'GxActiveForm',
         array(
-            'id' => 'source-form',
+            'id'                   => 'source-form',
             'enableAjaxValidation' => false,
         )
     );
@@ -67,35 +67,6 @@
         <?php echo $form->error($model, 'updated_at'); ?>
     </div>
     <!-- row -->
-
-    <label><?php echo GxHtml::encode($model->getRelationLabel('contentStopWords'));
-        ?></label>
-    <?php echo $form->checkBoxList(
-        $model,
-        'contentStopWords',
-        GxHtml::encodeEx(GxHtml::listDataEx(ContentStopWords::model()->findAllAttributes(null, true)), false, true)
-    ); ?>
-    <label><?php echo GxHtml::encode($model->getRelationLabel('parserQueues'));
-        ?></label>
-    <?php echo $form->checkBoxList(
-        $model,
-        'parserQueues',
-        GxHtml::encodeEx(GxHtml::listDataEx(ParserQueue::model()->findAllAttributes(null, true)), false, true)
-    ); ?>
-    <label><?php echo GxHtml::encode($model->getRelationLabel('pendingNews'));
-        ?></label>
-    <?php echo $form->checkBoxList(
-        $model,
-        'pendingNews',
-        GxHtml::encodeEx(GxHtml::listDataEx(PendingNews::model()->findAllAttributes(null, true)), false, true)
-    ); ?>
-    <label><?php echo GxHtml::encode($model->getRelationLabel('titleStopWords'));
-        ?></label>
-    <?php echo $form->checkBoxList(
-        $model,
-        'titleStopWords',
-        GxHtml::encodeEx(GxHtml::listDataEx(TitleStopWords::model()->findAllAttributes(null, true)), false, true)
-    ); ?>
 
     <?php
     echo GxHtml::submitButton(Yii::t('app', 'Save'));
