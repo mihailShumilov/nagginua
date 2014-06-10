@@ -41,7 +41,7 @@ abstract class BaseExcludeElements extends GxActiveRecord
     public function rules()
     {
         return array(
-            array('id, source_id, pattern', 'required'),
+            array('source_id, pattern', 'required'),
             array('id, source_id', 'numerical', 'integerOnly' => true),
             array('id, source_id, pattern', 'safe', 'on' => 'search'),
         );
