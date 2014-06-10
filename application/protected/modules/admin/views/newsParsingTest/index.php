@@ -21,14 +21,14 @@ $this->renderPartial(
 
 if (isset($data) && !empty($data)):
     ?>
-    <h2>Title: "<?php echo $data['title']; ?>"</h2>
+    <h2>Title: "<?php echo isset($data['title']) ? $data['title'] : "No title found"; ?>"</h2>
     <h3>Thumb</h3>
-    <img src="<?php echo $data['thumb']; ?>"/>
+    <img src="<?php echo isset($data['thumb']) ? $data['thumb'] : ""; ?>"/>
     <h3>Content</h3>
-    <div id="content"><?php echo $data['content']; ?></div>
+    <div id="content"><?php echo isset($data['content']) ? $data['content'] : "No content found"; ?></div>
     <h3>Search content</h3>
-    <div id="searchContent"><?php echo $data['searchContent']; ?></div>
-    <h3>Date - <?php echo date('Y-m-d H:i:s', $data['date'] ? $data['date'] : time()); ?></h3>
+    <div id="searchContent"><?php echo isset($data['searchContent']) ? $data['searchContent'] : ""; ?></div>
+    <h3>Date - <?php echo date('Y-m-d H:i:s', isset($data['date']) ? $data['date'] : time()); ?></h3>
 
 <?php
 endif;
