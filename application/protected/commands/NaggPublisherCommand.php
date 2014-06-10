@@ -20,41 +20,51 @@ class NaggPublisherCommand extends CConsoleCommand
         $dataReader = $getNews->query();
         while (($row = $dataReader->read()) !== false) {
             $counter++;
-            if ($pn = PendingNews::model()->findByPk($row['id'])) {
-                $imageLink = false;
-                if ($pn->thumb_src) {
-                    $imageLink = PageLoader::loadFile($pn->thumb_src);
-                }
+            if (!LockNews::isLocked($row['id'])) {
 
-                $wp = new Wordpress();
-                $customFields = array();
-                $customFields["pending_news_id"] = $pn->id;
-                $customFields["pending_news_status"] = $pn->status;
-                if ($pn->source) {
-                    $customFields["source"] = $pn->source->url;
-                }
-                if ($pn->pq) {
-                    $customFields["url"] = $pn->pq->url;
-                    $customFields["parser_queue_id"] = $pn->pq_id;
-                }
+                if (LockNews::lock($row['id'])) {
+                    if ($pn = PendingNews::model()->findByPk($row['id'])) {
+                        $imageLink = false;
+                        if ($pn->thumb_src) {
+                            $imageLink = PageLoader::loadFile($pn->thumb_src);
+                        }
 
-                if ($wp->createPost(
-                    $pn->title,
-                    $pn->content,
-                    $customFields,
-                    "publish",
-                    $imageLink,
-                    $this->detectCategories($pn->search_content),
-                    KeywordDetector::detect($pn->search_content)
-                )
-                ) {
-                    $pn->processed = 2;
-                    $pn->save();
-                }
+                        $wp                                  = new Wordpress();
+                        $customFields                        = array();
+                        $customFields["pending_news_id"]     = $pn->id;
+                        $customFields["pending_news_status"] = $pn->status;
+                        if ($pn->source) {
+                            $customFields["source"] = $pn->source->url;
+                        }
+                        if ($pn->pq) {
+                            $customFields["url"]             = $pn->pq->url;
+                            $customFields["parser_queue_id"] = $pn->pq_id;
+                        }
 
-                if ($imageLink) {
-                    unlink($imageLink);
+                        if ($wp->createPost(
+                            $pn->title,
+                            $pn->content,
+                            $customFields,
+                            "publish",
+                            $imageLink,
+                            $this->detectCategories($pn->search_content),
+                            KeywordDetector::detect($pn->search_content)
+                        )
+                        ) {
+                            $pn->processed = 2;
+                            $pn->save();
+                        }
+
+                        if ($imageLink) {
+                            unlink($imageLink);
+                        }
+                    }
+                    LockNews::unLock($row['id']);
+                } else {
+                    continue;
                 }
+            } else {
+                continue;
             }
             $percent = round($counter / $newsCount * 100, 2);
             echo "Completed {$percent}% ({$counter} of {$newsCount})\r";
