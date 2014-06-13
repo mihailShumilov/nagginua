@@ -18,6 +18,7 @@ class FillParserQueueRssCommand extends CConsoleCommand
                 if (!$pid) {
                     $parser = new RssNewsDetector($source);
                     $parser->run();
+                    exit(0);
                 }
 
             }

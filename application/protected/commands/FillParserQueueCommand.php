@@ -19,6 +19,7 @@ class FillParserQueueCommand extends CConsoleCommand
                 if (!$pid) {
                     $parser = new NewsDetector($source);
                     $parser->run();
+                    exit(0);
                 }
 
             }

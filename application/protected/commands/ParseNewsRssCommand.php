@@ -18,6 +18,7 @@ class ParseNewsRssCommand extends CConsoleCommand
                 if (!$pid) {
                     $parser = new RssNewsParser($source);
                     $parser->run();
+                    exit(0);
                 }
 
             }
