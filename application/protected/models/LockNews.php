@@ -14,6 +14,9 @@ class LockNews extends BaseLockNews
         try {
             if ($pending_news_id) {
                 try {
+                    $pn         = PendingNews::model()->findByPk($pending_news_id);
+                    $pn->status = PendingNews::STATUS_INPROCESS;
+                    $pn->save();
                     $ln             = new LockNews();
                     $ln->id_news    = $pending_news_id;
                     $ln->created_at = new CDbExpression("NOW()");

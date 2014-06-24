@@ -7,6 +7,7 @@ class PendingNews extends BasePendingNews
 {
 
     const STATUS_NEW = 'pending';
+    const STATUS_INPROCESS = 'in_process';
     const STATUS_SUSPENDED = 'suspended';
 
     public static function model($className = __CLASS__)
