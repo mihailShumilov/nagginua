@@ -16,9 +16,9 @@ class NaggPublisherCommand extends CConsoleCommand
             "SELECT count(id) FROM pending_news WHERE processed = 1 AND status = 'approved'"
         );
         $counter    = 0;
-        $getNews    = Yii::app()->db->createCommand($searchSql);
-        $dataReader = $getNews->query();
-        while (($row = $dataReader->read()) !== false) {
+        while (($row = Yii::app()->db->createCommand(
+                "SELECT id FROM pending_news WHERE processed = 1 AND status = 'approved' ORDER BY id ASC LIMIT 1"
+            )->query()->read()) !== false) {
             $counter++;
             if (!LockNews::isLocked($row['id'])) {
 
