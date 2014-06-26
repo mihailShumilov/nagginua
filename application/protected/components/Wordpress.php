@@ -50,7 +50,9 @@ class Wordpress extends CApplicationComponent
         $tags = array()
     ) {
         $nonce = $this->getNonce("posts", "create_post");
-
+        if (!$nonce) {
+            return false;
+        }
         $params = array(
             "nonce"   => $nonce->nonce,
             "status" => $status,
