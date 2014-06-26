@@ -99,6 +99,9 @@ class Wordpress extends CApplicationComponent
     protected function getAuthCookie()
     {
         $nonce  = $this->getNonce("auth", "generate_auth_cookie");
+        if (!$nonce) {
+            return false;
+        }
         $params = array(
             "nonce"    => $nonce->nonce,
             "username" => $this->login,
