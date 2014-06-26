@@ -77,7 +77,7 @@ class Wordpress extends CApplicationComponent
         }
         $result = $this->makeRequest($this->url . "posts/create_post/", $params, true);
 //        $result = $this->makeRequest("http://na.loc/uploadCheck.php", $params, true);
-        if ("ok" == $result->status) {
+        if ($result && ("ok" == $result->status)) {
             return true;
         } else {
             return false;
