@@ -6,9 +6,10 @@ Yii::import('application.extensions.DocumentHash');
 class PendingNews extends BasePendingNews
 {
 
-    const STATUS_NEW = 'pending';
+    const STATUS_NEW       = 'pending';
     const STATUS_INPROCESS = 'in_process';
     const STATUS_SUSPENDED = 'suspended';
+    const STATUS_REJECTED  = 'rejected';
 
     public static function model($className = __CLASS__)
     {
@@ -19,7 +20,7 @@ class PendingNews extends BasePendingNews
     {
         return array(
             'source' => array(self::BELONGS_TO, 'Source', 'source_id'),
-            'pq' => array(self::BELONGS_TO, 'ParserQueue', 'pq_id'),
+            'pq'     => array(self::BELONGS_TO, 'ParserQueue', 'pq_id'),
         );
     }
 
@@ -73,7 +74,7 @@ class PendingNews extends BasePendingNews
                 $pn->content        = $content;
                 $pn->search_content = $searchContent;
                 $pn->status         = $status;
-                $pn->group_hash = md5(microtime());
+                $pn->group_hash     = md5(microtime());
                 $pn->thumb_src      = $image_src;
                 if ($parser_queue) {
                     $pn->pq_id = $parser_queue->id;
