@@ -26,7 +26,7 @@ class ComposeNewsCommand extends CConsoleCommand
 
                     if (LockNews::lock($row['id'])) {
                         $nc = new NewsComposer($row['id']);
-                        PendingNews::model()->updateByPk($row['id'], array("processed" => "2"));
+                        PendingNews::model()->updateByPk($row['id'], array("processed" => "3"));
                         LockNews::unLock($row['id']);
                     } else {
                         continue;
