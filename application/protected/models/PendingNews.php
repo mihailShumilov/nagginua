@@ -10,6 +10,7 @@ class PendingNews extends BasePendingNews
     const STATUS_INPROCESS = 'in_process';
     const STATUS_SUSPENDED = 'suspended';
     const STATUS_REJECTED  = 'rejected';
+    const STATUS_APPROVED = 'approved';
 
     public static function model($className = __CLASS__)
     {

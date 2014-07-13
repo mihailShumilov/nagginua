@@ -35,8 +35,8 @@ class NewsComposer extends CApplicationComponent
     private function findDependedNews()
     {
         $this->dependedNews = PendingNews::model()->findAll(
-            "group_hash = :group_hash and status = :status",
-            array(":group_hash" => $this->pendingNews->id, ":status" => PendingNews::STATUS_REJECTED)
+            "group_hash = :group_hash and status != :status",
+            array(":group_hash" => $this->pendingNews->id, ":status" => PendingNews::STATUS_APPROVED)
         );
     }
 
@@ -63,6 +63,7 @@ class NewsComposer extends CApplicationComponent
                     $newsLink          = new NewsLinks();
                     $newsLink->id_news = $news->id;
                     $newsLink->id_pq   = $dNews->pq_id;
+                    $newsLink->save();
                 }
             }
         }
