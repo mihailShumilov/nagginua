@@ -11,13 +11,22 @@ class NaggPublisherCommand extends CConsoleCommand
     public function run($args)
     {
         echo "Start news publish to nagg.in.ua\n";
-        $searchSql  = "SELECT id FROM pending_news WHERE processed = 1 AND status = 'approved' ORDER BY id ASC";
         $newsCount  = PendingNews::model()->countBySql(
-            "SELECT count(id) FROM pending_news WHERE processed = 1 AND status = 'approved'"
+            "SELECT count( pending_news.id )
+FROM pending_news
+LEFT JOIN lock_news ON lock_news.id_news = pending_news.id
+WHERE pending_news.status = 'approved'
+AND pending_news.processed =1
+AND lock_news.id_news IS NULL "
         );
         $counter    = 0;
         while (($row = Yii::app()->db->createCommand(
-                "SELECT id FROM pending_news WHERE processed = 1 AND status = 'approved' ORDER BY id ASC LIMIT 1"
+                "SELECT  pending_news.id
+FROM pending_news
+LEFT JOIN lock_news ON lock_news.id_news = pending_news.id
+WHERE pending_news.status = 'approved'
+AND pending_news.processed =1
+AND lock_news.id_news IS NULL  ORDER BY id ASC LIMIT 1"
             )->query()->read()) !== false) {
             $counter++;
             if (!LockNews::isLocked($row['id'])) {
