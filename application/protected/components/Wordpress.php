@@ -109,7 +109,11 @@ class Wordpress extends CApplicationComponent
         );
 
         $result = $this->makeRequest($this->url . "auth/generate_auth_cookie/", $params);
-        return $result->cookie;
+        if ($result) {
+            return $result->cookie;
+        } else {
+            return false;
+        }
 
     }
 
