@@ -18,6 +18,13 @@ class PageLoader extends CApplicationComponent
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt(
+                    $ch,
+                    CURLOPT_USERAGENT,
+                    'Mozilla/5.0 (Windows; U; Windows NT 5.1; ru-RU; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
+                );
+                curl_setopt($ch, CURLOPT_REFERER, "http://nagg.in.ua/");
+                curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
                 if (isset($postParams) && !empty($postParams)) {
                     curl_setopt($ch, CURLOPT_HTTP_VERSION, '1.1');
                     curl_setopt($ch, CURLOPT_POST, 1);
