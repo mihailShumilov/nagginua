@@ -20,7 +20,7 @@ return array(
         // uncomment the following to use a MySQL database
 
         'db'     => array(
-            'connectionString' => 'mysql:host=localhost;dbname=news',
+            'connectionString' => 'mysql:host=127.0.0.1;dbname=parser',
             'emulatePrepare'   => true,
             'username'         => 'root',
             'password'         => '',
@@ -35,10 +35,10 @@ return array(
                 ),
             ),
         ),
-        'sphinx' => array(
-            'class'            => 'system.db.CDbConnection',
-            'connectionString' => 'mysql:host=127.0.0.1;port=9306',
-        ),
+        'amqp'   => array(
+            'class' => 'application.components.AMQP.CAMQP',
+            'host'  => '127.0.0.1'
+        )
     ),
     'params'     => array(
         // this is used in contact page
