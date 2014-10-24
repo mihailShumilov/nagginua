@@ -35,10 +35,14 @@ return array(
                 ),
             ),
         ),
-        'amqp'   => array(
+        'amqp' => array(
             'class' => 'application.components.AMQP.CAMQP',
-            'host'  => '127.0.0.1'
-        )
+            'host'     => '127.0.0.1',
+            'port'     => '5672',
+            'login'    => 'guest',
+            'password' => 'guest',
+            'vhost'    => '/',
+        ),
     ),
     'params'     => array(
         // this is used in contact page
