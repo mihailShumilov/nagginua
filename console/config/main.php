@@ -22,7 +22,7 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
-        ],
+        ]
     ],
     'params' => $params,
 ];
