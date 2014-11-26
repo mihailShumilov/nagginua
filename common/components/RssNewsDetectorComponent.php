@@ -10,6 +10,11 @@
 
     use Yii;
     use yii\base\Component;
+    use common\components\PageLoaderComponent;
+    use common\models\SourcesSettings;
+    use common\models\ParserQueue;
+    use common\models\PendingNews;
+    use common\models\RssSources;
 
 
     class RssNewsDetectorComponent extends Component
@@ -26,7 +31,7 @@
         {
 
 
-            $rss                     = PageLoader::load( $this->source->url );
+            $rss = PageLoaderComponent::load( $this->source->url );
             $doc                     = new DOMDocument();
             $doc->preserveWhiteSpace = false;
             libxml_use_internal_errors( true );

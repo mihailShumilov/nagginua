@@ -17,10 +17,22 @@
     {
         public function actionIndex()
         {
-            $rssSources = RssSources::find( array( "status" => "active", "is_full" => "0" ) )->all();
-            foreach ($rssSources as $source) {
-                $detector = new RssNewsDetectorComponent( $source );
-                $detector->run();
+            if ($rssSources = RssSources::find( array( "status" => "active", "is_full" => "0" ) )->all()) {
+                foreach ($rssSources as $source) {
+//                    Yii::$app->getDb()->close();
+//                    $pid = pcntl_fork();
+//                    Yii::$app->getDb()->open();
+//                    if ( ! $pid) {
+                    $detector = new RssNewsDetectorComponent( $source );
+                    $detector->run();
+                    exit( 0 );
+//                    }
+                }
+
+//                while (pcntl_waitpid( 0, $status ) != - 1) {
+//                    $status = pcntl_wexitstatus( $status );
+//                    echo "Child $status completed\n";
+//                }
             }
         }
     }

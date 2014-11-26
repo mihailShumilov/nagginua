@@ -55,4 +55,9 @@
                 'updated_at' => 'Updated At',
             ];
         }
+
+        public function getSource()
+        {
+            return $this->hasOne( Sources::className(), [ "id" => "source_id" ] );
+        }
     }
