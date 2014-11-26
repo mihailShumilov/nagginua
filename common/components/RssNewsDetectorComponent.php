@@ -47,10 +47,10 @@
 
         private function parseLinks( $xpath )
         {
-            $patterns                           = SourcesSettings::find( [
+            $patterns = SourcesSettings::findAll( [
                     'source_id' => $this->source->source_id,
                     'name'      => 'rss_news_pattern'
-                ] )->all();
+            ] );
             foreach ($patterns as $pattern) {
 
                 if ($newsLinks = $xpath->query( $pattern->value )) {
@@ -78,11 +78,39 @@
 
         private function processCombine( $xpath )
         {
-            $itemPatterns   = SourcesSettings::getAll( $this->source->source_id, 'rss_news_item_pattern' );
-            $titlePattern   = SourcesSettings::get( $this->source->source_id, 'rss_title' );
-            $contentPattern = SourcesSettings::get( $this->source->source_id, 'rss_content' );
-            $linkPattern    = SourcesSettings::get( $this->source->source_id, 'rss_link' );
-            $imagePattern   = SourcesSettings::get( $this->source->source_id, 'rss_image' );
+            $itemPatterns = SourcesSettings::findAll( [
+                'source_id' => $this->source->source_id,
+                'name'      => 'rss_news_item_pattern'
+            ] );
+            if ($titlePattern = SourcesSettings::findOne( [
+                'source_id' => $this->source->source_id,
+                'name'      => 'rss_title'
+            ] )
+            ) {
+                $titlePattern = $titlePattern->value;
+            }
+            if ($contentPattern = SourcesSettings::findOne( [
+                'source_id' => $this->source->source_id,
+                'name'      => 'rss_content'
+            ] )
+            ) {
+                $contentPattern = $contentPattern->value;
+            }
+            if ($linkPattern = SourcesSettings::findOne( [
+                'source_id' => $this->source->source_id,
+                'name'      => 'rss_link'
+            ] )
+            ) {
+                $linkPattern = $linkPattern->value;
+            }
+            if ($imagePattern = SourcesSettings::findOne( [
+                'source_id' => $this->source->source_id,
+                'name'      => 'rss_image'
+            ] )
+            ) {
+                $imagePattern = $imagePattern->value;
+            }
+
 
 
             foreach ($itemPatterns as $pattern) {
@@ -125,44 +153,50 @@
                         }
 
                         try {
-                            $pqItem             = new ParserQueue();
-                            $pqItem->source_id  = $this->source->source_id;
-                            $pqItem->url        = $newsParams['link'];
-                            $pqItem->status     = ParserQueue::STATUS_INPROCESS;
-                            $pqItem->created_at = new \yii\db\Expression( 'NOW()' );
-                            if ($pqItem->save()) {
+                            if (array_key_exists( "link", $newsParams )) {
 
-                                $pn                 = new PendingNews();
-                                $pn->content        = '&nbsp;';
-                                $pn->search_content = '&nbsp;';
-                                $pn->source_id      = $this->source->source_id;
-                                if (isset( $newsParams['title'] )) {
-                                    $pn->title = $newsParams['title'];
-                                }
-                                $pn->status     = PendingNews::STATUS_SUSPENDED;
-                                $pn->group_hash = md5( time() );
-                                if (isset( $newsParams['image_src'] )) {
-                                    $pn->thumb_src = $newsParams['image_src'];
-                                }
-                                if ($pqItem) {
-                                    $pn->pq_id = $pqItem->id;
-                                }
-                                $pn->created_at = new \yii\db\Expression( "NEW()" );
-                                if ($pn->save()) {
-                                    if ($pqItem) {
-                                        $pqItem->status = ParserQueue::STATUS_DONE;
-                                        $pqItem->save();
+                                $pqItem             = new ParserQueue();
+                                $pqItem->source_id  = $this->source->source_id;
+                                $pqItem->url        = $newsParams['link'];
+                                $pqItem->status     = ParserQueue::STATUS_INPROCESS;
+                                $pqItem->created_at = new \yii\db\Expression( 'NOW()' );
+                                if ($pqItem->save()) {
+
+                                    $pn                 = new PendingNews();
+                                    $pn->content        = '&nbsp;';
+                                    $pn->search_content = '&nbsp;';
+                                    $pn->source_id      = $this->source->source_id;
+                                    if (isset( $newsParams['title'] )) {
+                                        $pn->title = $newsParams['title'];
                                     }
+                                    $pn->status     = ParserQueue::STATUS_SUSPENDED;
+                                    $pn->group_hash = md5( time() );
+                                    if (isset( $newsParams['image_src'] )) {
+                                        $pn->thumb_src = $newsParams['image_src'];
+                                    }
+                                    if ($pqItem) {
+                                        $pn->pq_id = $pqItem->id;
+                                    }
+                                    $pn->created_at = new \yii\db\Expression( "NEW()" );
+                                    if ($pn->save()) {
+                                        if ($pqItem) {
+                                            $pqItem->status = ParserQueue::STATUS_DONE;
+                                            $pqItem->save();
+                                        }
 
+                                    } else {
+                                        if ($pqItem) {
+                                            $pqItem->status = ParserQueue::STATUS_FAIL;
+                                            $pqItem->save();
+                                        }
+                                    }
                                 } else {
-                                    if ($pqItem) {
-                                        $pqItem->status = ParserQueue::STATUS_FAIL;
-                                        $pqItem->save();
-                                    }
+                                    print_r( $pqItem->errors );
                                 }
                             }
 
                         } catch ( \yii\db\Exception $e ) {
+                            print_r( $e->getMessage() );
                         }
 
                     }

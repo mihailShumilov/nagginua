@@ -23,7 +23,7 @@
     class ParserQueue extends \yii\db\ActiveRecord
     {
         const STATUS_NEW = 'new';
-        const STATUS_INPROCESS = 'inprocess';
+        const STATUS_INPROCESS = 'in_progress';
         const STATUS_APPROVED = 'approved';
         const STATUS_SUSPENDED = 'suspended';
         const STATUS_REJECTED = 'rejected';

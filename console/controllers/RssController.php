@@ -17,7 +17,7 @@
     {
         public function actionIndex()
         {
-            if ($rssSources = RssSources::find( array( "status" => "active", "is_full" => "0" ) )->all()) {
+            if ($rssSources = RssSources::findAll( array( "active" => "1", "is_full" => "0" ) )) {
                 foreach ($rssSources as $source) {
 //                    Yii::$app->getDb()->close();
 //                    $pid = pcntl_fork();
@@ -25,7 +25,7 @@
 //                    if ( ! $pid) {
                     $detector = new RssNewsDetectorComponent( $source );
                     $detector->run();
-                    exit( 0 );
+                    Yii::$app->end();
 //                    }
                 }
 
