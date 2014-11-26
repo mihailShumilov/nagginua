@@ -27,6 +27,12 @@
      */
     class PendingNews extends \yii\db\ActiveRecord
     {
+
+        const STATUS_NEW = 'pending';
+        const STATUS_INPROCESS = 'in_process';
+        const STATUS_SUSPENDED = 'suspended';
+        const STATUS_REJECTED = 'rejected';
+        const STATUS_APPROVED = 'approved';
         /**
          * @inheritdoc
          */

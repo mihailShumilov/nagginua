@@ -169,7 +169,7 @@
                                     if (isset( $newsParams['title'] )) {
                                         $pn->title = $newsParams['title'];
                                     }
-                                    $pn->status     = ParserQueue::STATUS_SUSPENDED;
+                                    $pn->status = PendingNews::STATUS_SUSPENDED;
                                     $pn->group_hash = md5( time() );
                                     if (isset( $newsParams['image_src'] )) {
                                         $pn->thumb_src = $newsParams['image_src'];
@@ -177,7 +177,7 @@
                                     if ($pqItem) {
                                         $pn->pq_id = $pqItem->id;
                                     }
-                                    $pn->created_at = new \yii\db\Expression( "NEW()" );
+                                    $pn->created_at = new \yii\db\Expression( "NOW()" );
                                     if ($pn->save()) {
                                         if ($pqItem) {
                                             $pqItem->status = ParserQueue::STATUS_DONE;
@@ -196,7 +196,7 @@
                             }
 
                         } catch ( \yii\db\Exception $e ) {
-                            print_r( $e->getMessage() );
+//                            print_r( $e->getMessage() );
                         }
 
                     }
