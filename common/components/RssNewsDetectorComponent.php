@@ -32,11 +32,11 @@
 
 
             $rss = PageLoaderComponent::load( $this->source->url );
-            $doc                     = new DOMDocument();
+            $doc = new \DOMDocument();
             $doc->preserveWhiteSpace = false;
             libxml_use_internal_errors( true );
             $doc->loadXML( $rss );
-            $xpath = new DOMXpath( $doc );
+            $xpath = new \DOMXpath( $doc );
 
             if ($this->source->is_combine) {
                 $this->processCombine( $xpath );
@@ -47,7 +47,10 @@
 
         private function parseLinks( $xpath )
         {
-            $patterns = SourcesSettings::getAll( $this->source->source_id, 'rss_news_pattern' );
+            $patterns                           = SourcesSettings::find( [
+                    'source_id' => $this->source->source_id,
+                    'name'      => 'rss_news_pattern'
+                ] )->all();
             foreach ($patterns as $pattern) {
 
                 if ($newsLinks = $xpath->query( $pattern->value )) {
@@ -59,13 +62,14 @@
                             $pqItem->source_id  = $this->source->source_id;
                             $pqItem->url        = $url;
                             $pqItem->status     = ParserQueue::STATUS_NEW;
-                            $pqItem->created_at = new CDbExpression( 'NOW()' );
+                            $pqItem->created_at = new  \yii\db\Expression( 'NOW()' );
                             if ($pqItem->save()) {
 
                             } else {
                                 print_r( $pqItem->getErrors() );
                             }
-                        } catch ( CDbException $e ) {
+                        } catch ( \yii\db\Exception $e ) {
+
                         }
                     }
                 }
@@ -125,7 +129,7 @@
                             $pqItem->source_id  = $this->source->source_id;
                             $pqItem->url        = $newsParams['link'];
                             $pqItem->status     = ParserQueue::STATUS_INPROCESS;
-                            $pqItem->created_at = new CDbExpression( 'NOW()' );
+                            $pqItem->created_at = new \yii\db\Expression( 'NOW()' );
                             if ($pqItem->save()) {
 
                                 $pn                 = new PendingNews();
@@ -143,7 +147,7 @@
                                 if ($pqItem) {
                                     $pn->pq_id = $pqItem->id;
                                 }
-                                $pn->created_at = new CDbExpression( "NEW()" );
+                                $pn->created_at = new \yii\db\Expression( "NEW()" );
                                 if ($pn->save()) {
                                     if ($pqItem) {
                                         $pqItem->status = ParserQueue::STATUS_DONE;
@@ -158,7 +162,7 @@
                                 }
                             }
 
-                        } catch ( CDbException $e ) {
+                        } catch ( \yii\db\Exception $e ) {
                         }
 
                     }
