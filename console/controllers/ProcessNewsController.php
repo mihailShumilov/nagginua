@@ -15,7 +15,7 @@
 
         public function actionIndex() {
             $mq = new RabbitMQComponent();
-            $mq->consume( "url", "parse", array( $this, 'processMessage' ) );
+            $mq->consume( "news", "parse_rss", array( $this, 'processMessage' ) );
         }
 
         public static function processMessage( $msg ) {

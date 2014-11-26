@@ -20,11 +20,13 @@
     class RssNewsDetectorComponent extends Component
     {
         private $source;
+        private $mq;
 
         public function __construct( RssSources $source )
         {
             echo "Start parsing: {$source->source->label}\n";
             $this->source = $source;
+            $this->mq = new RabbitMQComponent();
         }
 
         public function run()
@@ -182,6 +184,7 @@
                                         if ($pqItem) {
                                             $pqItem->status = ParserQueue::STATUS_DONE;
                                             $pqItem->save();
+                                            $this->mq->postMessage( "news", "parse_rss", $pn->id );
                                         }
 
                                     } else {
