@@ -28,6 +28,7 @@
         const STATUS_SUSPENDED = 'suspended';
         const STATUS_REJECTED = 'rejected';
         const STATUS_DONE = 'done';
+        const STATUS_FAIL = 'fail';
 
         /**
          * @inheritdoc

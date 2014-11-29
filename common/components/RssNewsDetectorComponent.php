@@ -184,7 +184,8 @@
                                         if ($pqItem) {
                                             $pqItem->status = ParserQueue::STATUS_DONE;
                                             $pqItem->save();
-                                            $this->mq->postMessage( "news", "parse_rss", $pn->id );
+                                            $this->mq->postMessage( "news", "parse_rss",
+                                                json_encode( [ "pn_id" => $pn->id, "pq_id" => $pqItem->id ] ) );
                                         }
 
                                     } else {

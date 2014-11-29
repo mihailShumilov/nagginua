@@ -8,20 +8,35 @@
 
     namespace console\controllers;
 
+    use common\models\ParserQueue;
+    use common\models\PendingNews;
     use yii\console\Controller;
     use common\components\RabbitMQComponent;
+    use common\components\NewsParserComponent;
 
-    class ProcessNewsController extends \yii\console\Controller {
 
-        public function actionIndex() {
+    class ProcessNewsController extends \yii\console\Controller
+    {
+
+        public function actionIndex()
+        {
             $mq = new RabbitMQComponent();
             $mq->consume( "news", "parse_rss", array( $this, 'processMessage' ) );
         }
 
-        public static function processMessage( $msg ) {
+        public static function processMessage( $msg )
+        {
             echo "\n--------\n";
             echo $msg->body;
             echo "\n--------\n";
+
+            $params = json_decode( $msg->body );
+            print_r( $params );
+            $pqItem     = ParserQueue::findOne( [ "id" => $params->pq_id ] );
+            $pnItem     = PendingNews::findOne( [ "id" => $params->pn_id ] );
+            $newsParser = new NewsParserComponent( $pqItem, $pnItem );
+            $newsParser->run();
+
 
             $msg->delivery_info['channel']->basic_ack( $msg->delivery_info['delivery_tag'] );
         }
