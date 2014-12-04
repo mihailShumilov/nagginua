@@ -148,6 +148,10 @@
                                         $this->parserQueue->status = ParserQueue::STATUS_DONE;
                                         $this->parserQueue->save();
                                         $this->fillSearchDB( $searchContent, $pn->id );
+
+                                        $mq = new RabbitMQComponent();
+                                        $mq->postMessage( "news", "compile", json_encode( [ "pn_id" => $pn->id ] ) );
+
                                         return true;
                                     } else {
                                         print_r( $pn->getErrors() );

@@ -149,6 +149,8 @@
                             $parser_queue->save();
                         }
                         PendingNews::fillSearchDB( $searchContent, $pn->id );
+                        $mq = new RabbitMQComponent();
+                        $mq->postMessage( "news", "compile", json_encode( [ "pn_id" => $pn->id ] ) );
                     } else {
                         if ($parser_queue) {
                             $parser_queue->status = ParserQueue::STATUS_FAIL;
