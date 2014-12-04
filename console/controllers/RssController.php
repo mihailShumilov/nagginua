@@ -12,19 +12,25 @@
     use common\components\RabbitMQComponent;
     use common\models\RssSources;
     use common\components\RssNewsDetectorComponent;
+    use common\components\RssNewsParserComponent;
 
     class RssController extends \yii\console\Controller
     {
         public function actionIndex()
         {
-            if ($rssSources = RssSources::findAll( array( "active" => "1", "is_full" => "0" ) )) {
+            if ($rssSources = RssSources::findAll( array( "active" => "1" ) )) {
                 foreach ($rssSources as $source) {
                     Yii::$app->getDb()->close();
                     $pid = pcntl_fork();
                     Yii::$app->getDb()->open();
                     if ( ! $pid) {
-                        $detector = new RssNewsDetectorComponent( $source );
-                        $detector->run();
+                        if ($source->is_full == 0) {
+                            $detector = new RssNewsDetectorComponent( $source );
+                            $detector->run();
+                        } else {
+                            $parser = new RssNewsParserComponent( $source );
+                            $parser->run();
+                        }
                         Yii::$app->end();
                     }
                 }

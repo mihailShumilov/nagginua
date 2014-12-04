@@ -57,9 +57,10 @@
             }
         }
 
-        private function replace4byte( $string )
+        public static function replace4byte( $string )
         {
-            return mb_check_encoding( $string, 'UTF-8' ) ? $string : utf8_encode( $string );
+            return html_entity_decode( mb_convert_encoding( $string, 'HTML-ENTITIES',
+                "UTF-8" ) );
         }
 
         public function run()
@@ -109,13 +110,14 @@
                             $searchContent = preg_replace( '/\s+/', ' ', $searchContent );
                             $searchContent = html_entity_decode( mb_convert_encoding( $searchContent, 'HTML-ENTITIES',
                                     "UTF-8" ) );
+                            $searchContent = preg_replace( "/[^а-яa-z ]/ui", "", $searchContent );
 
                             if (count( explode( " ",
                                         $searchContent ) ) >= Settings::findOne( [ 'name' => 'news_min_length' ] )->value
                             ) {
                                 if ($this->pendingNews) {
                                     $this->pendingNews->content        = $content;
-                                    $this->pendingNews->search_content = $this->replace4byte( $searchContent );
+                                    $this->pendingNews->search_content = self::replace4byte( $searchContent );
                                     $this->pendingNews->status         = PendingNews::STATUS_NEW;
 
                                     if ( ! $this->pendingNews->thumb_src) {
@@ -136,12 +138,12 @@
                                     $pn->source_id      = $this->source->id;
                                     $pn->title          = $title;
                                     $pn->content        = $content;
-                                    $pn->search_content = $searchContent;
+                                    $pn->search_content = self::replace4byte( $searchContent );
                                     $pn->status         = PendingNews::STATUS_NEW;
                                     $pn->group_hash     = md5( time() );
                                     $pn->thumb_src      = $this->detectThumb( $html, $content );
                                     $pn->pq_id          = $this->parserQueue->id;
-                                    $pn->created_at     = new CDbExpression( "NOW()" );
+                                    $pn->created_at = new \yii\db\Expression( "NOW()" );
                                     if ($pn->save()) {
                                         $this->parserQueue->status = ParserQueue::STATUS_DONE;
                                         $this->parserQueue->save();
