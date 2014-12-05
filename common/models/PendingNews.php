@@ -3,6 +3,7 @@
     namespace common\models;
 
     use common\components\NewsParserComponent;
+    use common\components\RabbitMQComponent;
     use Yii;
 
     /**
@@ -150,7 +151,7 @@
                         }
                         PendingNews::fillSearchDB( $searchContent, $pn->id );
                         $mq = new RabbitMQComponent();
-                        $mq->postMessage( "news", "compile", json_encode( [ "pn_id" => $pn->id ] ) );
+                        $mq->postMessage( "compile", "compile", json_encode( [ "pn_id" => $pn->id ] ) );
                     } else {
                         if ($parser_queue) {
                             $parser_queue->status = ParserQueue::STATUS_FAIL;

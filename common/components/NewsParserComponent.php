@@ -150,7 +150,7 @@
                                         $this->fillSearchDB( $searchContent, $pn->id );
 
                                         $mq = new RabbitMQComponent();
-                                        $mq->postMessage( "news", "compile", json_encode( [ "pn_id" => $pn->id ] ) );
+                                        $mq->postMessage( "compile", "compile", json_encode( [ "pn_id" => $pn->id ] ) );
 
                                         return true;
                                     } else {

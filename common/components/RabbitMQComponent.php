@@ -49,7 +49,7 @@
             $this->channel->exchange_declare( $route, 'direct', false, true, false );
             $this->channel->queue_bind( $queue, $route );
 
-            $msg = new AMQPMessage( $text, array( 'content_type' => 'text/plain', 'delivery_mode' => 2 ) );
+            $msg = new AMQPMessage( $text, array( 'content_type' => 'application/json', 'delivery_mode' => 2 ) );
             $this->channel->basic_publish( $msg, $route );
         }
 

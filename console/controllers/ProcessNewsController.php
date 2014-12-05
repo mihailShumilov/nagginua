@@ -22,17 +22,16 @@
         public function actionIndex()
         {
             $mq = new RabbitMQComponent();
-            $mq->consume( "news", "parse_rss", array( $this, 'processMessage' ) );
+            $mq->consume( "parse", "parse_rss", array( $this, 'processMessage' ) );
         }
 
         public static function processMessage( $msg )
         {
-            echo "\n--------\n";
-            echo $msg->body;
-            echo "\n--------\n";
+//            print_r($msg);
             try {
                 $params = json_decode( $msg->body );
                 print_r( $params );
+
                 $pqItem     = ParserQueue::findOne( [ "id" => $params->pq_id ] );
                 $pnItem     = PendingNews::findOne( [ "id" => $params->pn_id ] );
                 $newsParser = new NewsParserComponent( $pqItem, $pnItem );
@@ -40,7 +39,7 @@
             } catch ( Exception $e ) {
                 echo $e->getMessage();
                 $mq = new RabbitMQComponent();
-                $mq->postMessage( "news", "parse_rss", $msg->body );
+                $mq->postMessage( "parse", "parse_rss", $msg->body );
             }
 
 
