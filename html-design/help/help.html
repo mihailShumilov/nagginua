@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+<title>:: Help File :: MyPassion ::</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	$("div.title").click(function(e){
+		e.preventDefault();
+		$(this).toggleClass("show").next(".desc").slideToggle("slow");
+		return true;
+	});
+	
+	$("a[href='#top']").click(function() {
+		$("html, body").animate({ scrollTop: 0 }, "slow");
+		return false;
+	});
+	
+});
+
+</script>
+
+</head>
+
+<body>
+<!-- Wrapper -->
+<div class="body-wrapper">
+    <div class="container">
+    	
+        <div class="totop"><a href="#top">TOP</a></div>
+    
+		
+        <!-- Header -->
+        <div class="header">
+        	<div class="sahifa">"News" -  Template Helpfile by MyPassion</div>
+        
+        	<div class="lh">
+            	<p><span>Created Date:</span> 30/05/2013</p>
+                <p><span>Created By:</span> MyPassion</p>
+                <p><span>For Support:</span> <a href="http://www.themeforest.net/user/MyPassion">Contact via my profile page</a></p>
+            </div>
+            <div class="rh">
+            	<p>Thank you for purchasing my theme. If you have any questions that are beyond the scope of this help file, please feel free to email via my user page <a href="http://www.themeforest.net/user/MyPassion">contact form </a>. Thanks so much!</p>
+            </div>
+            
+        </div>
+        <!-- /Header -->
+        
+   
+        <!-- Content -->
+        <div class="content">
+        	
+            <!-- BOX -->
+        	<div class="box">
+                <div class="title">1. HTML Structure <span></span></div>
+                <div class="desc">
+                	<p>The template includes <strong>6 html files</strong>. This theme is a flexible layout with max 4 column. All of the information within the main content area is nested within a div with a class of <strong>"body-wrapper"</strong>. You have to open index page in order to change it. Here is the <strong>general structure</strong>:</p>
+                    <img src="footage/1.png" alt="MyPassion" />
+                    <p>If you would like to edit the <em>color</em>, <em>font</em>, or <em>style</em> of any elements in this template, you could do by using <em>"Inspect Element"</em> on <strong>Chrome, Safari and Opera</strong>(press right click on browser ). On <strong>Mozilla</strong>, you have to install <em>firebug</em>(firefox add-on). It is really powerful tool to work with html and css codes</p>
+                    
+                </div>
+            </div>
+            <!-- /BOX -->
+            
+            <!-- BOX -->
+        	<div class="box">
+                <div class="title">2. CSS Files and Structure <span></span></div>
+                <div class="desc">
+                	<p>I'm using <strong>9 CSS files</strong> in this theme. The first file <strong>(style.css)</strong> contains all of the specific stylings for the page. The file is separated into sections using:</p>
+                    <img src="footage/2.png" alt="MyPassion" />
+                    <p>If you would like to <em>edit</em> a specific section of the site, simply find the appropriate label in the CSS file, and then scroll down until you find the appropriate style that needs to be edited.</p>
+                    <p><strong>Other CSS files:</strong></p>
+                    <ul>
+                    	<li>base.css - includes <em>common</em> styles</li>
+                        <li>960.css - includes <em>column</em> styles</li>
+                        <li>superfish.css - for submenu</li>
+                        <li>ui.css</li>
+                        <li>flexslider.css - for flexsible slider</li>
+                        <li>devices/1000.css - styles for sreen size less than <em>960px</em></li>
+                        <li>devices/767.css - styles for sreen size less than <em>768px</em></li>
+                        <li>devices/479.css - styles for sreen size less than <em>480px</em></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /BOX -->
+            
+            <!-- BOX -->
+        	<div class="box">
+                <div class="title">3. JavaScripts <span></span></div>
+                <div class="desc">
+                	<p>All call actions are run in <strong>mypassion.js</strong></p>
+                    <p><strong>Attention</strong> : If you romove any of javascripts, please don't forget to remove <em>js code call action</em> that belongs to removed js from <em>mypassion.js</em> . Otherwise your site works inproperly</p>
+                    <p><strong>Other JavaScript files:</strong></p>
+                    <ul>
+                    	<li><em>mypassion.js</em> - includes <em>call actions</em></li>
+                        <li><em>html5.js</em> - used for IE</li>
+                        <li><em>jquery.js</em></li>
+                        <li><em>easing.min.js</em></li>
+                        <li><em>1.8.2.min.js  -  minimal jQuery library</em></li>
+                        <li><em>jflickrfeed.min.js</em> - for flickr widget</li>
+                        <li><em>ui.js</em></li>
+                        <li><em>jtwt.min.js</em> - for Twitter widget</li>
+                        <li><em>customM.js - for HTML5 tags</em></li>
+                        <li><em>superfish.js</em> - for submenu</li>
+                        <li><em>mobilemenu.js</em> - for screen show effects</li>
+                        <li><em>carouFredSel.js</em> - for carousel slider</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /BOX -->
+            
+            <!-- BOX -->
+        	<div class="box">
+                <div class="title">4. PSD Files <span></span></div>
+                <div class="desc">
+                	<p>I've included <strong>7 psd files</strong> with this theme:</strong></p>
+                    <ul>
+                    	<li>Index</li>
+                        <li>Index Black</li>
+                        <li>Sub Menu</li>
+                        <li>News Details</li>
+                        <li>Reviews</li>
+                        <li>Contact</li>
+                        <li>Features</li>
+                    </ul>
+                    <p>If you'd like to <em>change</em> the color of the theme, you can use these psd files.</p>
+                </div>
+            </div>
+            <!-- /BOX -->
+            
+            <!-- BOX -->
+        	<div class="box">
+                <div class="title">5. Sources and Credits<span></span></div>
+                <div class="desc">
+                	<p>I've used the following images, icons or other files as listed.</p>
+                    <ul>
+                    	<li><strong>Icons</strong> - These Icons by fontello.com. Free for Commercial Use. </li>
+                        <li><strong>Images</strong> - from internet and licenced under creative commons</li>
+                        <li><strong>Font</strong> - Google Web Font "MerriWheather Sans"</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /BOX -->
+            
+            <!-- BOX -->
+        	<div class="box">
+                <div class="title">6. Contact Form<span></span></div>
+                <div class="desc">
+                	<p><strong>Important:</strong> Open <em>plugin/sendmail.php</em> file and change <em>email</em> in line 3. <br /> You can find other texts which belong to contact form.</p>
+                </div>
+            </div>
+            <!-- /BOX -->
+         
+        </div>
+        <!-- /Content -->
+
+        
+     
+    </div>
+</div>
+
+<!-- /Wrapper -->
+</body>
+</html>
