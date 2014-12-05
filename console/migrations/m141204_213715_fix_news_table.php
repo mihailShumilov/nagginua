@@ -10,9 +10,9 @@
             $this->dropTable( "news" );
             $this->execute( "CREATE TABLE `news` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` text CHARACTER SET latin1,
-  `thumb` text CHARACTER SET latin1,
-  `status` enum('in_process','done','deleted') CHARACTER SET latin1 DEFAULT 'in_process',
+    `title` text CHARACTER SET utf8mb4,
+  `thumb` text CHARACTER SET utf8mb4,
+  `status` enum('in_process','done','deleted') CHARACTER SET utf8mb4 DEFAULT 'in_process',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),

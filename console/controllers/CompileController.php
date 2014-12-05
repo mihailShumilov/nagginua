@@ -8,6 +8,8 @@
 
     namespace console\controllers;
 
+    use common\components\SimilarDetectComponent;
+    use common\models\PendingNews;
     use yii\console\Controller;
     use common\components\RabbitMQComponent;
 
@@ -21,9 +23,11 @@
 
         public static function processMessage( $msg )
         {
-//        print_r($msg);
             $params = json_decode( $msg->body );
             print_r( $params );
-//        $msg->delivery_info['channel']->basic_ack( $msg->delivery_info['delivery_tag'] );
+            $pn       = PendingNews::findOne( [ 'id' => $params->pn_id ] );
+            $detector = new SimilarDetectComponent( $pn );
+            $detector->detect();
+            $msg->delivery_info['channel']->basic_ack( $msg->delivery_info['delivery_tag'] );
         }
     }
