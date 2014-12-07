@@ -69,7 +69,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $this->layout = 'front';
-        $topNews = News::find()->orderBy( [ "id" => "desc" ] )->limit( 4 )->all();
+        $topNews = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 4 )->all();
         return $this->render( 'index', [
             'topNews' => $topNews
         ] );

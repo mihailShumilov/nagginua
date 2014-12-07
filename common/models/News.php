@@ -58,4 +58,9 @@
             }
             return parent::beforeSave( $insert );
         }
+
+        public function getThumbLink( $type = "thumbNews" )
+        {
+            return '/uploads/' . date( "Y" ) . '/' . date( "m" ) . "/" . date( "d" ) . "/" . $this->id . "/" . $type . ".jpg";
+        }
     }

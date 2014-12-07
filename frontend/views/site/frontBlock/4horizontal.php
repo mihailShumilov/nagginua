@@ -5,7 +5,8 @@
         <ul class="block">
             <?php foreach ($data as $item): ?>
                 <li>
-                    <a href="/<?= $item->id; ?>"><img src="<?= $item->thumb; ?>" alt="MyPassion" class="alignleft"/></a>
+                    <a href="/<?= $item->id; ?>"><img src="<?= $item->getThumbLink( 'thumbNews' ); ?>" alt="MyPassion"
+                                                      class="alignleft"/></a>
 
                     <p>
                         <span><?= date( "d M, Y", strtotime( $item->created_at ) ); ?></span>
