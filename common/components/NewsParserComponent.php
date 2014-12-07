@@ -14,6 +14,7 @@
     use common\models\TitleStopWords;
     use common\models\ExcludeElements;
     use common\models\Settings;
+    use yii\base\Exception;
 
     require_once( 'vendor/mihailshumilov/documenthash/DocumentHash.php' );
     require_once( 'vendor/mihailshumilov/readability/Readability.php' );
@@ -98,7 +99,7 @@
                         $content = $this->processExcludeElements( $content );
                         if ($date = $this->processPublishDate( $html )) {
                             if ( ! ( date( "Y-m-d" ) == date( "Y-m-d", $date ) )) {
-                                throw new CException( "Old post" );
+                                throw new Exception( "Old post" );
                             }
                         }
 
