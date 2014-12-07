@@ -34,6 +34,7 @@
                 'source_id' => $this->source->source_id,
                 'name'      => 'rss_news_item_pattern'
             ] );
+
             if ($titlePattern = SourcesSettings::findOne( [
                 'source_id' => $this->source->source_id,
                 'name'      => 'rss_title'
@@ -70,7 +71,6 @@
             $rss                     = PageLoaderComponent::load( $this->source->url );
 
             preg_match( '/<\?xml.*?encoding=(\'|")(.*)("|\")/i', $rss, $matches );
-            print_r( $matches );
             if (isset( $matches[2] )) {
                 $charset = $matches[2];
                 $rss     = mb_convert_encoding( $rss, "UTF-8", $charset );
@@ -83,9 +83,11 @@
             libxml_use_internal_errors( true );
             $doc->loadXML( $rss );
             $xpath = new \DOMXpath( $doc );
+
             foreach ($this->itemPatterns as $pattern) {
 
                 if ($newsList = $xpath->query( $pattern->value )) {
+
                     for ($i = 0; $i < $newsList->length; $i ++) {
                         $news                 = $newsList->item( $i );
                         $newsParams           = array();
@@ -124,6 +126,7 @@
                             }
                         }
 
+
                         try {
                             $pqItem = ParserQueue::findOne( [ 'url' => $newsParams['link'] ] );
                             if ( ! $pqItem) {
@@ -144,7 +147,8 @@
                                     );
                                 }
                             }
-                        } catch ( CDbException $e ) {
+                        } catch ( Exception $e ) {
+                            print_r( $e->getMessage() );
                         }
 
                     }

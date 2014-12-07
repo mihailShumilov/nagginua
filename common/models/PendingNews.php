@@ -126,10 +126,6 @@
 
             if ($searchContent = trim( strip_tags( $content ) )) {
 
-                $searchContent = preg_replace( '/\n/', ' ', $searchContent );
-                $searchContent = preg_replace( "/[^а-яa-z ]/ui", "", $searchContent );
-                $searchContent = preg_replace( '/\s+/', ' ', $searchContent );
-                $searchContent = NewsParserComponent::replace4byte( $searchContent );
                 $searchContent = preg_replace( "/[^а-яa-z ]/ui", "", $searchContent );
 
                 if (count( explode( " ",
