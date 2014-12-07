@@ -326,6 +326,7 @@
             }
             try {
                 $parsedNews = array();
+//                $html = iconv(mb_detect_encoding($html, mb_detect_order(), true), "UTF-8", $html);
                 if (function_exists( 'tidy_parse_string' )) {
                     $tidy = tidy_parse_string( $html, array(), 'UTF8' );
                     $tidy->cleanRepair();

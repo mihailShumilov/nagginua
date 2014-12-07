@@ -2,6 +2,7 @@
 
     namespace common\models;
 
+    use common\components\KeywordDetector;
     use common\components\NewsParserComponent;
     use common\components\RabbitMQComponent;
     use Yii;
@@ -35,6 +36,7 @@
         const STATUS_SUSPENDED = 'suspended';
         const STATUS_REJECTED = 'rejected';
         const STATUS_APPROVED = 'approved';
+
         /**
          * @inheritdoc
          */
@@ -129,7 +131,7 @@
                 $searchContent = preg_replace( "/[^а-яa-z ]/ui", "", $searchContent );
 
                 if (count( explode( " ",
-                            $searchContent ) ) >= Settings::findOne( [ 'name' => 'news_min_length' ] )->value
+                        $searchContent ) ) >= Settings::findOne( [ 'name' => 'news_min_length' ] )->value
                 ) {
 
                     $pn                 = new PendingNews();
@@ -149,9 +151,7 @@
                             $parser_queue->status = ParserQueue::STATUS_DONE;
                             $parser_queue->save();
                         }
-                        PendingNews::fillSearchDB( $searchContent, $pn->id );
-                        $mq = new RabbitMQComponent();
-                        $mq->postMessage( "compile", "compile", json_encode( [ "pn_id" => $pn->id ] ) );
+
                     } else {
                         if ($parser_queue) {
                             $parser_queue->status = ParserQueue::STATUS_FAIL;
@@ -183,5 +183,39 @@
                 }
             }
 
+        }
+
+        public function afterSave( $insert, $changedAttributes )
+        {
+
+            if ($insert) {
+                self::fillSearchDB( $this->search_content, $this->id );
+                self::fillTags( $this->id, $this->search_content );
+                $mq = new RabbitMQComponent();
+                $mq->postMessage( "compile", "compile", json_encode( [ "pn_id" => $this->id ] ) );
+            }
+            return parent::afterSave( $insert, $changedAttributes );
+        }
+
+        public static function fillTags( $id_news, $content )
+        {
+            if ($tagList = KeywordDetector::detect( $content )) {
+                foreach ($tagList as $tagName) {
+                    $tagName = NewsParserComponent::replace4byte( $tagName );
+                    $tag     = Tags::findOne( [ 'name' => $tagName ] );
+                    if ( ! $tag) {
+                        $tag       = new Tags();
+                        $tag->name = $tagName;
+                        $tag->save();
+                    }
+
+                    $nht          = new NewsHasTags();
+                    $nht->news_id = $id_news;
+                    $nht->tag_id  = $tag->id;
+                    if ($nht->save()) {
+                        $tag->updateCounters( [ 'cnt' => 1 ] );
+                    }
+                }
+            }
         }
     }
