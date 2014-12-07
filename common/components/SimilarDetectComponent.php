@@ -134,6 +134,10 @@
 
             $news->status = "done";
             $news->save();
+            if ($news->thumb) {
+                $mq = new RabbitMQComponent();
+                $mq->postMessage( "image", "image", json_encode( [ "news_id" => $news->id, "src" => $news->thumb ] ) );
+            }
             return $news->id;
         }
 
