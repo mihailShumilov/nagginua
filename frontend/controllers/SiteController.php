@@ -7,6 +7,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\models\News;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -68,7 +69,10 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $this->layout = 'front';
-        return $this->render('index');
+        $topNews = News::find()->orderBy( [ "id" => "desc" ] )->limit( 4 )->all();
+        return $this->render( 'index', [
+            'topNews' => $topNews
+        ] );
     }
 
     public function actionLogin()
