@@ -34,8 +34,10 @@
 
                 $pqItem     = ParserQueue::findOne( [ "id" => $params->pq_id ] );
                 $pnItem     = PendingNews::findOne( [ "id" => $params->pn_id ] );
-                $newsParser = new NewsParserComponent( $pqItem, $pnItem );
-                $newsParser->run();
+                if ($pqItem && $pnItem) {
+                    $newsParser = new NewsParserComponent( $pqItem, $pnItem );
+                    $newsParser->run();
+                }
             } catch ( Exception $e ) {
                 echo $e->getMessage();
                 $mq = new RabbitMQComponent();

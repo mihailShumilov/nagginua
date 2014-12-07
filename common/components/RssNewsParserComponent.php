@@ -115,21 +115,24 @@
                         }
 
                         try {
-                            $pqItem             = new ParserQueue();
-                            $pqItem->source_id  = $this->source->source_id;
-                            $pqItem->url        = $newsParams['link'];
-                            $pqItem->status     = ParserQueue::STATUS_INPROCESS;
-                            $pqItem->created_at = new \yii\db\Expression( 'NOW()' );
-                            if ($pqItem->save()) {
+                            $pqItem = ParserQueue::findOne( [ 'url' => $newsParams['link'] ] );
+                            if ( ! $pqItem) {
+                                $pqItem             = new ParserQueue();
+                                $pqItem->source_id  = $this->source->source_id;
+                                $pqItem->url        = $newsParams['link'];
+                                $pqItem->status     = ParserQueue::STATUS_INPROCESS;
+                                $pqItem->created_at = new \yii\db\Expression( 'NOW()' );
+                                if ($pqItem->save()) {
 
-                                PendingNews::add(
-                                    $newsParams['source'],
-                                    $newsParams['title'],
-                                    $newsParams['content'],
-                                    isset( $newsParams['image_src'] ) ? $newsParams['image_src'] : false,
-                                    PendingNews::STATUS_NEW,
-                                    $pqItem
-                                );
+                                    PendingNews::add(
+                                        $newsParams['source'],
+                                        $newsParams['title'],
+                                        $newsParams['content'],
+                                        isset( $newsParams['image_src'] ) ? $newsParams['image_src'] : false,
+                                        PendingNews::STATUS_NEW,
+                                        $pqItem
+                                    );
+                                }
                             }
                         } catch ( CDbException $e ) {
                         }

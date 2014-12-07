@@ -15,6 +15,8 @@
     use common\models\ExcludeElements;
     use common\models\Settings;
     use yii\base\Exception;
+    use \ForceUTF8\Encoding;
+
 
     require_once( 'vendor/mihailshumilov/documenthash/DocumentHash.php' );
     require_once( 'vendor/mihailshumilov/readability/Readability.php' );
@@ -60,14 +62,16 @@
 
         public static function replace4byte( $string )
         {
-            return html_entity_decode( mb_convert_encoding( $string, 'HTML-ENTITIES',
-                "UTF-8" ) );
+            return $string;
         }
 
         public function run()
         {
             echo "Try parse `{$this->url}`\n";
             if ($html = PageLoaderComponent::load( $this->url )) {
+                $html = Encoding::toUTF8( $html );
+                $html = Encoding::fixUTF8( $html );
+                die( $html );
                 try {
                     if (function_exists( 'tidy_parse_string' )) {
                         $tidy = tidy_parse_string( $html, array(), 'UTF8' );
@@ -109,8 +113,6 @@
                             $searchContent = preg_replace( '/\n/', ' ', $searchContent );
                             $searchContent = preg_replace( "/[^а-яa-z ]/ui", "", $searchContent );
                             $searchContent = preg_replace( '/\s+/', ' ', $searchContent );
-                            $searchContent = html_entity_decode( mb_convert_encoding( $searchContent, 'HTML-ENTITIES',
-                                    "UTF-8" ) );
                             $searchContent = preg_replace( "/[^а-яa-z ]/ui", "", $searchContent );
 
                             if (count( explode( " ",

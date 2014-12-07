@@ -19,6 +19,7 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "videlalvaro/php-amqplib": "*",
+        "neitanod/forceutf8": "dev-master",
         "mihailshumilov/documenthash": "*",
         "mihailshumilov/readability": "*"
     },

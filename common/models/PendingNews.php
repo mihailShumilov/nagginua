@@ -7,6 +7,8 @@
     use common\components\RabbitMQComponent;
     use Yii;
 
+    require_once( 'vendor/mihailshumilov/documenthash/DocumentHash.php' );
+
     /**
      * This is the model class for table "pending_news".
      *
@@ -187,8 +189,7 @@
 
         public function afterSave( $insert, $changedAttributes )
         {
-
-            if ($insert) {
+            if (( $changedAttributes['search_content'] != $this->oldAttributes['search_content'] ) && ( $changedAttributes['search_content'] != '' )) {
                 self::fillSearchDB( $this->search_content, $this->id );
                 self::fillTags( $this->id, $this->search_content );
                 $mq = new RabbitMQComponent();
