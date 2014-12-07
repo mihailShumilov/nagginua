@@ -15,6 +15,7 @@
     use common\models\PendingNews;
     use common\models\Settings;
     use yii\base\Component;
+    use yii\db\Expression;
 
     require_once( 'vendor/mihailshumilov/documenthash/DocumentHash.php' );
 

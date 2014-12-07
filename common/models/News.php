@@ -3,6 +3,7 @@
     namespace common\models;
 
     use Yii;
+    use yii\db\Expression;
 
     /**
      * This is the model class for table "news".
@@ -48,5 +49,13 @@
                 'created_at' => 'Created At',
                 'updated_at' => 'Updated At',
             ];
+        }
+
+        public function beforeSave( $insert )
+        {
+            if ($insert) {
+                $this->created_at = new Expression( "NOW()" );
+            }
+            return parent::beforeSave( $insert );
         }
     }
