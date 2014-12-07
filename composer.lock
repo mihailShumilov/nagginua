@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d2af9ad4adda9b1e8cde41b1d41dc635",
+    "hash": "59cb5ce51015f16989ab34cd2f7fa390",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -102,16 +102,16 @@
         },
         {
             "name": "bower-asset/jquery.inputmask",
-            "version": "3.1.41",
+            "version": "3.1.44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RobinHerbots/jquery.inputmask.git",
-                "reference": "9c2c236cf29b3e78b635f2ba3c588174336d9228"
+                "reference": "c95fe993f91e1da2069a26d84eaa372835842286"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/9c2c236cf29b3e78b635f2ba3c588174336d9228",
-                "reference": "9c2c236cf29b3e78b635f2ba3c588174336d9228",
+                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/c95fe993f91e1da2069a26d84eaa372835842286",
+                "reference": "c95fe993f91e1da2069a26d84eaa372835842286",
                 "shasum": ""
             },
             "require": {
@@ -380,17 +380,51 @@
             "time": "2014-11-27 08:34:25"
         },
         {
+            "name": "neitanod/forceutf8",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/neitanod/forceutf8.git",
+                "reference": "d528dcf9e3eee96ecaabe250ef572ff916d8a108"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/neitanod/forceutf8/zipball/d528dcf9e3eee96ecaabe250ef572ff916d8a108",
+                "reference": "d528dcf9e3eee96ecaabe250ef572ff916d8a108",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "ForceUTF8\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Sebastián Grignoli",
+                    "email": "grignoli@gmail.com"
+                }
+            ],
+            "description": "PHP Class Encoding featuring popular Encoding::toUTF8() function --formerly known as forceUTF8()-- that fixes mixed encoded strings.",
+            "homepage": "https://github.com/neitanod/forceutf8",
+            "time": "2014-12-02 19:10:36"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "84ff290871c3436c3703ce15ec5e344da0b59472"
+                "reference": "e29c7b692bae6610b137670d6749151fd6e41608"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/84ff290871c3436c3703ce15ec5e344da0b59472",
-                "reference": "84ff290871c3436c3703ce15ec5e344da0b59472",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/e29c7b692bae6610b137670d6749151fd6e41608",
+                "reference": "e29c7b692bae6610b137670d6749151fd6e41608",
                 "shasum": ""
             },
             "require": {
@@ -429,7 +463,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2014-11-23 19:27:48"
+            "time": "2014-12-05 14:17:46"
         },
         {
             "name": "videlalvaro/php-amqplib",
@@ -437,12 +471,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/videlalvaro/php-amqplib.git",
-                "reference": "b97f2c420a6e2cd5a4e0607615d482c1ff18f137"
+                "reference": "4d57fde8c3eb5b4a9577cef15ab874150c7655cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/videlalvaro/php-amqplib/zipball/b97f2c420a6e2cd5a4e0607615d482c1ff18f137",
-                "reference": "b97f2c420a6e2cd5a4e0607615d482c1ff18f137",
+                "url": "https://api.github.com/repos/videlalvaro/php-amqplib/zipball/4d57fde8c3eb5b4a9577cef15ab874150c7655cb",
+                "reference": "4d57fde8c3eb5b4a9577cef15ab874150c7655cb",
                 "shasum": ""
             },
             "require": {
@@ -483,7 +517,7 @@
                 "queue",
                 "rabbitmq"
             ],
-            "time": "2014-11-21 12:53:58"
+            "time": "2014-11-27 15:11:55"
         },
         {
             "name": "yiisoft/yii2",
@@ -491,12 +525,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "e1a93d6b3b43437e573c3f536ba01fe68d5755b2"
+                "reference": "59765eaa74b82e6607a893a0c03f7444bc759645"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/e1a93d6b3b43437e573c3f536ba01fe68d5755b2",
-                "reference": "e1a93d6b3b43437e573c3f536ba01fe68d5755b2",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/59765eaa74b82e6607a893a0c03f7444bc759645",
+                "reference": "59765eaa74b82e6607a893a0c03f7444bc759645",
                 "shasum": ""
             },
             "require": {
@@ -571,7 +605,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-11-27 01:03:33"
+            "time": "2014-12-06 15:09:47"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -579,12 +613,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-bootstrap.git",
-                "reference": "23b44e609ba8a6d46a49518f448a67145fcce02f"
+                "reference": "f632f47746ca4ea84a77e9ee631e997e027de0b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/23b44e609ba8a6d46a49518f448a67145fcce02f",
-                "reference": "23b44e609ba8a6d46a49518f448a67145fcce02f",
+                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/f632f47746ca4ea84a77e9ee631e997e027de0b3",
+                "reference": "f632f47746ca4ea84a77e9ee631e997e027de0b3",
                 "shasum": ""
             },
             "require": {
@@ -617,7 +651,7 @@
                 "bootstrap",
                 "yii2"
             ],
-            "time": "2014-11-26 20:41:36"
+            "time": "2014-12-06 14:36:42"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -751,12 +785,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "d6d0d9d7caf1083cd458836898644dffb714162d"
+                "reference": "eebe556a7c5ec7df04b65584d78adf8252c8e10f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/d6d0d9d7caf1083cd458836898644dffb714162d",
-                "reference": "d6d0d9d7caf1083cd458836898644dffb714162d",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/eebe556a7c5ec7df04b65584d78adf8252c8e10f",
+                "reference": "eebe556a7c5ec7df04b65584d78adf8252c8e10f",
                 "shasum": ""
             },
             "require": {
@@ -792,7 +826,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-11-21 08:40:16"
+            "time": "2014-12-05 13:11:34"
         },
         {
             "name": "phpspec/php-diff",
@@ -879,12 +913,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "12fdba8357249729a1a2cf2e4676b309611eaa58"
+                "reference": "25dfde7bb442f23345acf45e6bf7fddcf1db989d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/12fdba8357249729a1a2cf2e4676b309611eaa58",
-                "reference": "12fdba8357249729a1a2cf2e4676b309611eaa58",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/25dfde7bb442f23345acf45e6bf7fddcf1db989d",
+                "reference": "25dfde7bb442f23345acf45e6bf7fddcf1db989d",
                 "shasum": ""
             },
             "require": {
@@ -918,7 +952,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2014-11-20 09:28:05"
+            "time": "2014-12-04 20:12:08"
         },
         {
             "name": "yiisoft/yii2-faker",
@@ -926,12 +960,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-faker.git",
-                "reference": "cb109dfae7c19d5e6e8266fbd5e1d4e1766fc2df"
+                "reference": "39bcc077a6592ed4a548946b2d33ab8f717b4a5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-faker/zipball/cb109dfae7c19d5e6e8266fbd5e1d4e1766fc2df",
-                "reference": "cb109dfae7c19d5e6e8266fbd5e1d4e1766fc2df",
+                "url": "https://api.github.com/repos/yiisoft/yii2-faker/zipball/39bcc077a6592ed4a548946b2d33ab8f717b4a5e",
+                "reference": "39bcc077a6592ed4a548946b2d33ab8f717b4a5e",
                 "shasum": ""
             },
             "require": {
@@ -965,7 +999,7 @@
                 "faker",
                 "yii2"
             ],
-            "time": "2014-10-25 13:28:36"
+            "time": "2014-11-27 21:32:38"
         },
         {
             "name": "yiisoft/yii2-gii",
@@ -973,12 +1007,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "2b70572409c3953b8a9ab573e96cd25fd5881a84"
+                "reference": "72650fee2a7c6c0b645002fa273de20dd60e34f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/2b70572409c3953b8a9ab573e96cd25fd5881a84",
-                "reference": "2b70572409c3953b8a9ab573e96cd25fd5881a84",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/72650fee2a7c6c0b645002fa273de20dd60e34f8",
+                "reference": "72650fee2a7c6c0b645002fa273de20dd60e34f8",
                 "shasum": ""
             },
             "require": {
@@ -1014,12 +1048,14 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2014-10-25 12:30:03"
+            "time": "2014-12-04 20:11:54"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "neitanod/forceutf8": 20
+    },
     "prefer-stable": false,
     "platform": {
         "php": ">=5.4.0"
