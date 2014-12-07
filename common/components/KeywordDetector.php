@@ -15,10 +15,9 @@
     {
         public static function detect( $string )
         {
-            $string     = strtolower( $string ); // make it lowercase
-            $matchWords = explode( " ", $string );
+            $string     = mb_strtolower( $string, "UTF-8" ); // make it lowercase
+            $matchWords = mb_split( " ", $string );
             array_walk( $matchWords, 'trim' );
-
 
             foreach ($matchWords as $key => $item) {
                 if ($item == '' || strlen( $item ) <= 6) {
@@ -28,7 +27,7 @@
             $wordCountArr = array();
             if (is_array( $matchWords )) {
                 foreach ($matchWords as $key => $val) {
-                    $val = strtolower( $val );
+                    $val = mb_strtolower( $val, "UTF-8" );
                     if (isset( $wordCountArr[$val] )) {
                         $wordCountArr[$val] ++;
                     } else {

@@ -7,9 +7,11 @@
      */
     namespace console\controllers;
 
+    use common\components\PageLoaderComponent;
     use yii\console\Controller;
     use common\components\RabbitMQComponent;
 
+    use \ForceUTF8\Encoding;
 
     use Yii;
 
@@ -26,5 +28,20 @@
 
 //        Yii::$app->mq->postMessage("url", "parse", "http://nagg.in.ua");
             return 1;
+        }
+
+        public function actionConvert()
+        {
+            $url  = 'http://forbes.ua/';
+            $data = PageLoaderComponent::load( $url );
+            preg_match( '/<meta.*?charset=(|\")(.*?)("|\")/i', $data, $matches );
+            if (isset( $matches[2] )) {
+                $charset = $matches[2];
+                $data    = mb_convert_encoding( $data, "UTF-8", $charset );
+            } else {
+                $data = mb_convert_encoding( $data, "UTF-8" );
+            }
+
+            print_r( $data );
         }
     }

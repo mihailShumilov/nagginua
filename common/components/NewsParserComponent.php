@@ -69,9 +69,15 @@
         {
             echo "Try parse `{$this->url}`\n";
             if ($html = PageLoaderComponent::load( $this->url )) {
-                $html = Encoding::toUTF8( $html );
-                $html = Encoding::fixUTF8( $html );
-                die( $html );
+
+                preg_match( '/<meta.*?charset=(|\")(.*?)("|\")/i', $html, $matches );
+                if (isset( $matches[2] )) {
+                    $charset = $matches[2];
+                    $html    = mb_convert_encoding( $html, "UTF-8", $charset );
+                } else {
+                    $html = mb_convert_encoding( $html, "UTF-8" );
+                }
+
                 try {
                     if (function_exists( 'tidy_parse_string' )) {
                         $tidy = tidy_parse_string( $html, array(), 'UTF8' );
@@ -97,6 +103,7 @@
                             $tidy->cleanRepair();
                             $content = $tidy->value;
                         }
+//                        echo "--------------------------\n";
 //                echo $content;
 //                echo "\nURL: {$this->url}\n";
 
@@ -110,26 +117,33 @@
 
                         if ($searchContent = trim( strip_tags( $content ) )) {
 
+
                             $searchContent = preg_replace( '/\n/', ' ', $searchContent );
-                            $searchContent = preg_replace( "/[^а-яa-z ]/ui", "", $searchContent );
-                            $searchContent = preg_replace( '/\s+/', ' ', $searchContent );
-                            $searchContent = preg_replace( "/[^а-яa-z ]/ui", "", $searchContent );
+//                            $searchContent = preg_replace( "/[^а-яa-z ]/ui", "", $searchContent );
+//                            $searchContent = preg_replace( '/\s+/', ' ', $searchContent );
+//                            $searchContent = preg_replace( "/[^а-яa-z ]/ui", "", $searchContent );
+//                            print_r($searchContent);
+//                            echo PHP_EOL."WORD LENGTH: ".count( explode( " ", $searchContent ) ).PHP_EOL;
 
                             if (count( explode( " ",
                                         $searchContent ) ) >= Settings::findOne( [ 'name' => 'news_min_length' ] )->value
                             ) {
                                 if ($this->pendingNews) {
+
+
                                     $this->pendingNews->content        = $content;
-                                    $this->pendingNews->search_content = self::replace4byte( $searchContent );
+                                    $this->pendingNews->search_content = $searchContent;
                                     $this->pendingNews->status         = PendingNews::STATUS_NEW;
 
                                     if ( ! $this->pendingNews->thumb_src) {
-                                        $this->pendingNews->thumb_src = $this->detectThumb( $html, $content );
+                                        if ($thumbUrl = $this->detectThumb( $html, $content )) {
+                                            $this->pendingNews->thumb_src = $thumbUrl;
+                                        }
                                     }
                                     if ($this->pendingNews->save()) {
                                         $this->parserQueue->status = ParserQueue::STATUS_DONE;
                                         $this->parserQueue->save();
-                                        $this->fillSearchDB( $searchContent, $this->pendingNews->id );
+//                                        $this->fillSearchDB( $searchContent, $this->pendingNews->id );
                                         return true;
                                     } else {
                                         print_r( $this->pendingNews->getErrors() );
@@ -137,11 +151,14 @@
                                         $this->parserQueue->save();
                                     }
                                 } else {
+
+                                    echo PHP_EOL . "NEWS CREATION" . PHP_EOL;
+
                                     $pn                 = new PendingNews();
                                     $pn->source_id      = $this->source->id;
                                     $pn->title          = $title;
                                     $pn->content        = $content;
-                                    $pn->search_content = self::replace4byte( $searchContent );
+                                    $pn->search_content = $searchContent;
                                     $pn->status         = PendingNews::STATUS_NEW;
                                     $pn->group_hash     = md5( time() );
                                     $pn->thumb_src      = $this->detectThumb( $html, $content );
@@ -150,13 +167,14 @@
                                     if ($pn->save()) {
                                         $this->parserQueue->status = ParserQueue::STATUS_DONE;
                                         $this->parserQueue->save();
-                                        $this->fillSearchDB( $searchContent, $pn->id );
+//                                        $this->fillSearchDB( $searchContent, $pn->id );
 
-                                        $mq = new RabbitMQComponent();
-                                        $mq->postMessage( "compile", "compile", json_encode( [ "pn_id" => $pn->id ] ) );
+//                                        $mq = new RabbitMQComponent();
+//                                        $mq->postMessage( "compile", "compile", json_encode( [ "pn_id" => $pn->id ] ) );
 
                                         return true;
                                     } else {
+                                        echo PHP_EOL . "ERROR" . PHP_EOL;
                                         print_r( $pn->getErrors() );
                                         $this->parserQueue->status = ParserQueue::STATUS_FAIL;
                                         $this->parserQueue->save();

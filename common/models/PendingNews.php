@@ -189,16 +189,17 @@
 
         public function afterSave( $insert, $changedAttributes )
         {
-            if (( $changedAttributes['search_content'] != $this->oldAttributes['search_content'] ) && ( $changedAttributes['search_content'] != '' )) {
+            if (isset( $changedAttributes['search_content'] )) {
+
                 self::fillSearchDB( $this->search_content, $this->id );
-                self::fillTags( $this->id, $this->search_content );
+                self::fillTags( $this->search_content, $this->id );
                 $mq = new RabbitMQComponent();
                 $mq->postMessage( "compile", "compile", json_encode( [ "pn_id" => $this->id ] ) );
             }
             return parent::afterSave( $insert, $changedAttributes );
         }
 
-        public static function fillTags( $id_news, $content )
+        public static function fillTags( $content, $id_news )
         {
             if ($tagList = KeywordDetector::detect( $content )) {
                 foreach ($tagList as $tagName) {
@@ -207,6 +208,7 @@
                     if ( ! $tag) {
                         $tag       = new Tags();
                         $tag->name = $tagName;
+                        $tag->cnt = 0;
                         $tag->save();
                     }
 

@@ -39,6 +39,7 @@
                     $newsParser->run();
                 }
             } catch ( Exception $e ) {
+
                 echo $e->getMessage();
                 $mq = new RabbitMQComponent();
                 $mq->postMessage( "parse", "parse_rss", $msg->body );
@@ -46,5 +47,6 @@
 
 
             $msg->delivery_info['channel']->basic_ack( $msg->delivery_info['delivery_tag'] );
+//            die();
         }
     }
