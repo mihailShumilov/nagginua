@@ -70,8 +70,10 @@ class SiteController extends Controller
     {
         $this->layout = 'front';
         $topNews = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 4 )->all();
+        $hotNews = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 4 )->offset( 4 )->all();
         return $this->render( 'index', [
-            'topNews' => $topNews
+            'topNews' => $topNews,
+            'hotNews' => $hotNews,
         ] );
     }
 

@@ -10,51 +10,7 @@ $this->title = 'My Yii Application';
 <!-- /Popular News -->
 
 <!-- Hot News -->
-<div class="column-one-third">
-    <h5 class="line"><span>Hot News.</span></h5>
-
-    <div class="outertight m-r-no">
-        <ul class="block">
-            <li>
-                <a href="#"><img src="img/trash/9.png" alt="MyPassion" class="alignleft"/></a>
-
-                <p>
-                    <span>26 May, 2013.</span>
-                    <a href="#">Blandit Rutrum, Erat et Sagittis.</a>
-                </p>
-                <span class="rating"><span style="width:80%;"></span></span>
-            </li>
-            <li>
-                <a href="#"><img src="img/trash/10.png" alt="MyPassion" class="alignleft"/></a>
-
-                <p>
-                    <span>26 May, 2013.</span>
-                    <a href="#">Blandit Rutrum, Erat et Sagittis.</a>
-                </p>
-                <span class="rating"><span style="width:100%;"></span></span>
-            </li>
-            <li>
-                <a href="#"><img src="img/trash/11.png" alt="MyPassion" class="alignleft"/></a>
-
-                <p>
-                    <span>26 May, 2013.</span>
-                    <a href="#">Blandit Rutrum, Erat et Sagittis.</a>
-                </p>
-                <span class="rating"><span style="width:70%;"></span></span>
-            </li>
-            <li>
-                <a href="#"><img src="img/trash/12.png" alt="MyPassion" class="alignleft"/></a>
-
-                <p>
-                    <span>26 May, 2013.</span>
-                    <a href="#">Blandit Rutrum, Erat et Sagittis.</a>
-                </p>
-                <span class="rating"><span style="width:60%;"></span></span>
-            </li>
-        </ul>
-    </div>
-
-</div>
+<?= $this->render( 'frontBlock/4horizontal', [ "title" => "Hot news", "data" => $hotNews ] ) ?>
 <!-- /Hot News -->
 
 <!-- Life Style -->

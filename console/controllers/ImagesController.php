@@ -37,7 +37,7 @@
             $image = \ImageEditor::createFromFile( $originFile );
             foreach (Yii::$app->params['image_sizes'] as $title => $size) {
                 $image->zoomWidthTo( $size['width'] );
-                $image->save( $dirPath . $title . ".jpg", "jpg", 70 );
+                $image->save( $dirPath . $title . ".jpg", "jpg", 80 );
             }
 
 
