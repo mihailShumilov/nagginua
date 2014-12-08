@@ -63,4 +63,9 @@
         {
             return '/uploads/' . date( "Y" ) . '/' . date( "m" ) . "/" . date( "d" ) . "/" . $this->id . "/" . $type . ".jpg";
         }
+
+        public function getLink()
+        {
+            return '/' . $this->id;
+        }
     }
