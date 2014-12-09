@@ -16,7 +16,7 @@
                     News.</a>   \\   <a href="#">No
                     Coments.</a></span>
 
-    <p><?= $item->getShort(); ?></p>
+    <p><?= \yii\helpers\Html::encode( $item->getShort() ); ?></p>
 </div>
 
 <ul class="block">

@@ -11,7 +11,7 @@
 
                     <p>
                         <span><?= date( "d M, Y", strtotime( $item->created_at ) ); ?></span>
-                        <a href="<?= $item->getLink(); ?>"><?= \yii\helpers\Html::encode( $item->title ); ?></a>
+                        <a href="<?= \yii\helpers\Html::encode( $item->getLink() ); ?>"><?= \yii\helpers\Html::encode( $item->title ); ?></a>
                     </p>
                     <!--                <span class="rating"><span style="width:80%;"></span></span>-->
                 </li>

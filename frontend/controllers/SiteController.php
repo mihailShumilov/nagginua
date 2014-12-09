@@ -75,6 +75,7 @@ class SiteController extends Controller
         $worldNews = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 7 )->offset( 15 )->all();
         $businessNews = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 3 )->offset( 22 )->all();
         $sportNews = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 3 )->offset( 25 )->all();
+        $sliders = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 8 )->offset( 28 )->all();
         return $this->render( 'index', [
             'topNews' => $topNews,
             'hotNews' => $hotNews,
@@ -82,6 +83,7 @@ class SiteController extends Controller
             'worldNews' => $worldNews,
             'businessNews' => $businessNews,
             'sportNews'    => $sportNews,
+            'sliders' => $sliders,
         ] );
     }
 
