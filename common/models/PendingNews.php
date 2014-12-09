@@ -7,7 +7,7 @@
     use common\components\RabbitMQComponent;
     use Yii;
 
-    require_once( 'vendor/mihailshumilov/documenthash/DocumentHash.php' );
+    require_once( Yii::getAlias( '@vendor' ) . '/mihailshumilov/documenthash/DocumentHash.php' );
 
     /**
      * This is the model class for table "pending_news".

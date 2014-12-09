@@ -16,9 +16,7 @@
                     News.</a>   \\   <a href="#">No
                     Coments.</a></span>
 
-    <p>Blandit rutrum, erat et egestas ultricies, dolor tortor egestas enim, quiste rhoncus sem purus eu sapien.
-        Curabitur a orci nec risus lacinia vehic. Lorem ipsum
-        dolor adipcising elit. Erat egestan sagittis lorem aupo dolor sit ameta, auctor libero tempor...</p>
+    <p><?= $item->getShort(); ?></p>
 </div>
 
 <ul class="block">

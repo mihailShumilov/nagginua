@@ -68,4 +68,11 @@
         {
             return '/' . $this->id;
         }
+
+        public function getShort( $length = 150 )
+        {
+            $npn = Npn::find()->where( [ 'news_id' => $this->id ] )->orderBy( [ 'pending_news_id' => SORT_DESC ] )->limit( 1 )->one();
+            $pn  = PendingNews::findOne( $npn->pending_news_id );
+            return mb_substr( $pn->search_content, 0, $length, 'utf-8' );
+        }
     }
