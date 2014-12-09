@@ -1,63 +1,5 @@
-<?php
-    use yii\helpers\Html;
-    use yii\bootstrap\Nav;
-    use yii\bootstrap\NavBar;
-    use yii\widgets\Breadcrumbs;
-    use frontend\assets\AppAsset;
-    use frontend\widgets\Alert;
+<?= $this->render( '_parts/head' ) ?>
 
-    AppAsset::register( $this );
-
-?>
-<?php $this->beginPage() ?>
-
-<!DOCTYPE html>
-<!--[if lt IE 7 ]>
-<html class="ie ie6" lang="ru"> <![endif]-->
-<!--[if IE 7 ]>
-<html class="ie ie7" lang="ru"> <![endif]-->
-<!--[if IE 8 ]>
-<html class="ie ie8" lang="ru"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!-->
-<html lang="ru"> <!--<![endif]-->
-
-<head>
-
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="description" content="News - Clean HTML5 and CSS3 responsive template">
-    <meta name="author" content="MyPassion">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <?= Html::csrfMetaTags() ?>
-    <title>News - Responsive HTML5 and CSS3 template</title>
-    <?php $this->head() ?>
-
-
-    <link rel="shortcut icon" href="img/sms-4.ico"/>
-
-    <!-- STYLES -->
-    <link rel="stylesheet" type="text/css" href="css/superfish.css" media="screen"/>
-    <link rel="stylesheet" type="text/css" href="css/fontello/fontello.css"/>
-    <link rel="stylesheet" type="text/css" href="css/flexslider.css" media="screen"/>
-    <link rel="stylesheet" type="text/css" href="css/ui.css"/>
-    <link rel="stylesheet" type="text/css" href="css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="css/960.css"/>
-    <link rel="stylesheet" type="text/css" href="css/devices/1000.css"
-          media="only screen and (min-width: 768px) and (max-width: 1000px)"/>
-    <link rel="stylesheet" type="text/css" href="css/devices/767.css"
-          media="only screen and (min-width: 480px) and (max-width: 767px)"/>
-    <link rel="stylesheet" type="text/css" href="css/devices/479.css"
-          media="only screen and (min-width: 200px) and (max-width: 479px)"/>
-    <link href='http://fonts.googleapis.com/css?family=Merriweather+Sans:400,300,700,800' rel='stylesheet'
-          type='text/css'>
-    <!--[if lt IE 9]>
-    <script type="text/javascript" src="js/customM.js"></script> <![endif]-->
-
-
-</head>
-
-<body>
 
 <!-- Body Wrapper -->
 <div class="body-wrapper">
@@ -74,25 +16,5 @@
 </div>
 </div>
 <!-- / Body Wrapper -->
+<?= $this->render( '_parts/foot' ) ?>
 
-
-<!-- SCRIPTS -->
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/easing.min.js"></script>
-<script type="text/javascript" src="js/1.8.2.min.js"></script>
-<script type="text/javascript" src="js/ui.js"></script>
-<script type="text/javascript" src="js/carouFredSel.js"></script>
-<script type="text/javascript" src="js/superfish.js"></script>
-<script type="text/javascript" src="js/customM.js"></script>
-<script type="text/javascript" src="js/flexslider-min.js"></script>
-<script type="text/javascript" src="js/tweetable.js"></script>
-<script type="text/javascript" src="js/timeago.js"></script>
-<script type="text/javascript" src="js/jflickrfeed.min.js"></script>
-<script type="text/javascript" src="js/mobilemenu.js"></script>
-
-<!--[if lt IE 9]>
-<script type="text/javascript" src="js/html5.js"></script> <![endif]-->
-<script type="text/javascript" src="js/mypassion.js"></script>
-
-</body>
-</html>

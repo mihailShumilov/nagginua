@@ -3,7 +3,7 @@
     <div class="container">
         <div class="column">
             <div class="logo">
-                <a href="index.html"><img src="img/logo.png" alt="MyPassion"/></a>
+                <a href="/"><img src="/img/logo.png" alt="MyPassion"/></a>
             </div>
 
             <div class="search">
@@ -28,7 +28,7 @@
                             <li><i class="icon-right-open"></i><a href="contact.html">Contact.</a></li>
                         </ul>
                     </li>
-                    <li><a href="reviews.html">World.</a></li>
+                    <li><a href="/category/all">World.</a></li>
                     <li><a href="reviews.html">Business.</a></li>
                     <li><a href="reviews.html">Politics.</a></li>
                     <li>

@@ -28,6 +28,14 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'urlManager' => [
+            'enablePrettyUrl'     => true,
+            'enableStrictParsing' => false,
+            'showScriptName'      => false,
+            'rules'               => [
+                'category/<slug:\w+>' => 'category/index'
+            ]
+        ]
     ],
     'params' => $params,
 ];
