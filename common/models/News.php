@@ -61,7 +61,7 @@
 
         public function getThumbLink( $type = "thumbNews" )
         {
-            return '/uploads/' . date( "Y" ) . '/' . date( "m" ) . "/" . date( "d" ) . "/" . $this->id . "/" . $type . ".jpg";
+            return '/uploads/' . date( "Y" ) . '/' . date( "m" ) . "/" . date( "d" ) . "/" . $this->id . "/" . $type . ".png";
         }
 
         public function getLink()

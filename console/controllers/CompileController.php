@@ -10,6 +10,7 @@
 
     use common\components\SimilarDetectComponent;
     use common\models\PendingNews;
+    use yii\base\Exception;
     use yii\console\Controller;
     use common\components\RabbitMQComponent;
 
@@ -25,9 +26,13 @@
         {
             $params = json_decode( $msg->body );
             print_r( $params );
-            $pn       = PendingNews::findOne( [ 'id' => $params->pn_id ] );
-            $detector = new SimilarDetectComponent( $pn );
-            $detector->detect();
+            try {
+                $pn       = PendingNews::findOne( [ 'id' => $params->pn_id ] );
+                $detector = new SimilarDetectComponent( $pn );
+                $detector->detect();
+            } catch ( Exception $e ) {
+                echo $e->getMessage();
+            }
             $msg->delivery_info['channel']->basic_ack( $msg->delivery_info['delivery_tag'] );
         }
     }

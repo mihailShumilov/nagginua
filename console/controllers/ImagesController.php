@@ -11,6 +11,7 @@
     use common\components\PageLoaderComponent;
     use Yii;
     use common\components\RabbitMQComponent;
+    use yii\base\Exception;
     use yii\console\Controller;
 
     class ImagesController extends Controller
@@ -26,21 +27,28 @@
         {
             $params = json_decode( $msg->body );
             print_r( $params );
-            $dirPath = Yii::getAlias( '@frontend' ) . '/web/uploads/' . date( "Y" ) . '/' . date( "m" ) . "/" . date( "d" ) . "/" . $params->news_id . "/";
-            if ( ! file_exists( $dirPath )) {
-                mkdir( $dirPath, 0777, true );
+            try {
+                $dirPath = Yii::getAlias( '@frontend' ) . '/web/uploads/' . date( "Y" ) . '/' . date( "m" ) . "/" . date( "d" ) . "/" . $params->news_id . "/";
+                if ( ! file_exists( $dirPath )) {
+                    mkdir( $dirPath, 0777, true );
+                }
+                if ($tmpFile = PageLoaderComponent::loadFile( $params->src )) {
+                    $originFile = $dirPath . "origin";
+                    copy( $tmpFile, $originFile );
+                    unlink( $tmpFile );
+                    echo "Origin file: {$originFile}" . PHP_EOL;
+                    if (file_exists( $originFile ) && ( getimagesize( $originFile ) )) {
+                        foreach (Yii::$app->params['image_sizes'] as $title => $size) {
+                            $image = \ImageEditor::createFromFile( $originFile );
+                            $image->zoomWidthTo( $size['width'] );
+                            $image->zoomHeightTo( $size['height'] );
+                            $image->save( $dirPath . $title . ".png", "png", 100 );
+                        }
+                    }
+                }
+            } catch ( Exception $e ) {
+                echo $e->getMessage();
             }
-            $tmpFile    = PageLoaderComponent::loadFile( $params->src );
-            $originFile = $dirPath . "origin";
-            copy( $tmpFile, $originFile );
-            unlink( $tmpFile );
-            $image = \ImageEditor::createFromFile( $originFile );
-            foreach (Yii::$app->params['image_sizes'] as $title => $size) {
-                $image->zoomWidthTo( $size['width'] );
-                $image->zoomHeightTo( $size['height'] );
-                $image->save( $dirPath . $title . ".jpg", "jpg", 100 );
-            }
-
 
             $msg->delivery_info['channel']->basic_ack( $msg->delivery_info['delivery_tag'] );
         }
