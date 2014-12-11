@@ -152,4 +152,17 @@
                 print_r( $e->getMessage() );
             }
         }
+
+
+        protected function checkNewsThumb( $news_id, $pn_id )
+        {
+            $news = News::findOne( $news_id );
+            if ( ! $news->thumb) {
+                $pn          = PendingNews::findOne( $pn_id );
+                $news->thumb = $pn->thumb_src;
+                $news->save();
+                $mq = new RabbitMQComponent();
+                $mq->postMessage( "image", "image", json_encode( [ "news_id" => $news->id, "src" => $news->thumb ] ) );
+            }
+        }
     }
