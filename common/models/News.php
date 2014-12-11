@@ -14,6 +14,7 @@
      * @property string $status
      * @property string $created_at
      * @property string $updated_at
+     * @property integer $cnt
      */
     class News extends \yii\db\ActiveRecord
     {
@@ -32,7 +33,8 @@
         {
             return [
                 [ [ 'title', 'thumb', 'status' ], 'string' ],
-                [ [ 'created_at', 'updated_at' ], 'safe' ]
+                [ [ 'created_at', 'updated_at' ], 'safe' ],
+                [ [ 'cnt' ], 'integer' ]
             ];
         }
 
@@ -48,6 +50,7 @@
                 'status'     => 'Status',
                 'created_at' => 'Created At',
                 'updated_at' => 'Updated At',
+                'cnt' => 'Cnt',
             ];
         }
 

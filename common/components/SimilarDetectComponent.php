@@ -147,7 +147,11 @@
                 $npn                  = new Npn();
                 $npn->news_id         = $news_id;
                 $npn->pending_news_id = $pn_id;
-                $npn->save();
+                if ($npn->save()) {
+                    $news = News::findOne( $news_id );
+                    $news->updateCounters( [ 'cnt' => 1 ] );
+                }
+
             } catch ( \Exception $e ) {
                 print_r( $e->getMessage() );
             }
