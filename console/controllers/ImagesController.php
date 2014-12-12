@@ -42,6 +42,9 @@
                             $image = \ImageEditor::createFromFile( $originFile );
                             $image->zoomWidthTo( $size['width'] );
                             if ($image->getHeight() > $size['height']) {
+                                $marginTop    = ( $image->getHeight() - $size['height'] ) / 2;
+                                $marginBottom = $image->getHeight() - $marginTop;
+                                $image->crop( 0, $marginTop, $size['width'], $marginBottom );
                                 $image->zoomHeightTo( $size['height'] );
                             }
                             $image->save( $dirPath . $title . ".png", "png", 100 );

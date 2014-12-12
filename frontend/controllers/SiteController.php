@@ -69,13 +69,13 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $this->layout = 'front';
-        $topNews = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 4 )->all();
-        $hotNews = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 4 )->offset( 4 )->all();
-        $liveNews = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 7 )->offset( 8 )->all();
-        $worldNews = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 7 )->offset( 15 )->all();
-        $businessNews = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 3 )->offset( 22 )->all();
-        $sportNews = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 3 )->offset( 25 )->all();
-        $sliders = News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( 8 )->offset( 28 )->all();
+        $topNews = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 4 )->all();
+        $hotNews = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 4 )->offset( 4 )->all();
+        $liveNews = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 7 )->offset( 8 )->all();
+        $worldNews = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 7 )->offset( 15 )->all();
+        $businessNews = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 3 )->offset( 22 )->all();
+        $sportNews = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 3 )->offset( 25 )->all();
+        $sliders = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 8 )->offset( 28 )->all();
         return $this->render( 'index', [
             'topNews' => $topNews,
             'hotNews' => $hotNews,
