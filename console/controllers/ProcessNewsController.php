@@ -41,8 +41,10 @@
             } catch ( Exception $e ) {
 
                 echo $e->getMessage();
-                $mq = new RabbitMQComponent();
-                $mq->postMessage( "parse", "parse_rss", $msg->body );
+                if ($e->getCode() != 505) {
+                    $mq = new RabbitMQComponent();
+                    $mq->postMessage( "parse", "parse_rss", $msg->body );
+                }
             }
 
 

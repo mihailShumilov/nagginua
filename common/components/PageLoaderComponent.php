@@ -10,6 +10,7 @@
 
     use Yii;
     use yii\base\Component;
+    use yii\console\Exception;
 
 
     class PageLoaderComponent extends Component
@@ -43,7 +44,7 @@
                     return false;
                 }
             } else {
-                throw new Exception( "No valid url: `{$url}`" );
+                throw new Exception( "No valid url: `{$url}`", 505 );
             }
         }
 
