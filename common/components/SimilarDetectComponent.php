@@ -137,6 +137,8 @@
             if ($news->thumb) {
                 $mq = new RabbitMQComponent();
                 $mq->postMessage( "image", "image", json_encode( [ "news_id" => $news->id, "src" => $news->thumb ] ) );
+                $mq->postMessage( "twitter", "twitter",
+                    json_encode( [ "news_id" => $news->id, "src" => $news->thumb ] ) );
             }
             return $news->id;
         }
