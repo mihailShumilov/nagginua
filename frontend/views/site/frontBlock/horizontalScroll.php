@@ -31,17 +31,7 @@
     <div class="outerwide">
         <ul class="block2">
             <?php foreach ($data as $key => $item): ?>
-                <li <?php if ($key % 2 == 0): ?>class="m-r-no"<?php endif; ?>>
-                    <a href="<?= $item->getLink(); ?>"><img src="<?= $item->getThumbLink( 'thumbNews' ); ?>"
-                                                            alt="<?= \yii\helpers\Html::encode( $item->title ); ?>"
-                                                            class="alignleft"/></a>
-
-                    <p>
-                        <span><?= date( "d M, Y", strtotime( $item->created_at ) ); ?></span>
-                        <a href="<?= $item->getLink(); ?>"><?= $item->title; ?></a>
-                    </p>
-                    <!--                <span class="rating"><span style="width:80%;"></span></span>-->
-                </li>
+                <?= $this->render( 'news', [ "item" => $item ] ) ?>
             <?php endforeach; ?>
         </ul>
     </div>

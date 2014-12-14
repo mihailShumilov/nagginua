@@ -4,17 +4,7 @@
     <div class="outertight">
         <ul class="block">
             <?php foreach ($data as $item): ?>
-                <li>
-                    <a href="<?= $item->getLink(); ?>"><img src="<?= $item->getThumbLink( 'thumbNews' ); ?>"
-                                                            alt="<?= \yii\helpers\Html::encode( $item->title ); ?>"
-                                                      class="alignleft"/></a>
-
-                    <p>
-                        <span><?= date( "d M, Y", strtotime( $item->created_at ) ); ?></span>
-                        <a href="<?= \yii\helpers\Html::encode( $item->getLink() ); ?>"><?= \yii\helpers\Html::encode( $item->title ); ?></a>
-                    </p>
-                    <!--                <span class="rating"><span style="width:80%;"></span></span>-->
-                </li>
+                <?= $this->render( 'news', [ "item" => $item ] ) ?>
             <?php endforeach; ?>
         </ul>
     </div>
