@@ -1,6 +1,6 @@
 <div class="main-slider">
     <div class="badg">
-        <p><a href="#">Popular.</a></p>
+        <p><a href="#"><?= \yii\helpers\Html::encode( $title ); ?></a></p>
     </div>
     <div class="flexslider">
         <ul class="slides">
@@ -20,9 +20,9 @@
 </div>
 <div class="slider2">
     <?php $item = array_shift( $data ); ?>
-    <div class="badg">
-        <p><a href="#">Latest.</a></p>
-    </div>
+    <!--    <div class="badg">-->
+    <!--        <p><a href="#"></a></p>-->
+    <!--    </div>-->
     <a href="<?= $item->getLink(); ?>"><img src="<?= $item->getThumbLink( "topNews" ) ?>"
                                             alt="<?= \yii\helpers\Html::encode( $item->title ); ?>"/></a>
 
