@@ -28,7 +28,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title>News - Responsive HTML5 and CSS3 template</title>
+    <title<?= Html::encode( $this->title ) ?></title>
     <?php $this->head() ?>
 
 

@@ -10,17 +10,16 @@
      * @property integer $id
      * @property string $name
      * @property string $slug
-     * @property string $keyword
      */
     class Categories extends \yii\db\ActiveRecord
     {
-        /**
-         * @inheritdoc
-         */
+    /**
+     * @inheritdoc
+     */
         public static function tableName()
-        {
-            return 'categories';
-        }
+    {
+        return 'categories';
+    }
 
         /**
          * @inheritdoc
@@ -28,8 +27,7 @@
         public function rules()
         {
             return [
-                [ [ 'name', 'slug', 'keyword' ], 'required' ],
-                [ [ 'keyword' ], 'string' ],
+                [ [ 'name', 'slug' ], 'required' ],
                 [ [ 'name', 'slug' ], 'string', 'max' => 45 ]
             ];
         }
@@ -40,10 +38,14 @@
         public function attributeLabels()
         {
             return [
-                'id'      => 'ID',
-                'name'    => 'Name',
-                'slug'    => 'Slug',
-                'keyword' => 'Keyword',
+                'id'   => 'ID',
+                'name' => 'Name',
+                'slug' => 'Slug',
             ];
+    }
+
+        public function getLink()
+        {
+            return '/category/' . $this->slug;
         }
     }

@@ -10,16 +10,18 @@
      * @property integer $id
      * @property integer $category_id
      * @property string $word
+     *
+     * @property Categories $category
      */
     class CategoryWords extends \yii\db\ActiveRecord
     {
-        /**
-         * @inheritdoc
-         */
+    /**
+     * @inheritdoc
+     */
         public static function tableName()
-        {
-            return 'category_words';
-        }
+    {
+        return 'category_words';
+    }
 
         /**
          * @inheritdoc
@@ -43,5 +45,13 @@
                 'category_id' => 'Category ID',
                 'word'        => 'Word',
             ];
+    }
+
+        /**
+         * @return \yii\db\ActiveQuery
+         */
+        public function getCategory()
+        {
+            return $this->hasOne( Categories::className(), [ 'id' => 'category_id' ] );
         }
     }
