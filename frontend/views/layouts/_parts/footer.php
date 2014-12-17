@@ -1,20 +1,23 @@
 <footer id="footer">
     <div class="container">
         <div class="column-one-fourth">
-            <h5 class="line"><span>Tweets.</span></h5>
+            <h5 class="line"><span>Твиты.</span></h5>
 
             <div id="tweets"></div>
         </div>
         <div class="column-one-fourth">
-            <h5 class="line"><span>Navigation.</span></h5>
+            <h5 class="line"><span>Навигация.</span></h5>
             <ul class="footnav">
-                <li><a href="#"><i class="icon-right-open"></i> World.</a></li>
-                <li><a href="#"><i class="icon-right-open"></i> Business.</a></li>
-                <li><a href="#"><i class="icon-right-open"></i> Politics.</a></li>
-                <li><a href="#"><i class="icon-right-open"></i> Sports.</a></li>
-                <li><a href="#"><i class="icon-right-open"></i> Health.</a></li>
-                <li><a href="#"><i class="icon-right-open"></i> Sciences.</a></li>
-                <li><a href="#"><i class="icon-right-open"></i> Spotlight.</a></li>
+                <?php if ($categories = \common\models\Categories::find()->all()): ?>
+
+                    <?php foreach ($categories as $category): ?>
+                        <li>
+                            <a href="<?= $category->getLink(); ?>"><i
+                                    class="icon-right-open"></i><?= \yii\helpers\Html::encode( $category->name ); ?></a>
+                        </li>
+                    <?php endforeach; ?>
+
+                <?php endif; ?>
             </ul>
         </div>
         <div class="column-one-fourth">
@@ -27,11 +30,14 @@
             </div>
         </div>
         <div class="column-one-fourth">
-            <h5 class="line"><span>About.</span></h5>
+            <h5 class="line"><span>О нас.</span></h5>
 
-            <p>Blandit rutrum, erat et egestas ultricies, dolor tortor egestas enim, quiste rhon cus sem purus eu
-                sapien. Lorem ipsum dolor sit amet adipcising elit. Elit norem simuls tortor lorem adipcising purus
-                mosteu dsapien egestas.</p>
+            <p>Данный проект призван упростить жизнь людям которые ищут новости в сети</p>
+            <!--            <p>Проект собирает статьи с  различных сайтов затем автоматическим алгоритмом группирует дубликаты статей (или похожие новости) и публикует их на сайте</p>-->
+            <p>Проект не является журналистским изданием — это только сборщик и группировщик новостей</p>
+            <!--            <p>На текущий момент проект на альфа стадии — это означает что возможны нестабильности в работе а также ошибки</p>-->
+            <p>Если у Вас есть вопросы / предложения / пожелания / замечания ждем Ваших писем на <a
+                    href="mailto:mschumilow@gmail.com">mschumilow@gmail.com</a></p>
         </div>
         <p class="copyright">&copy; <?= date( "Y" ) ?>. Mihail Shumilov</p>
     </div>

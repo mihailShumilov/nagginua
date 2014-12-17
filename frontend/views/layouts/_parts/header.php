@@ -3,28 +3,30 @@
     <div class="container">
         <div class="column">
             <div class="logo">
-                <a href="/"><img src="/img/logo.png" alt="MyPassion"/></a>
+                <a href="/"><img src="/img/logo.png" alt="Новости"/></a>
             </div>
 
             <div class="search">
                 <form action="" method="post">
-                    <input type="text" value="Search." onblur="if(this.value=='') this.value='Search.';"
-                           onfocus="if(this.value=='Search.') this.value='';" class="ft"/>
+                    <input type="text" value="Поиск." onblur="if(this.value=='') this.value='Поиск.';"
+                           onfocus="if(this.value=='Поиск.') this.value='';" class="ft"/>
                     <input type="submit" value="" class="fs">
                 </form>
             </div>
 
             <!-- Nav -->
             <nav id="nav">
+                <ul class="sf-menu">
                 <?php if ($categories = \common\models\Categories::find()->all()): ?>
-                    <ul class="sf-menu">
+
                         <?php foreach ($categories as $category): ?>
                             <li>
                                 <a href="<?= $category->getLink(); ?>"><?= \yii\helpers\Html::encode( $category->name ); ?></a>
                             </li>
                         <?php endforeach; ?>
-                    </ul>
+
                 <?php endif; ?>
+                </ul>
 
                 <!--                <ul class="sf-menu">-->
                 <!--                    <li class="current"><a href="index.html">Home.</a></li>-->
