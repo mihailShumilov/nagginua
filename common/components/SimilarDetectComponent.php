@@ -180,12 +180,9 @@
             $categoryWords = CategoryWords::find()->all();
             $pn            = PendingNews::findOne( $pn_id );
             $content       = mb_strtolower( $pn->search_content, 'utf-8' );
-            echo "\n---------------------\n";
-            echo "Search content: {$pn->search_content}\n";
+
             foreach ($categoryWords as $cw) {
-                echo "Try search '{$cw->word}'\n";
                 if (mb_strpos( $content, mb_strtolower( $cw->word, 'utf-8' ), 0, 'utf-8' )) {
-                    echo "YES\n";
                     if ( ! $nhc = NewsHasCategory::findOne( [
                         'category_id' => $cw->category_id,
                         'news_id'     => $news_id
@@ -195,8 +192,6 @@
                         $nhc->news_id     = $news_id;
                         $nhc->category_id = $cw->category_id;
                         $nhc->save();
-                    } else {
-                        echo "EXISTS\n";
                     }
                 }
             }
