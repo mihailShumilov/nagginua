@@ -78,4 +78,9 @@
             $pn  = PendingNews::findOne( $npn->pending_news_id );
             return mb_substr( $pn->search_content, 0, $length, 'utf-8' );
         }
+
+        public function getCategories()
+        {
+
+        }
     }

@@ -2,6 +2,8 @@
 
     use yii\helpers\Html;
     use yii\widgets\ActiveForm;
+    use yii\helpers\ArrayHelper;
+
 
     /* @var $this yii\web\View */
     /* @var $model common\models\CategoryWords */
@@ -12,7 +14,9 @@
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field( $model, 'category_id' )->textInput() ?>
+    <?= $form->field( $model,
+        'category_id' )->dropDownList( ArrayHelper::map( \common\models\Categories::find()->asArray()->all(), 'id',
+        'name' ), [ 'value' => $model->category_id ] ) ?>
 
     <?= $form->field( $model, 'word' )->textInput( [ 'maxlength' => 255 ] ) ?>
 

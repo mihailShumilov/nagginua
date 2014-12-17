@@ -8,7 +8,9 @@
 
     namespace common\components;
 
+    use common\models\CategoryWords;
     use common\models\News;
+    use common\models\NewsHasCategory;
     use common\models\Npn;
     use Yii;
     use common\models\ItemsHashesSummary;
@@ -152,6 +154,7 @@
                 if ($npn->save()) {
                     $news = News::findOne( $news_id );
                     $news->updateCounters( [ 'cnt' => 1 ] );
+                    $this->detectCategories( $news_id, $pn_id );
                 }
 
             } catch ( \Exception $e ) {
@@ -169,6 +172,33 @@
                 $news->save();
                 $mq = new RabbitMQComponent();
                 $mq->postMessage( "image", "image", json_encode( [ "news_id" => $news->id, "src" => $news->thumb ] ) );
+            }
+        }
+
+        protected function detectCategories( $news_id, $pn_id )
+        {
+            $categoryWords = CategoryWords::find()->all();
+            $pn            = PendingNews::findOne( $pn_id );
+            $content       = mb_strtolower( $pn->search_content, 'utf-8' );
+            echo "\n---------------------\n";
+            echo "Search content: {$pn->search_content}\n";
+            foreach ($categoryWords as $cw) {
+                echo "Try search '{$cw->word}'\n";
+                if (mb_strpos( $content, mb_strtolower( $cw->word, 'utf-8' ), 0, 'utf-8' )) {
+                    echo "YES\n";
+                    if ( ! $nhc = NewsHasCategory::findOne( [
+                        'category_id' => $cw->category_id,
+                        'news_id'     => $news_id
+                    ] )
+                    ) {
+                        $nhc              = new NewsHasCategory();
+                        $nhc->news_id     = $news_id;
+                        $nhc->category_id = $cw->category_id;
+                        $nhc->save();
+                    } else {
+                        echo "EXISTS\n";
+                    }
+                }
             }
         }
     }
