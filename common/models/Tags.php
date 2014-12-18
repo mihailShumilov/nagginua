@@ -63,4 +63,9 @@
             return $this->hasMany( News::className(), [ 'id' => 'news_id' ] )->viaTable( 'news_has_tags',
                 [ 'tag_id' => 'id' ] );
         }
+
+        public static function getPopular( $count = 10 )
+        {
+            return Tags::find()->orderBy( [ "cnt" => SORT_DESC ] )->limit( 10 )->all();
+        }
     }

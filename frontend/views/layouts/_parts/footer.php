@@ -21,13 +21,15 @@
             </ul>
         </div>
         <div class="column-one-fourth">
-            <h5 class="line"><span>Flickr Stream.</span></h5>
+            <h5 class="line"><span>Теги</span></h5>
 
-            <div class="flickrfeed">
-                <ul id="basicuse" class="thumbs">
-                    <li class="hide"></li>
-                </ul>
-            </div>
+            <ul>
+                <?php if ($tags = \common\models\Tags::getPopular()): ?>
+                    <?php foreach ($tags as $tag): ?>
+                        <li><?= \yii\helpers\Html::encode( $tag->name ); ?></li>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </ul>
         </div>
         <div class="column-one-fourth">
             <h5 class="line"><span>О нас.</span></h5>
