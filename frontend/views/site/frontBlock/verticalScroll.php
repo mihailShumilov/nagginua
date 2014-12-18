@@ -14,8 +14,13 @@
              alt="<?= \yii\helpers\Html::encode( $news->title ); ?>"/>
         <h6 class="regular"><a href="<?= $news->getLink(); ?>"><?= \yii\helpers\Html::encode( $news->title ); ?></a>
         </h6>
-        <span class="meta"><?= date( "d M, Y", strtotime( $news->created_at ) ); ?>  \\   <a href="#">World News.</a>   \\   <a
-                href="#">No Coments.</a></span>
+        <span class="meta"><?= date( "d M, Y", strtotime( $news->created_at ) ); ?>
+            <?php if ($categories = $news->getCategoryList()): ?>
+                <?php foreach ($categories as $category): ?>
+                    \\ <a href="<?= $category->getLink(); ?>"><?= $category->name; ?></a>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </span>
 
         <p><?= $news->getShort(); ?></p>
     </div>

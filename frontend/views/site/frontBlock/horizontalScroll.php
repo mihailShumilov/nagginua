@@ -17,9 +17,13 @@
                          alt="<?= \yii\helpers\Html::encode( $item->title ); ?>" class="alignleft"/>
                     <h6 class="regular"><a
                             href="<?= $item->getLink(); ?>"><?= \yii\helpers\Html::encode( $item->title ); ?></a></h6>
-                <span class="meta"><?= date( "d M, Y", strtotime( $item->created_at ) ); ?>   \\   <a href="#">World
-                        News.</a>   \\   <a href="#">No
-                        Coments.</a></span>
+                <span class="meta"><?= date( "d M, Y", strtotime( $item->created_at ) ); ?>
+                    <?php if ($categories = $item->getCategoryList()): ?>
+                        <?php foreach ($categories as $category): ?>
+                            \\ <a href="<?= $category->getLink(); ?>"><?= $category->name; ?></a>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </span>
 
                     <p><?= \yii\helpers\Html::encode( $item->getShort() ); ?></p>
                 </li>

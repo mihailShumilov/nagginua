@@ -79,8 +79,9 @@
             return mb_substr( $pn->search_content, 0, $length, 'utf-8' );
         }
 
-        public function getCategories()
+        public function getCategoryList()
         {
-
+            return Categories::find()->join( 'inner join', NewsHasCategory::tableName(),
+                NewsHasCategory::tableName() . ".category_id = " . Categories::tableName() . ".id" )->where( [ NewsHasCategory::tableName() . ".news_id" => $this->id ] )->all();
         }
     }
