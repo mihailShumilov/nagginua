@@ -1,4 +1,4 @@
-<li>
+<li class="<?= $class; ?>">
     <a href="<?= $item->getLink(); ?>"><img src="<?= $item->getThumbLink( 'thumbNews' ); ?>"
                                             alt="<?= \yii\helpers\Html::encode( $item->title ); ?>"
                                             class="alignleft"/></a>

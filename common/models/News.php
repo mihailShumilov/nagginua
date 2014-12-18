@@ -62,6 +62,11 @@
             return parent::beforeSave( $insert );
         }
 
+        public function getNhc()
+        {
+            $this->hasMany( "NewsHasCategory", [ "news_id" => "id" ] );
+        }
+
         public function getThumbLink( $type = "thumbNews" )
         {
             return '/uploads/' . date( "Y" ) . '/' . date( "m" ) . "/" . date( "d" ) . "/" . $this->id . "/" . $type . ".png";

@@ -1,5 +1,7 @@
+<?php $news = $provider->getModels(); ?>
 <div class="column-two-third">
 <div class="outertight m-t-no">
+    <?php $item = array_shift( $news ); ?>
     <div class="badg">
         <p><a href="#">Featured.</a></p>
     </div>
@@ -27,6 +29,7 @@
 </div>
 
 <div class="outertight m-r-no m-t-no">
+    <?php $item = array_shift( $news ); ?>
     <div class="badg">
         <p><a href="#">Featured.</a></p>
     </div>
@@ -55,183 +58,32 @@
 
 <div class="outerwide">
     <ul class="block2">
-        <li>
-            <a href="single.html"><img src="img/trash/5.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:80%;"></span></span>
-        </li>
-        <li class="m-r-no">
-            <a href="single.html"><img src="img/trash/6.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:100%;"></span></span>
-        </li>
-        <li>
-            <a href="single.html"><img src="img/trash/7.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:70%;"></span></span>
-        </li>
-        <li class="m-r-no">
-            <a href="single.html"><img src="img/trash/8.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:60%;"></span></span>
-        </li>
-        <li>
-            <a href="single.html"><img src="img/trash/9.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:80%;"></span></span>
-        </li>
-        <li class="m-r-no">
-            <a href="single.html"><img src="img/trash/10.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:100%;"></span></span>
-        </li>
-        <li>
-            <a href="single.html"><img src="img/trash/11.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:70%;"></span></span>
-        </li>
-        <li class="m-r-no">
-            <a href="single.html"><img src="img/trash/12.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:60%;"></span></span>
-        </li>
-        <li>
-            <a href="single.html"><img src="img/trash/13.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:80%;"></span></span>
-        </li>
-        <li class="m-r-no">
-            <a href="single.html"><img src="img/trash/14.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:100%;"></span></span>
-        </li>
-        <li>
-            <a href="single.html"><img src="img/trash/15.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:70%;"></span></span>
-        </li>
-        <li class="m-r-no">
-            <a href="single.html"><img src="img/trash/16.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:60%;"></span></span>
-        </li>
-        <li>
-            <a href="single.html"><img src="img/trash/17.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:80%;"></span></span>
-        </li>
-        <li class="m-r-no">
-            <a href="single.html"><img src="img/trash/18.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:100%;"></span></span>
-        </li>
-        <li>
-            <a href="single.html"><img src="img/trash/19.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:70%;"></span></span>
-        </li>
-        <li class="m-r-no">
-            <a href="single.html"><img src="img/trash/20.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:60%;"></span></span>
-        </li>
-        <li>
-            <a href="single.html"><img src="img/trash/21.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:80%;"></span></span>
-        </li>
-        <li class="m-r-no">
-            <a href="single.html"><img src="img/trash/22.png" alt="MyPassion" class="alignleft"/></a>
-
-            <p>
-                <span>26 May, 2013.</span>
-                <a href="single.html">Blandit Rutrum, Erat et Sagittis.</a>
-            </p>
-            <span class="rating"><span style="width:100%;"></span></span>
-        </li>
-
+        <?php foreach ($news as $key => $item): ?>
+            <?php $class = ( $key % 2 == 0 ) ? "" : "m-r-no"; ?>
+            <?= $this->render( '../site/frontBlock/news', [ "item" => $item, "class" => $class ] ) ?>
+        <?php endforeach; ?>
     </ul>
 </div>
 
 <div class="pager">
+    <pre>
+    <?php print_r( $provider->getPagination() ); ?>
+        </pre>
+    <?php $pager = $provider->getPagination(); ?>
     <ul>
-        <li><a href="#" class="first-page"></a></li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#" class="active">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">6</a></li>
-        <li><a href="#">7</a></li>
-        <li><a href="#" class="last-page"></a></li>
+        <?php for ($i = $pager->pageSizeLimit[0]; $i <= $pager->pageSizeLimit[1]; $i ++): ?>
+            <?php if ($i == $pager->pageSizeLimit[0]): ?>
+                <li><a href="<?= \yii\helpers\Url::toRoute( 'category/index',
+                        [ 'slug' => $slug, $pager->pageParam => $i ] ) ?>" class="first-page"></a></li>
+            <?php endif; ?>
+            <li><a href="<?= \yii\helpers\Url::toRoute( 'category/index',
+                    [ 'slug' => $slug, $pager->pageParam => $i ] ) ?>"
+                   <?php if ($i == $pager->forcePageParam): ?>class="active"<?php endif; ?>><?= $i; ?></a></li>
+            <?php if ($i == $pager->pageSizeLimit[1]): ?>
+                <li><a href="<?= \yii\helpers\Url::toRoute( 'category/index',
+                        [ 'slug' => $slug, $pager->pageParam => $i ] ) ?>" class="last-page"></a></li>
+            <?php endif; ?>
+        <?php endfor; ?>
     </ul>
 </div>
 
