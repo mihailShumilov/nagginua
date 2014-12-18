@@ -84,4 +84,14 @@
             return Categories::find()->join( 'inner join', NewsHasCategory::tableName(),
                 NewsHasCategory::tableName() . ".category_id = " . Categories::tableName() . ".id" )->where( [ NewsHasCategory::tableName() . ".news_id" => $this->id ] )->all();
         }
+
+        public static function getLatestNews( $count = 4 )
+        {
+            return News::find()->orderBy( [ "id" => SORT_DESC ] )->limit( $count )->all();
+        }
+
+        public static function getPopularNews( $count = 4 )
+        {
+            return News::find()->where( "created_at BETWEEN DATE_ADD(NOW(), INTERVAL -1 day) AND NOW()" )->orderBy( [ "cnt" => SORT_DESC ] )->limit( $count )->all();
+        }
     }

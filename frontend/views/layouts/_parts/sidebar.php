@@ -26,61 +26,34 @@
             </ul>
             <div id="tabs1">
                 <ul>
-                    <li>
-                        <a href="#" class="title">Blandit Rutrum, Erat et Sagittis Adipcising Elit.</a>
-                        <span class="meta">26 May, 2013.   \\   <a href="#">World News.</a>   \\   <a href="#">No
-                                Coments.</a></span>
-                        <span class="rating"><span style="width:70%;"></span></span>
-                    </li>
-                    <li>
-                        <a href="#" class="title">Blandit Rutrum, Erat et Sagittis Adipcising Elit.</a>
-                        <span class="meta">26 May, 2013.   \\   <a href="#">World News.</a>   \\   <a href="#">No
-                                Coments.</a></span>
-                        <span class="rating"><span style="width:70%;"></span></span>
-                    </li>
-                    <li>
-                        <a href="#" class="title">Blandit Rutrum, Erat et Sagittis Adipcising Elit.</a>
-                        <span class="meta">26 May, 2013.   \\   <a href="#">World News.</a>   \\   <a href="#">No
-                                Coments.</a></span>
-                        <span class="rating"><span style="width:70%;"></span></span>
-                    </li>
-                    <li>
-                        <a href="#" class="title">Blandit Rutrum, Erat et Sagittis Adipcising Elit.</a>
-                        <span class="meta">26 May, 2013.   \\   <a href="#">World News.</a>   \\   <a href="#">No
-                                Coments.</a></span>
-                        <span class="rating"><span style="width:70%;"></span></span>
-                    </li>
+                    <?php if ($news = \common\models\News::getLatestNews()): ?>
+                        <?php foreach ($news as $item): ?>
+                            <?= $this->render( 'sidebarNews', [ "item" => $item ] ) ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </ul>
             </div>
             <div id="tabs2">
                 <ul>
-                    <li>
-                        <a href="#" class="title">Mauris eleifend est et turpis. Duis id erat.</a>
-                        <span class="meta">27 May, 2013.   \\   <a href="#">World News.</a>   \\   <a href="#">No
-                                Coments.</a></span>
-                        <span class="rating"><span style="width:70%;"></span></span>
-                    </li>
-                    <li>
-                        <a href="#" class="title">Mauris eleifend est et turpis. Duis id erat.</a>
-                        <span class="meta">27 May, 2013.   \\   <a href="#">World News.</a>   \\   <a href="#">No
-                                Coments.</a></span>
-                        <span class="rating"><span style="width:70%;"></span></span>
-                    </li>
-                    <li>
-                        <a href="#" class="title">Mauris eleifend est et turpis. Duis id erat.</a>
-                        <span class="meta">27 May, 2013.   \\   <a href="#">World News.</a>   \\   <a href="#">No
-                                Coments.</a></span>
-                        <span class="rating"><span style="width:70%;"></span></span>
-                    </li>
-                    <li>
-                        <a href="#" class="title">Mauris eleifend est et turpis. Duis id erat.</a>
-                        <span class="meta">27 May, 2013.   \\   <a href="#">World News.</a>   \\   <a href="#">No
-                                Coments.</a></span>
-                        <span class="rating"><span style="width:70%;"></span></span>
-                    </li>
+                    <?php if ($news = \common\models\News::getPopularNews()): ?>
+                        <?php foreach ($news as $item): ?>
+                            <?= $this->render( 'sidebarNews', [ "item" => $item ] ) ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
     </div>
-
+    <div class="sidebar">
+        <div id="minfincomua_i_usd">Загружаем межбанк от <a href="http://minfin.com.ua/">minfin.com.ua</a></div>
+        <script type="text/javascript" src="http://informer.minfin.com.ua/interbank/usd.js"></script>
+    </div>
+    <div class="sidebar">
+        <div id="minfincomua_i_eur">Загружаем межбанк от <a href="http://minfin.com.ua/">minfin.com.ua</a></div>
+        <script type="text/javascript" src="http://informer.minfin.com.ua/interbank/eur.js"></script>
+    </div>
+    <div class="sidebar">
+        <div id="minfincomua_i_rub">Загружаем межбанк от <a href="http://minfin.com.ua/">minfin.com.ua</a></div>
+        <script type="text/javascript" src="http://informer.minfin.com.ua/interbank/rub.js"></script>
+    </div>
 </div>
