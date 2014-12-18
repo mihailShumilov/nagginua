@@ -17,7 +17,9 @@
                         <!-- Main Content -->
 
                         <div class="breadcrumbs column">
-                            <p><a href="#">Home.</a> \\ <a href="#">Categories.</a> \\ World News.</p>
+                            <?php $category = \common\models\Categories::findOne( [ 'slug' => Yii::$app->requestedParams[0] ] ); ?>
+                            <p><a href="/">Главная.</a> \\ <a href="/category/all">Категория.</a>
+                                \\ <?= $category ? $category->name : "Все новости"; ?>.</p>
                         </div>
 
                         <div class="main-content">
