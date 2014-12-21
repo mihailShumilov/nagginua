@@ -34,7 +34,7 @@
         {
             return [
                 [ [ 'title', 'thumb', 'status' ], 'string' ],
-                [ [ 'created_at', 'updated_at', 'npn', 'nhc' ], 'safe' ],
+                [ [ 'created_at', 'updated_at' ], 'safe' ],
                 [ [ 'cnt' ], 'integer' ]
             ];
         }
@@ -63,9 +63,12 @@
             return parent::beforeSave( $insert );
         }
 
-        public function getNhc()
+        /**
+         * @return \yii\db\ActiveQuery
+         */
+        public function getNewsHasCategories()
         {
-            $this->hasMany( NewsHasCategory::className(), [ "news_id" => "id" ] );
+            return $this->hasMany( NewsHasCategory::className(), [ 'news_id' => 'id' ] );
         }
 
         /**
@@ -81,7 +84,8 @@
          */
         public function getPendingNews()
         {
-            return $this->hasMany( PendingNews::className(), [ 'id' => 'pending_news_id' ] )->viaTable( 'npn',
+            return $this->hasMany( PendingNews::className(),
+                [ 'id' => 'pending_news_id' ] )->viaTable( Npn::tableName(),
                 [ 'news_id' => 'id' ] );
         }
 

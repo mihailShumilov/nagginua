@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Categories;
+use common\models\NewsHasCategory;
 use Yii;
 use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
@@ -69,20 +71,54 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $this->layout = 'front';
-        $topNews = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 4 )->all();
-        $hotNews = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 4 )->offset( 4 )->all();
-        $liveNews = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 7 )->offset( 8 )->all();
-        $worldNews = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 7 )->offset( 15 )->all();
-        $businessNews = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 3 )->offset( 22 )->all();
-        $sportNews = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 3 )->offset( 25 )->all();
-        $sliders = News::find()->where( 'thumb  IS NOT NULL' )->orderBy( [ "id" => SORT_DESC ] )->limit( 8 )->offset( 28 )->all();
+        $notInIds = [ ];
+
+        $sliders = News::find()->where( "created_at BETWEEN DATE_ADD(NOW(), INTERVAL -1 day) AND NOW() AND thumb  IS NOT NULL" )->orderBy( [ "cnt" => SORT_DESC ] )->limit( 8 )->all();
+        foreach ($sliders as $item) {
+            $notInIds[] = $item->id;
+        }
+
+        $topNews = News::find()->where( "created_at BETWEEN DATE_ADD(NOW(), INTERVAL -1 day) AND NOW() AND thumb  IS NOT NULL AND id NOT IN(" . implode( ",",
+                $notInIds ) . ")" )->orderBy( [ "cnt" => SORT_DESC ] )->limit( 4 )->all();
+        foreach ($topNews as $item) {
+            $notInIds[] = $item->id;
+        }
+        $hotNews = News::find()->where( "thumb  IS NOT NULL AND id NOT IN(" . implode( ",",
+                $notInIds ) . ")" )->orderBy( [ "id" => SORT_DESC ] )->limit( 4 )->all();
+        foreach ($hotNews as $item) {
+            $notInIds[] = $item->id;
+        }
+        $category = Categories::findOne( [ 'slug' => 'ato' ] );
+        $atoNews  = News::find()->joinWith( [ 'newsHasCategories' ] )->where( "thumb  IS NOT NULL AND " . NewsHasCategory::tableName() . ".category_id = {$category->id} AND " . News::tableName() . ".id NOT IN(" . implode( ",",
+                $notInIds ) . ")" )->orderBy( [ "id" => SORT_DESC ] )->limit( 7 )->all();
+        foreach ($atoNews as $item) {
+            $notInIds[] = $item->id;
+        }
+        $category = Categories::findOne( [ 'slug' => 'economic' ] );
+        $ecoNews  = News::find()->joinWith( [ 'newsHasCategories' ] )->where( "thumb  IS NOT NULL AND " . NewsHasCategory::tableName() . ".category_id = {$category->id} AND " . News::tableName() . ".id NOT IN(" . implode( ",",
+                $notInIds ) . ")" )->orderBy( [ "id" => SORT_DESC ] )->limit( 7 )->all();
+        foreach ($ecoNews as $item) {
+            $notInIds[] = $item->id;
+        }
+
+        $category  = Categories::findOne( [ 'slug' => 'sport' ] );
+        $sportNews = News::find()->joinWith( [ 'newsHasCategories' ] )->where( "thumb  IS NOT NULL AND " . NewsHasCategory::tableName() . ".category_id = {$category->id} AND " . News::tableName() . ".id NOT IN(" . implode( ",",
+                $notInIds ) . ")" )->orderBy( [ "id" => SORT_DESC ] )->limit( 3 )->all();
+        foreach ($sportNews as $item) {
+            $notInIds[] = $item->id;
+        }
+
+        $category     = Categories::findOne( [ 'slug' => 'politics' ] );
+        $politicsNews = News::find()->joinWith( [ 'newsHasCategories' ] )->where( "thumb  IS NOT NULL AND " . NewsHasCategory::tableName() . ".category_id = {$category->id} AND " . News::tableName() . ".id NOT IN(" . implode( ",",
+                $notInIds ) . ")" )->orderBy( [ "id" => SORT_DESC ] )->limit( 3 )->all();
+
         return $this->render( 'index', [
             'topNews' => $topNews,
             'hotNews' => $hotNews,
-            'liveNews'  => $liveNews,
-            'worldNews' => $worldNews,
-            'businessNews' => $businessNews,
+            'atoNews'      => $atoNews,
+            'ecoNews'      => $ecoNews,
             'sportNews'    => $sportNews,
+            'politicsNews' => $politicsNews,
             'sliders' => $sliders,
         ] );
     }

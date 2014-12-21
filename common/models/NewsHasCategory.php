@@ -10,16 +10,19 @@
      * @property integer $id
      * @property integer $category_id
      * @property integer $news_id
+     *
+     * @property Categories $category
+     * @property News $news
      */
     class NewsHasCategory extends \yii\db\ActiveRecord
     {
-        /**
-         * @inheritdoc
-         */
+    /**
+     * @inheritdoc
+     */
         public static function tableName()
-        {
-            return 'news_has_category';
-        }
+    {
+        return 'news_has_category';
+    }
 
         /**
          * @inheritdoc
@@ -48,5 +51,21 @@
                 'category_id' => 'Category ID',
                 'news_id' => 'News ID',
             ];
+    }
+
+        /**
+         * @return \yii\db\ActiveQuery
+         */
+        public function getCategory()
+        {
+            return $this->hasOne( Categories::className(), [ 'id' => 'category_id' ] );
+        }
+
+        /**
+         * @return \yii\db\ActiveQuery
+         */
+        public function getNews()
+        {
+            return $this->hasOne( News::className(), [ 'id' => 'news_id' ] );
         }
     }

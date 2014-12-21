@@ -27,22 +27,23 @@ $this->title = 'My Yii Application';
     <!-- /Hot News -->
 
     <!-- Life Style -->
-    <?= $this->render( 'frontBlock/verticalScroll', [ "title" => "Новости АТО", "data" => $liveNews ] ) ?>
+    <?= $this->render( 'frontBlock/verticalScroll', [ "title" => "Новости АТО", "data" => $atoNews ] ) ?>
 
     <!-- /Life Style -->
 
     <!-- World News -->
-    <?= $this->render( 'frontBlock/horizontalScroll', [ "title" => "Экономические новости", "data" => $worldNews ] ) ?>
+    <?= $this->render( 'frontBlock/horizontalScroll', [ "title" => "Экономические новости", "data" => $ecoNews ] ) ?>
     <!-- /World News -->
 
     <!-- Popular News -->
     <div class="column-two-third">
         <div class="outertight">
-            <?= $this->render( 'frontBlock/3vertical', [ "title" => "Новости спорта", "data" => $businessNews ] ) ?>
+            <?= $this->render( 'frontBlock/3vertical', [ "title" => "Новости спорта", "data" => $sportNews ] ) ?>
         </div>
 
         <div class="outertight m-r-no">
-            <?= $this->render( 'frontBlock/3vertical', [ "title" => "Политические новости", "data" => $sportNews ] ) ?>
+            <?= $this->render( 'frontBlock/3vertical',
+                [ "title" => "Политические новости", "data" => $politicsNews ] ) ?>
         </div>
 
     </div>
