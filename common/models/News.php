@@ -4,6 +4,7 @@
 
     use Yii;
     use yii\db\Expression;
+    use common\models\NewsHasCategory;
 
     /**
      * This is the model class for table "news".
@@ -33,7 +34,7 @@
         {
             return [
                 [ [ 'title', 'thumb', 'status' ], 'string' ],
-                [ [ 'created_at', 'updated_at' ], 'safe' ],
+                [ [ 'created_at', 'updated_at', 'npn', 'nhc' ], 'safe' ],
                 [ [ 'cnt' ], 'integer' ]
             ];
         }
@@ -64,7 +65,24 @@
 
         public function getNhc()
         {
-            $this->hasMany( "NewsHasCategory", [ "news_id" => "id" ] );
+            $this->hasMany( NewsHasCategory::className(), [ "news_id" => "id" ] );
+        }
+
+        /**
+         * @return \yii\db\ActiveQuery
+         */
+        public function getNpns()
+        {
+            return $this->hasMany( Npn::className(), [ 'news_id' => 'id' ] );
+        }
+
+        /**
+         * @return \yii\db\ActiveQuery
+         */
+        public function getPendingNews()
+        {
+            return $this->hasMany( PendingNews::className(), [ 'id' => 'pending_news_id' ] )->viaTable( 'npn',
+                [ 'news_id' => 'id' ] );
         }
 
         public function getThumbLink( $type = "thumbNews" )
@@ -74,7 +92,7 @@
 
         public function getLink()
         {
-            return '/' . $this->id;
+            return '/news/' . $this->id;
         }
 
         public function getShort( $length = 150 )

@@ -33,7 +33,8 @@ return [
             'enableStrictParsing' => false,
             'showScriptName'      => false,
             'rules'               => [
-                'category/<slug:\w+>' => 'category/index'
+                'category/<slug:\w+>' => 'category/index',
+                'news/<id:\d+>'       => 'news/index'
             ]
         ]
     ],
