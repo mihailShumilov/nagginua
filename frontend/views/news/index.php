@@ -1,3 +1,8 @@
+<?php
+    $this->title = $news->title;
+    $this->registerMetaTag( [ 'name' => 'description', 'content' => $news->getShort(), 'description' ] );
+
+?>
 <div class="column-two-third single">
     <div class="flexslider">
         <ul class="slides">
@@ -16,7 +21,10 @@
             <?php endforeach; ?>
                 <?php endif; ?></span>
     <?php foreach ($news->pendingNews as $item): ?>
-        <div class="pendingNews" id="<?= $item->id; ?>" style="display: none;"><?= $item->content; ?></div>
+        <div class="pendingNews" id="<?= $item->id; ?>" style="display: none;">
+            <p>Источник: <a href="<?= $item->source->url; ?>" target="_blank"><?= $item->source->label; ?></a></p>
+            <?= \yii\helpers\HtmlPurifier::process( $item->content ); ?>
+        </div>
     <?php endforeach; ?>
     <ul class="sharebox">
         <?php foreach ($news->pendingNews as $item): ?>
@@ -26,49 +34,7 @@
     </ul>
 
 
-    <!--    <div class="authorbox">-->
-    <!--        <img src="img/trash/author.png" alt="MyPassion" />-->
-    <!--        <h6>MyPassion.</h6>-->
-    <!--        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sodales dapibus dui, sed iaculis metus facilisis sed. Etiam scelerisque molestie purus vel mollis. Mauris dapibu quam id turpis dignissim rutrum.</p>-->
-    <!--    </div>-->
 
-    <!--    <div class="relatednews">-->
-    <!--        <h5 class="line"><span>Related News.</span></h5>-->
-    <!--        <ul>-->
-    <!--            <li>-->
-    <!--                <a href="#"><img src="img/trash/5.png" alt="MyPassion" /></a>-->
-    <!--                <p>-->
-    <!--                    <span>26 May, 2013.</span>-->
-    <!--                    <a href="#">Blandit Rutrum, Erat et Sagittis.</a>-->
-    <!--                </p>-->
-    <!--                <span class="rating"><span style="width:80%;"></span></span>-->
-    <!--            </li>-->
-    <!--            <li>-->
-    <!--                <a href="#"><img src="img/trash/6.png" alt="MyPassion" /></a>-->
-    <!--                <p>-->
-    <!--                    <span>26 May, 2013.</span>-->
-    <!--                    <a href="#">Blandit Rutrum, Erat et Sagittis.</a>-->
-    <!--                </p>-->
-    <!--                <span class="rating"><span style="width:80%;"></span></span>-->
-    <!--            </li>-->
-    <!--            <li>-->
-    <!--                <a href="#"><img src="img/trash/7.png" alt="MyPassion" /></a>-->
-    <!--                <p>-->
-    <!--                    <span>26 May, 2013.</span>-->
-    <!--                    <a href="#">Blandit Rutrum, Erat et Sagittis.</a>-->
-    <!--                </p>-->
-    <!--                <span class="rating"><span style="width:80%;"></span></span>-->
-    <!--            </li>-->
-    <!--            <li>-->
-    <!--                <a href="#"><img src="img/trash/8.png" alt="MyPassion" /></a>-->
-    <!--                <p>-->
-    <!--                    <span>26 May, 2013.</span>-->
-    <!--                    <a href="#">Blandit Rutrum, Erat et Sagittis.</a>-->
-    <!--                </p>-->
-    <!--                <span class="rating"><span style="width:80%;"></span></span>-->
-    <!--            </li>-->
-    <!--        </ul>-->
-    <!--    </div>-->
 
     <div class="comments">
 
