@@ -8,7 +8,7 @@
     ?>
 </p>
 <p>
-    <?php echo \yii\helpers\Html::input( "text", "url" ); ?>
+    <?php echo \yii\helpers\Html::input( "text", "url", isset( $url ) ? $url : "" ); ?>
 </p>
 <p>
     <?php echo \yii\helpers\Html::button( "Parse", [ "type" => "submit" ] ); ?>

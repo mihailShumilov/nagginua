@@ -79,11 +79,9 @@
                 }
 
                 try {
-                    if (function_exists( 'tidy_parse_string' )) {
-                        $tidy = tidy_parse_string( $html, array(), 'UTF8' );
-                        $tidy->cleanRepair();
-                        $html = $tidy->value;
-                    }
+
+                    $htmlToDetect = $this->processExcludeElements( $html );
+                    $content      = $this->tryContentDetect( $htmlToDetect );
 
                     $readability                          = new \Readability( $html, $this->url );
                     $readability->debug                   = false;
@@ -92,20 +90,15 @@
                     if ($result) {
                         $title   = $readability->getTitle()->textContent;
                         $title   = $this->processTitleStopWords( $title );
-                        $content = $readability->getContent()->innerHTML;
+                        if ( ! $content) {
+                            $content = $readability->getContent()->innerHTML;
+                        }
                         $content = $this->processContentStopWords( $content );
                         $content = preg_replace( '/\n/', ' ', $content );
-                        $content = strip_tags( $content, "<p><div><img><span><br><ul><li><embed><iframe>" );
+                        $content  = strip_tags( $content,
+                            "<p><div><img><span><br><ul><li><embed><iframe><strong><h1><h2><h3><h4>" );
                         $content = $this->fixUrls( $content );
-                        if (function_exists( 'tidy_parse_string' )) {
-                            $tidy = tidy_parse_string( $content, array( 'show-body-only' => true, 'wrap' => 0 ),
-                                'UTF8' );
-                            $tidy->cleanRepair();
-                            $content = $tidy->value;
-                        }
-//                        echo "--------------------------\n";
-//                echo $content;
-//                echo "\nURL: {$this->url}\n";
+
 
                         $content = $this->processExcludeElements( $content );
                         if ($date = $this->processPublishDate( $html )) {
@@ -119,11 +112,6 @@
 
 
                             $searchContent = preg_replace( '/\n/', ' ', $searchContent );
-//                            $searchContent = preg_replace( "/[^а-яa-z ]/ui", "", $searchContent );
-//                            $searchContent = preg_replace( '/\s+/', ' ', $searchContent );
-//                            $searchContent = preg_replace( "/[^а-яa-z ]/ui", "", $searchContent );
-//                            print_r($searchContent);
-//                            echo PHP_EOL."WORD LENGTH: ".count( explode( " ", $searchContent ) ).PHP_EOL;
 
                             if (count( explode( " ",
                                         $searchContent ) ) >= Settings::findOne( [ 'name' => 'news_min_length' ] )->value
@@ -143,7 +131,6 @@
                                     if ($this->pendingNews->save()) {
                                         $this->parserQueue->status = ParserQueue::STATUS_DONE;
                                         $this->parserQueue->save();
-//                                        $this->fillSearchDB( $searchContent, $this->pendingNews->id );
                                         return true;
                                     } else {
                                         print_r( $this->pendingNews->getErrors() );
@@ -167,11 +154,6 @@
                                     if ($pn->save()) {
                                         $this->parserQueue->status = ParserQueue::STATUS_DONE;
                                         $this->parserQueue->save();
-//                                        $this->fillSearchDB( $searchContent, $pn->id );
-
-//                                        $mq = new RabbitMQComponent();
-//                                        $mq->postMessage( "compile", "compile", json_encode( [ "pn_id" => $pn->id ] ) );
-
                                         return true;
                                     } else {
                                         echo PHP_EOL . "ERROR" . PHP_EOL;
@@ -189,9 +171,6 @@
                         throw new Exception( 'Looks like we couldn\'t find the content. :(' );
                     }
                 } catch ( Exception $e ) {
-//                echo "\n";
-//                print_r($e->getMessage());
-//                echo "\n";
 
                     $this->parserQueue->status = ParserQueue::STATUS_FAIL;
                     $this->parserQueue->save();
@@ -339,6 +318,30 @@
             }
         }
 
+        private function tryContentDetect( $html )
+        {
+            if ($patterns = SourcesSettings::findAll( [
+                'source_id' => $this->source->id,
+                'name'      => 'content_pattern'
+            ] )
+            ) {
+                $doc                     = new \DOMDocument( "1.0", "utf-8" );
+                $doc->preserveWhiteSpace = false;
+                libxml_use_internal_errors( true );
+                $doc->loadHTML( $html );
+                $xpath         = new \DOMXpath( $doc );
+                $contentResult = false;
+                foreach ($patterns as $pattern) {
+
+                    if ($content = $xpath->evaluate( $pattern->value )) {
+                        $contentResult .= $doc->saveHTML( $content->item( 0 ) );
+                    }
+                }
+                return $contentResult;
+            }
+            return false;
+        }
+
         public function parse( $html, $url, Sources $source = null )
         {
             if ($source) {
@@ -348,10 +351,12 @@
                 $parsedNews = array();
 //                $html = iconv(mb_detect_encoding($html, mb_detect_order(), true), "UTF-8", $html);
                 if (function_exists( 'tidy_parse_string' )) {
-                    $tidy = tidy_parse_string( $html, array(), 'UTF8' );
-                    $tidy->cleanRepair();
-                    $html = $tidy->value;
+//                    $tidy = tidy_parse_string( $html, array(), 'UTF8' );
+//                    $tidy->cleanRepair();
+//                    $html = $tidy->value;
                 }
+                $htmlToDetect = $this->processExcludeElements( $html );
+                $content      = $this->tryContentDetect( $htmlToDetect );
 
                 $readability                          = new \Readability( $html, $url );
                 $readability->debug                   = false;
@@ -360,15 +365,17 @@
                 if ($result) {
                     $title   = $readability->getTitle()->textContent;
                     $title   = $this->processTitleStopWords( $title );
-                    $content = $readability->getContent()->innerHTML;
+                    if ( ! $content) {
+                        $content = $readability->getContent()->innerHTML;
+                    }
                     $content = $this->processContentStopWords( $content );
                     $content = preg_replace( '/\n/', ' ', $content );
                     $content = strip_tags( $content, "<p><div><img><span><br><ul><li><embed><iframe>" );
                     $content = $this->fixUrls( $content );
                     if (function_exists( 'tidy_parse_string' )) {
-                        $tidy = tidy_parse_string( $content, array( 'show-body-only' => true, 'wrap' => 0 ), 'UTF8' );
-                        $tidy->cleanRepair();
-                        $content = $tidy->value;
+//                        $tidy = tidy_parse_string( $content, array( 'show-body-only' => true, 'wrap' => 0 ), 'UTF8' );
+//                        $tidy->cleanRepair();
+//                        $content = $tidy->value;
                     }
 
                     $content = $this->processExcludeElements( $content );
