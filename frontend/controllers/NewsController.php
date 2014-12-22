@@ -16,20 +16,6 @@
 
     class NewsController extends Controller
     {
-        public function behaviors()
-        {
-            return [
-                [
-                    'class'      => 'yii\filters\PageCache',
-                    'only'       => [ 'index' ],
-                    'duration'   => 360,
-                    'variations' => [
-                        \Yii::$app->language,
-                    ]
-                ],
-            ];
-        }
-
         public function actionIndex( $id )
         {
             $this->layout = 'category';

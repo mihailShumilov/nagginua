@@ -141,6 +141,20 @@
                 $mq->postMessage( "image", "image", json_encode( [ "news_id" => $news->id, "src" => $news->thumb ] ) );
                 $mq->postMessage( "twitter", "twitter",
                     json_encode( [ "news_id" => $news->id, "src" => $news->thumb ] ) );
+            } else {
+                if ($giData = PageLoaderComponent::load( "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" . urlencode( $news->title ) . "&userip=127.0.0.1&imgsz=large" )) {
+                    $data = json_decode( $giData );
+                    $mq   = new RabbitMQComponent();
+                    $mq->postMessage( "image", "image", json_encode( [
+                        "news_id" => $news->id,
+                        "src"     => $data->responseData->results[0]->unescapedUrl
+                    ] ) );
+                    $mq->postMessage( "twitter", "twitter",
+                        json_encode( [
+                            "news_id" => $news->id,
+                            "src"     => $data->responseData->results[0]->unescapedUrl
+                        ] ) );
+                }
             }
             return $news->id;
         }

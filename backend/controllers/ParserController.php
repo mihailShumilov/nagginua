@@ -18,6 +18,8 @@
 
         public function actionTest()
         {
-            return $this->render( 'test' );
+            $data = [ ];
+
+            return $this->render( 'test', $data );
         }
     }
