@@ -33,8 +33,12 @@ AppAsset::register($this);
             ]);
             $menuItems = [
                 ['label' => 'Home', 'url' => ['/site/index']],
+                [ 'label' => 'Sources', 'url' => [ '/sources/index' ] ],
+                [ 'label' => 'Rss Sources', 'url' => [ '/rss-sources/index' ] ],
+                [ 'label' => 'Sources Settings', 'url' => [ '/sources-settings/index' ] ],
                 [ 'label' => 'Category', 'url' => [ '/categories/index' ] ],
                 [ 'label' => 'Category Words', 'url' => [ '/category-words/index' ] ],
+                [ 'label' => 'Parser test', 'url' => [ '/parser/test' ] ],
             ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
