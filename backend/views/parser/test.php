@@ -14,3 +14,14 @@
     <?php echo \yii\helpers\Html::button( "Parse", [ "type" => "submit" ] ); ?>
 </p>
 <?php echo \yii\helpers\Html::endForm(); ?>
+
+<?php if (isset( $parserResult )): ?>
+    <h1>Title:</h1>
+    <p><?= $parserResult['title']; ?></p>
+    <h1>Thumb:</h1>
+    <p><img src="<?= $parserResult['thumb']; ?>"/></p>
+    <h1>Search content:</h1>
+    <p><?= $parserResult['searchContent']; ?></p>
+    <h1>Content:</h1>
+    <p><?= $parserResult['content']; ?></p>
+<?php endif; ?>

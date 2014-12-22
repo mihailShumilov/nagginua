@@ -2,6 +2,7 @@
     namespace common\components;
 
 
+    use common\models\Sources;
     use Yii;
     use yii\base\Component;
     use common\components\PageLoaderComponent;
@@ -17,9 +18,8 @@
     use yii\base\Exception;
     use \ForceUTF8\Encoding;
 
-
-    require_once( 'vendor/mihailshumilov/documenthash/DocumentHash.php' );
-    require_once( 'vendor/mihailshumilov/readability/Readability.php' );
+    require_once( Yii::getAlias( '@vendor' ) . '/mihailshumilov/documenthash/DocumentHash.php' );
+    require_once( Yii::getAlias( '@vendor' ) . '/mihailshumilov/readability/Readability.php' );
 
     /**
      * Created by PhpStorm.
@@ -339,7 +339,7 @@
             }
         }
 
-        public function parse( $html, $url, Source $source = null )
+        public function parse( $html, $url, Sources $source = null )
         {
             if ($source) {
                 $this->source = $source;
