@@ -37,18 +37,25 @@
                     copy( $tmpFile, $originFile );
                     unlink( $tmpFile );
                     echo "Origin file: {$originFile}" . PHP_EOL;
-                    if (file_exists( $originFile ) && ( getimagesize( $originFile ) )) {
-                        foreach (Yii::$app->params['image_sizes'] as $title => $size) {
-                            $image = \ImageEditor::createFromFile( $originFile );
-                            $image->zoomWidthTo( $size['width'] );
-                            if ($image->getHeight() > $size['height']) {
-                                $marginTop    = ( $image->getHeight() - $size['height'] ) / 2;
-                                $marginBottom = $image->getHeight() - $marginTop;
-                                $image->crop( 0, $marginTop, $size['width'], $marginBottom );
-                                $image->zoomHeightTo( $size['height'] );
+                    if ($handle = @fopen( $originFile, 'r' )) {
+                        try {
+                            if (file_exists( $originFile ) && ( $data = @getimagesize( $originFile ) )) {
+                                foreach (Yii::$app->params['image_sizes'] as $title => $size) {
+                                    $image = \ImageEditor::createFromFile( $originFile );
+                                    $image->zoomWidthTo( $size['width'] );
+                                    if ($image->getHeight() > $size['height']) {
+                                        $marginTop    = ( $image->getHeight() - $size['height'] ) / 2;
+                                        $marginBottom = $image->getHeight() - $marginTop;
+                                        $image->crop( 0, $marginTop, $size['width'], $marginBottom );
+                                        $image->zoomHeightTo( $size['height'] );
+                                    }
+                                    $image->save( $dirPath . $title . ".png", "png", 100 );
+                                }
                             }
-                            $image->save( $dirPath . $title . ".png", "png", 100 );
+                        } catch ( Exception $e ) {
+                            echo "Error: {$e->getMessage()}" . PHP_EOL;
                         }
+                        fclose( $handle );
                     }
                 }
             } catch ( Exception $e ) {
