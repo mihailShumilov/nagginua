@@ -367,12 +367,7 @@
             }
             try {
                 $parsedNews = array();
-//                $html = iconv(mb_detect_encoding($html, mb_detect_order(), true), "UTF-8", $html);
-                if (function_exists( 'tidy_parse_string' )) {
-//                    $tidy = tidy_parse_string( $html, array(), 'UTF8' );
-//                    $tidy->cleanRepair();
-//                    $html = $tidy->value;
-                }
+
                 $html = $this->stripTagWithContent( $html, "script" );
                 $htmlToDetect = $this->processExcludeElements( $html );
                 $content      = $this->tryContentDetect( $htmlToDetect );
@@ -391,11 +386,6 @@
                     $content = preg_replace( '/\n/', ' ', $content );
                     $content = strip_tags( $content, "<p><div><img><span><br><ul><li><embed><iframe>" );
                     $content = $this->fixUrls( $content );
-                    if (function_exists( 'tidy_parse_string' )) {
-//                        $tidy = tidy_parse_string( $content, array( 'show-body-only' => true, 'wrap' => 0 ), 'UTF8' );
-//                        $tidy->cleanRepair();
-//                        $content = $tidy->value;
-                    }
 
                     $content = $this->processExcludeElements( $content );
 
