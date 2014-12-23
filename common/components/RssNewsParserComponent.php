@@ -71,14 +71,15 @@
             $rss                     = PageLoaderComponent::load( $this->source->url );
 
             preg_match( '/<\?xml.*?encoding=(\'|")(.*)("|\")/i', $rss, $matches );
+            $charset = "utf-8";
             if (isset( $matches[2] )) {
                 $charset = $matches[2];
-                $rss     = mb_convert_encoding( $rss, "UTF-8", $charset );
+//                $rss     = mb_convert_encoding( $rss, "UTF-8", $charset );
             } else {
-                $rss = mb_convert_encoding( $rss, "UTF-8" );
+//                $rss = mb_convert_encoding( $rss, "UTF-8" );
             }
 
-            $doc                     = new \DOMDocument();
+            $doc = new \DOMDocument( "1.1", $charset );
             $doc->preserveWhiteSpace = false;
             libxml_use_internal_errors( true );
             $doc->loadXML( $rss );
@@ -125,7 +126,6 @@
                                 }
                             }
                         }
-
 
                         try {
                             $pqItem = ParserQueue::findOne( [ 'url' => $newsParams['link'] ] );
