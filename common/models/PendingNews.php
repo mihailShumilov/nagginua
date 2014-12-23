@@ -185,7 +185,8 @@
 
         public function afterSave( $insert, $changedAttributes )
         {
-            if (isset( $changedAttributes['search_content'] ) || ( $insert && ( mb_strlen( trim( $changedAttributes['search_content'] ),
+
+            if (isset( $changedAttributes['search_content'] ) || ( $insert && ( mb_strlen( trim( $this->search_content ),
                             "utf-8" ) > 0 ) )
             ) {
 
