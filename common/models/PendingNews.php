@@ -185,7 +185,7 @@
 
         public function afterSave( $insert, $changedAttributes )
         {
-            if (isset( $changedAttributes['search_content'] )) {
+            if (isset( $changedAttributes['search_content'] ) || ( $insert && ( $changedAttributes['search_content'] != '&nbsp' ) )) {
 
                 self::fillSearchDB( $this->search_content, $this->id );
                 self::fillTags( $this->search_content, $this->id );

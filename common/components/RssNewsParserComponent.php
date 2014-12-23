@@ -145,6 +145,8 @@
                                         PendingNews::STATUS_NEW,
                                         $pqItem
                                     );
+
+
                                 }
                             }
                         } catch ( Exception $e ) {

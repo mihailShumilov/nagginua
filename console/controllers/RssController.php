@@ -18,7 +18,7 @@
     {
         public function actionIndex()
         {
-            if ($rssSources = RssSources::findAll( [ "active" => "1" ] )) {
+            if ($rssSources = RssSources::findAll( [ "active" => "1", "is_full" => "1" ] )) {
                 foreach ($rssSources as $source) {
                     Yii::$app->getDb()->close();
                     $pid = pcntl_fork();
