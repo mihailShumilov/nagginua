@@ -79,7 +79,7 @@
                 }
 
                 try {
-
+                    $html = $this->stripTagWithContent( $html, "script" );
                     $htmlToDetect = $this->processExcludeElements( $html );
                     $content      = $this->tryContentDetect( $htmlToDetect );
 
@@ -88,14 +88,14 @@
                     $readability->convertLinksToFootnotes = false;
                     $result                               = $readability->init();
                     if ($result) {
-                        $title   = $readability->getTitle()->textContent;
-                        $title   = $this->processTitleStopWords( $title );
+                        $title                      = $readability->getTitle()->textContent;
+                        $title                      = $this->processTitleStopWords( $title );
                         if ( ! $content) {
                             $content = $readability->getContent()->innerHTML;
                         }
                         $content = $this->processContentStopWords( $content );
                         $content = preg_replace( '/\n/', ' ', $content );
-                        $content  = strip_tags( $content,
+                        $content                    = strip_tags( $content,
                             "<p><div><img><span><br><ul><li><embed><iframe><strong><h1><h2><h3><h4>" );
                         $content = $this->fixUrls( $content );
 
@@ -114,7 +114,7 @@
                             $searchContent = preg_replace( '/\n/', ' ', $searchContent );
 
                             if (count( explode( " ",
-                                        $searchContent ) ) >= Settings::findOne( [ 'name' => 'news_min_length' ] )->value
+                                    $searchContent ) ) >= Settings::findOne( [ 'name' => 'news_min_length' ] )->value
                             ) {
                                 if ($this->pendingNews) {
 
@@ -192,9 +192,10 @@
 
         private function processContentStopWords( $content )
         {
+
             foreach (ContentStopWords::findAll( [ "source_id" => $this->source->id ] ) as $csw) {
-                if ($pos = strpos( $content, $csw->word )) {
-                    $content = substr( $content, 0, $pos );
+                if ($pos = mb_strpos( $content, $csw->word, null, "utf-8" )) {
+                    $content = mb_substr( $content, 0, $pos, "utf-8" );
                 }
             }
             return $content;
@@ -294,6 +295,23 @@
             return $html;
         }
 
+        private function stripTagWithContent( $html, $tag )
+        {
+            $html = mb_convert_encoding( $html, 'HTML-ENTITIES', "UTF-8" );
+            $dom  = new \DOMDocument( "1.0", "utf-8" );
+            libxml_use_internal_errors( true );
+            $dom->preserveWhiteSpace = false;
+            $dom->loadHTML( $html );
+
+
+            $elements = $dom->getElementsByTagName( $tag );
+            while ($el = $elements->item( 0 )) {
+                $el->parentNode->removeChild( $el );
+            }
+
+            return $dom->saveHTML();
+        }
+
         private function processPublishDate( $html )
         {
 
@@ -355,6 +373,7 @@
 //                    $tidy->cleanRepair();
 //                    $html = $tidy->value;
                 }
+                $html = $this->stripTagWithContent( $html, "script" );
                 $htmlToDetect = $this->processExcludeElements( $html );
                 $content      = $this->tryContentDetect( $htmlToDetect );
 
@@ -363,8 +382,8 @@
                 $readability->convertLinksToFootnotes = false;
                 $result                               = $readability->init();
                 if ($result) {
-                    $title   = $readability->getTitle()->textContent;
-                    $title   = $this->processTitleStopWords( $title );
+                    $title = $readability->getTitle()->textContent;
+                    $title = $this->processTitleStopWords( $title );
                     if ( ! $content) {
                         $content = $readability->getContent()->innerHTML;
                     }

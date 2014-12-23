@@ -38,6 +38,7 @@ AppAsset::register($this);
                 [ 'label' => 'Sources Settings', 'url' => [ '/sources-settings/index' ] ],
                 [ 'label' => 'Category', 'url' => [ '/categories/index' ] ],
                 [ 'label' => 'Category Words', 'url' => [ '/category-words/index' ] ],
+                [ 'label' => 'Content Stio Words', 'url' => [ '/content-stop-words/index' ] ],
                 [ 'label' => 'Parser test', 'url' => [ '/parser/test' ] ],
             ];
             if (Yii::$app->user->isGuest) {
