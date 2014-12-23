@@ -185,7 +185,9 @@
 
         public function afterSave( $insert, $changedAttributes )
         {
-            if (isset( $changedAttributes['search_content'] ) || ( $insert && ( $changedAttributes['search_content'] != '&nbsp' ) )) {
+            if (isset( $changedAttributes['search_content'] ) || ( $insert && ( mb_strlen( trim( $changedAttributes['search_content'] ),
+                            "utf-8" ) > 0 ) )
+            ) {
 
                 self::fillSearchDB( $this->search_content, $this->id );
                 self::fillTags( $this->search_content, $this->id );
