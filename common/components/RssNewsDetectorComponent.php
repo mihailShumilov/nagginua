@@ -33,17 +33,18 @@
         {
 
 
-            $rss = PageLoaderComponent::load( $this->source->url );
-            $doc = new \DOMDocument();
-            $doc->preserveWhiteSpace = false;
-            libxml_use_internal_errors( true );
-            $doc->loadXML( $rss );
-            $xpath = new \DOMXpath( $doc );
+            if ($rss = PageLoaderComponent::load( $this->source->url )) {
+                $doc                     = new \DOMDocument();
+                $doc->preserveWhiteSpace = false;
+                libxml_use_internal_errors( true );
+                $doc->loadXML( $rss );
+                $xpath = new \DOMXpath( $doc );
 
-            if ($this->source->is_combine) {
-                $this->processCombine( $xpath );
-            } else {
-                $this->parseLinks( $xpath );
+                if ($this->source->is_combine) {
+                    $this->processCombine( $xpath );
+                } else {
+                    $this->parseLinks( $xpath );
+                }
             }
         }
 
