@@ -91,7 +91,9 @@
 
         public function getThumbLink( $type = "thumbNews" )
         {
-            return '/uploads/' . date( "Y" ) . '/' . date( "m" ) . "/" . date( "d" ) . "/" . $this->id . "/" . $type . ".png";
+            $ts = strtotime( $this->created_at );
+            return '/uploads/' . date( "Y", $ts ) . '/' . date( "m", $ts ) . "/" . date( "d",
+                $ts ) . "/" . $this->id . "/" . $type . ".png";
         }
 
         public function getLink()
