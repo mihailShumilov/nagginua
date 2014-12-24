@@ -187,7 +187,7 @@
         {
 
             if (isset( $changedAttributes['search_content'] ) || ( $insert && ( mb_strlen( trim( $this->search_content ),
-                            "utf-8" ) > 0 ) )
+                            "utf-8" ) > 6 ) )
             ) {
 
                 self::fillSearchDB( $this->search_content, $this->id );
