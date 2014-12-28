@@ -17,11 +17,11 @@
 
 <?php if (isset( $parserResult )): ?>
     <h1>Title:</h1>
-    <p><?= $parserResult['title']; ?></p>
+    <p><?= isset( $parserResult['title'] ) ? $parserResult['title'] : ""; ?></p>
     <h1>Thumb:</h1>
-    <p><img src="<?= $parserResult['thumb']; ?>"/></p>
+    <p><img src="<?= isset( $parserResult['thumb'] ) ? $parserResult['thumb'] : ""; ?>"/></p>
     <h1>Search content:</h1>
-    <p><?= $parserResult['searchContent']; ?></p>
+    <p><?= isset( $parserResult['searchContent'] ) ? $parserResult['searchContent'] : ""; ?></p>
     <h1>Content:</h1>
-    <p><?= $parserResult['content']; ?></p>
+    <p><?= isset( $parserResult['content'] ) ? $parserResult['content'] : ""; ?></p>
 <?php endif; ?>

@@ -86,7 +86,6 @@
             $xpath = new \DOMXpath( $doc );
 
             foreach ($this->itemPatterns as $pattern) {
-
                 if ($newsList = $xpath->query( $pattern->value )) {
 
                     for ($i = 0; $i < $newsList->length; $i ++) {
@@ -124,6 +123,9 @@
                                         $newsParams['image_src'] = $images[1][0];
                                     }
                                 }
+                            }
+                            if ( ! isset( $newsParams['image_src'] )) {
+                                $newsParams['image_src'] = "";
                             }
                         }
 
