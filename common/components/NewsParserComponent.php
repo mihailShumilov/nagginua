@@ -376,7 +376,7 @@
                 $readability->debug                   = false;
                 $readability->convertLinksToFootnotes = false;
                 $result                               = $readability->init();
-                if ($result) {
+                if ($result || $content) {
                     $title = $readability->getTitle()->textContent;
                     $title = $this->processTitleStopWords( $title );
                     if ( ! $content) {
