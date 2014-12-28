@@ -7,6 +7,7 @@
     {
         public function up()
         {
+            $this->execute( "SET FOREIGN_KEY_CHECKS=0;" );
             $this->dropTable( "news" );
             $this->execute( "CREATE TABLE `news` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -18,6 +19,7 @@
   PRIMARY KEY (`id`),
   KEY `status_created` (`created_at`,`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;" );
+            $this->execute( "SET FOREIGN_KEY_CHECKS=1;" );
 
         }
 
