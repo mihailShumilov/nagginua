@@ -8,6 +8,7 @@
 
     namespace console\controllers;
 
+    use common\models\PendingNews;
     use Yii;
     use common\components\RabbitMQComponent;
     use common\models\RssSources;
@@ -18,6 +19,11 @@
     {
         public function actionIndex()
         {
-
+            foreach (PendingNews::find()->where( "id <= 4293" )->each() as $pn) {
+                if ($pn->search_content) {
+                    $mq = new RabbitMQComponent();
+                    $mq->postMessage( "compile", "compile", json_encode( [ "pn_id" => $pn->id ] ) );
+                }
+            }
         }
     }
