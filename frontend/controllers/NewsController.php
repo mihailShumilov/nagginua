@@ -16,7 +16,7 @@
 
     class NewsController extends Controller
     {
-        public function actionIndex( $id )
+        public function actionIndex( $id, $title )
         {
             $this->layout = 'category';
 

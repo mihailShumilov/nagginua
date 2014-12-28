@@ -34,7 +34,7 @@ return [
             'showScriptName'      => false,
             'rules'               => [
                 'category/<slug:\w+>' => 'category/index',
-                'news/<id:\d+>' => 'news/index',
+                'news/<id:\d+>/<title:.*>' => 'news/index',
                 'defaultRoute'  => 'site/index'
             ]
         ]
