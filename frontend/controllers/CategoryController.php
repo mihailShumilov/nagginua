@@ -23,9 +23,12 @@
             $this->layout = 'category';
 
             $query = News::find();
+            $category = Categories::findOne( [ 'slug' => $slug ] );
+            if ( ! $category) {
+                $this->redirect( "/" );
+            }
 
             if ('all' != $slug) {
-                $category = Categories::findOne( [ 'slug' => $slug ] );
                 $query->join( 'INNER JOIN', NewsHasCategory::tableName(),
                     NewsHasCategory::tableName() . ".news_id = " . News::tableName() . ".id" );
                 $query->where( [ NewsHasCategory::tableName() . '.category_id' => $category->id ] );

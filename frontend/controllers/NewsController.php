@@ -21,6 +21,9 @@
             $this->layout = 'category';
 
             $news = News::findOne( $id );
+            if ( ! $news) {
+                $this->redirect( "/" );
+            }
 
             $breadCrumbs   = [ ];
             $breadCrumbs[] = [ 'label' => 'Главная', 'url' => '/' ];
