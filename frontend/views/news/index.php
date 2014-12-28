@@ -1,5 +1,6 @@
 <?php
     $this->title = $news->title;
+    $this->params['breadcrumbs'] = $breadcrumbs;
     $this->registerMetaTag( [ 'name' => 'description', 'content' => $news->getShort(), 'description' ] );
 
 ?>

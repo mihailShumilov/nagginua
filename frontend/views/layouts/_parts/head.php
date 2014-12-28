@@ -27,7 +27,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode( $this->title ) ?> - агрегатор новостей</title>
+    <title><?= Html::encode( $this->title ) ?> - Агрегатор новостей</title>
     <?php $this->head() ?>
 
 

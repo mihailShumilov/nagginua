@@ -16,11 +16,7 @@
                     <div class="container">
                         <!-- Main Content -->
 
-                        <div class="breadcrumbs column">
-                            <?php $category = \common\models\Categories::findOne( [ 'slug' => Yii::$app->requestedParams[0] ] ); ?>
-                            <p><a href="/">Главная.</a> \\ <a href="/category/all">Категория.</a>
-                                \\ <?= $category ? $category->name : "Все новости"; ?>.</p>
-                        </div>
+                        <?= $this->render( '_parts/breadCrumbs' ) ?>
 
                         <div class="main-content">
 

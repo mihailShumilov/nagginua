@@ -18,9 +18,11 @@
             <nav id="nav">
                 <ul class="sf-menu">
                 <?php if ($categories = \common\models\Categories::find()->all()): ?>
+                    <?php $current = \common\models\Categories::findOne( [ 'slug' => isset( Yii::$app->requestedParams[0] ) ? Yii::$app->requestedParams[0] : 'all' ] ); ?>
+
 
                         <?php foreach ($categories as $category): ?>
-                            <li>
+                        <li <?php if ($current && ( $current->id == $category->id )): ?>class="current"<?php endif; ?>>
                                 <a href="<?= $category->getLink(); ?>"><?= \yii\helpers\Html::encode( $category->name ); ?></a>
                             </li>
                         <?php endforeach; ?>

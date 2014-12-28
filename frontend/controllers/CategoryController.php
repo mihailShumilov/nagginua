@@ -38,6 +38,15 @@
                     'pageSize' => 16,
                 ],
             ] );
-            return $this->render( 'index', [ 'provider' => $provider, 'slug' => $slug ] );
+            $breadCrumbs = [ ];
+            $breadCrumbs[] = [ 'label' => 'Главнаяю.', 'url' => '/' ];
+            $breadCrumbs[] = [ 'label' => 'Категории.', 'url' => '/category/all' ];
+            $breadCrumbs[] = [ 'label' => ( isset( $category ) ? $category->name : "Все новости" ) ];
+            return $this->render( 'index', [
+                'provider'    => $provider,
+                'slug'        => $slug,
+                'category'    => isset( $category ) ? $category->name : "Все новости",
+                'breadcrumbs' => $breadCrumbs
+            ] );
         }
     }

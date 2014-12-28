@@ -22,6 +22,11 @@
 
             $news = News::findOne( $id );
 
-            return $this->render( 'index', [ 'news' => $news ] );
+            $breadCrumbs   = [ ];
+            $breadCrumbs[] = [ 'label' => 'Главная', 'url' => '/' ];
+            $breadCrumbs[] = [ 'label' => 'Все новости', 'url' => '/category/all' ];
+            $breadCrumbs[] = [ 'label' => $news->title ];
+
+            return $this->render( 'index', [ 'news' => $news, 'breadcrumbs' => $breadCrumbs ] );
         }
     }
