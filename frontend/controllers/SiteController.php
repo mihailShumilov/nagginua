@@ -70,12 +70,12 @@ class SiteController extends Controller
         $this->layout = 'front';
         $notInIds = [ ];
 
-        $sliders = News::find()->where( "created_at BETWEEN DATE_ADD(NOW(), INTERVAL -1 day) AND NOW() AND thumb  IS NOT NULL" )->orderBy( [ "cnt" => SORT_DESC ] )->limit( 8 )->all();
+        $sliders = News::find()->where( "created_at BETWEEN DATE_ADD(NOW(), INTERVAL -1 day) AND NOW() " )->orderBy( [ "cnt" => SORT_DESC ] )->limit( 8 )->all();
         foreach ($sliders as $item) {
             $notInIds[] = $item->id;
         }
 
-        $topNews = News::find()->where( "created_at BETWEEN DATE_ADD(NOW(), INTERVAL -1 day) AND NOW() AND thumb  IS NOT NULL AND id NOT IN(" . implode( ",",
+        $topNews      = News::find()->where( "created_at BETWEEN DATE_ADD(NOW(), INTERVAL -1 day) AND NOW()  AND id NOT IN(" . implode( ",",
                 $notInIds ) . ")" )->orderBy( [ "cnt" => SORT_DESC ] )->limit( 4 )->all();
         foreach ($topNews as $item) {
             $notInIds[] = $item->id;
@@ -86,27 +86,27 @@ class SiteController extends Controller
             $notInIds[] = $item->id;
         }
         $category = Categories::findOne( [ 'slug' => 'ato' ] );
-        $atoNews  = News::find()->joinWith( [ 'newsHasCategories' ] )->where( "thumb  IS NOT NULL AND " . NewsHasCategory::tableName() . ".category_id = {$category->id} AND " . News::tableName() . ".id NOT IN(" . implode( ",",
+        $atoNews      = News::find()->joinWith( [ 'newsHasCategories' ] )->where( NewsHasCategory::tableName() . ".category_id = {$category->id} AND " . News::tableName() . ".id NOT IN(" . implode( ",",
                 $notInIds ) . ")" )->orderBy( [ "id" => SORT_DESC ] )->limit( 7 )->all();
         foreach ($atoNews as $item) {
             $notInIds[] = $item->id;
         }
         $category = Categories::findOne( [ 'slug' => 'economic' ] );
-        $ecoNews  = News::find()->joinWith( [ 'newsHasCategories' ] )->where( "thumb  IS NOT NULL AND " . NewsHasCategory::tableName() . ".category_id = {$category->id} AND " . News::tableName() . ".id NOT IN(" . implode( ",",
+        $ecoNews      = News::find()->joinWith( [ 'newsHasCategories' ] )->where( NewsHasCategory::tableName() . ".category_id = {$category->id} AND " . News::tableName() . ".id NOT IN(" . implode( ",",
                 $notInIds ) . ")" )->orderBy( [ "id" => SORT_DESC ] )->limit( 7 )->all();
         foreach ($ecoNews as $item) {
             $notInIds[] = $item->id;
         }
 
         $category  = Categories::findOne( [ 'slug' => 'sport' ] );
-        $sportNews = News::find()->joinWith( [ 'newsHasCategories' ] )->where( "thumb  IS NOT NULL AND " . NewsHasCategory::tableName() . ".category_id = {$category->id} AND " . News::tableName() . ".id NOT IN(" . implode( ",",
+        $sportNews    = News::find()->joinWith( [ 'newsHasCategories' ] )->where( NewsHasCategory::tableName() . ".category_id = {$category->id} AND " . News::tableName() . ".id NOT IN(" . implode( ",",
                 $notInIds ) . ")" )->orderBy( [ "id" => SORT_DESC ] )->limit( 3 )->all();
         foreach ($sportNews as $item) {
             $notInIds[] = $item->id;
         }
 
         $category     = Categories::findOne( [ 'slug' => 'politics' ] );
-        $politicsNews = News::find()->joinWith( [ 'newsHasCategories' ] )->where( "thumb  IS NOT NULL AND " . NewsHasCategory::tableName() . ".category_id = {$category->id} AND " . News::tableName() . ".id NOT IN(" . implode( ",",
+        $politicsNews = News::find()->joinWith( [ 'newsHasCategories' ] )->where( NewsHasCategory::tableName() . ".category_id = {$category->id} AND " . News::tableName() . ".id NOT IN(" . implode( ",",
                 $notInIds ) . ")" )->orderBy( [ "id" => SORT_DESC ] )->limit( 3 )->all();
 
         return $this->render( 'index', [
