@@ -8,7 +8,8 @@
                 <span>1 <br/> <i>фан</i></span>
             </li>
             <li>
-                <a href="https://twitter.com/nagginua" class="twitter"><i class="icon-twitter"></i></a>
+                <a href="https://twitter.com/intent/follow?original_referer=<?php echo urlencode( $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ) . "&region=follow_link&screen_name=nagginua&tw_p=followbutton&variant=2.0"; ?>"
+                   class="twitter"><i class="icon-twitter"></i></a>
                 <span>2 <br/> <i>читателя</i></span>
             </li>
             <li>

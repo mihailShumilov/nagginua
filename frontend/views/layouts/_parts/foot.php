@@ -16,6 +16,8 @@
 <script type="text/javascript" src="/js/html5.js"></script> <![endif]-->
 <script type="text/javascript" src="/js/mypassion.js"></script>
 <script type="text/javascript" src="/js/news.js"></script>
+
+<script src="https://platform.twitter.com/widgets.js"></script>
 <?php $this->endBody() ?>
 <script>
     (
