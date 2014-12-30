@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\components\RabbitMQComponent;
 use common\models\Categories;
 use common\models\NewsHasCategory;
 use Yii;
@@ -147,6 +148,19 @@ class SiteController extends Controller
 
     public function actionError()
     {
+        if (strpos( Yii::$app->request->url, "uploads" )) {
+            $aUrl = explode( "/", Yii::$app->request->url );
+            if (isset( $aUrl[5] )) {
+                if ($news = News::findOne( $aUrl[5] )) {
+                    $mq = new RabbitMQComponent();
+                    $mq->postMessage( "image", "image", json_encode( [
+                        "news_id" => $news->id,
+                        "src"     => $news->thumb
+                    ] ) );
+                    $this->redirect( $news->thumb );
+                }
+            }
+        }
         $this->redirect( "/" );
     }
 }
