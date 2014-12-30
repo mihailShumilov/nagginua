@@ -145,6 +145,8 @@
                 if ($giData = PageLoaderComponent::load( "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" . urlencode( $news->title ) . "&userip=127.0.0.1&imgsz=large" )) {
                     $data = json_decode( $giData );
                     if (isset( $data->responseData->results[0] )) {
+                        $news->thumb = $data->responseData->results[0]->unescapedUrl;
+                        $news->save();
                         $mq = new RabbitMQComponent();
                         $mq->postMessage( "image", "image", json_encode( [
                             "news_id" => $news->id,
