@@ -15,9 +15,34 @@
     use Yii;
     use yii\filters\AccessControl;
     use yii\web\Controller;
+    use yii\filters\VerbFilter;
+
 
     class ParserController extends Controller
     {
+
+        public function behaviors()
+        {
+            return [
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'rules' => [
+
+                        [
+                            'actions' => [ 'test' ],
+                            'allow'   => true,
+                            'roles'   => [ '@' ],
+                        ],
+                    ],
+                ],
+                'verbs'  => [
+                    'class'   => VerbFilter::className(),
+                    'actions' => [
+                        'delete' => [ 'post' ],
+                    ],
+                ],
+            ];
+        }
 
 
         public function actionTest()

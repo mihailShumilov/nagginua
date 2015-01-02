@@ -5,6 +5,7 @@
     use Yii;
     use common\models\Categories;
     use backend\models\CategoriesSearch;
+    use yii\filters\AccessControl;
     use yii\web\Controller;
     use yii\web\NotFoundHttpException;
     use yii\filters\VerbFilter;
@@ -17,6 +18,17 @@
         public function behaviors()
         {
             return [
+                'access' => [
+                    'class' => AccessControl::className(),
+                    'rules' => [
+
+                        [
+                            'actions' => [ 'index', 'view', 'create', 'update', 'delete', 'find' ],
+                            'allow'   => true,
+                            'roles'   => [ '@' ],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class'   => VerbFilter::className(),
                     'actions' => [
