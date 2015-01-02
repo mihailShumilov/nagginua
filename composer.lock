@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "632d0d3dab0c9027870f0a006640b964",
+    "hash": "b8a02cbaf793c14f34d5001abefca607",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -186,12 +186,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/jquery-pjax.git",
-                "reference": "f07ce95f6098c0bd5421789a20789f39a19be73b"
+                "reference": "fb92be865c0fd6583714475cb7d629020749d73f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/f07ce95f6098c0bd5421789a20789f39a19be73b",
-                "reference": "f07ce95f6098c0bd5421789a20789f39a19be73b",
+                "url": "https://api.github.com/repos/yiisoft/jquery-pjax/zipball/fb92be865c0fd6583714475cb7d629020749d73f",
+                "reference": "fb92be865c0fd6583714475cb7d629020749d73f",
                 "shasum": ""
             },
             "require": {
@@ -202,9 +202,17 @@
                 "bower-asset-main": "./jquery.pjax.js",
                 "bower-asset-ignore": [
                     ".travis.yml",
+                    "Gemfile",
+                    "Gemfile.lock",
+                    "vendor/",
+                    "script/",
                     "test/"
-                ]
-            }
+                ],
+                "branch-alias": {
+                    "dev-master": "2.0.2-dev"
+                }
+            },
+            "time": "2014-12-04 17:15:44"
         },
         {
             "name": "cebe/markdown",
@@ -403,6 +411,62 @@
                 "html"
             ],
             "time": "2013-11-30 08:25:19"
+        },
+        {
+            "name": "fxp/composer-asset-plugin",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/francoispluchino/composer-asset-plugin.git",
+                "reference": "4cbcb3a5c589defd8ecd8c322ab66164c4118391"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/francoispluchino/composer-asset-plugin/zipball/4cbcb3a5c589defd8ecd8c322ab66164c4118391",
+                "reference": "4cbcb3a5c589defd8ecd8c322ab66164c4118391",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "1.0.0",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "composer/composer": "~1.0@dev"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Fxp\\Composer\\AssetPlugin\\FxpAssetPlugin",
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fxp\\Composer\\AssetPlugin\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Pluchino",
+                    "email": "francois.pluchino@gmail.com"
+                }
+            ],
+            "description": "NPM/Bower Dependency Manager for Composer",
+            "homepage": "https://github.com/francoispluchino/composer-asset-plugin",
+            "keywords": [
+                "asset",
+                "bower",
+                "composer",
+                "dependency manager",
+                "nodejs",
+                "npm",
+                "package"
+            ],
+            "time": "2014-12-31 14:44:43"
         },
         {
             "name": "jublonet/codebird-php",
@@ -671,12 +735,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "fe64609072f59075d85eb7b82138015166ebca77"
+                "reference": "20069178d2c399006a994ed4a7bc79b559ef14f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/fe64609072f59075d85eb7b82138015166ebca77",
-                "reference": "fe64609072f59075d85eb7b82138015166ebca77",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/20069178d2c399006a994ed4a7bc79b559ef14f1",
+                "reference": "20069178d2c399006a994ed4a7bc79b559ef14f1",
                 "shasum": ""
             },
             "require": {
@@ -752,7 +816,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-12-21 21:19:29"
+            "time": "2015-01-01 17:27:52"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -760,12 +824,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-bootstrap.git",
-                "reference": "f9cddd7523454f2acfdd9574c9573cceb52787f3"
+                "reference": "43b808a9d799d9b08dca5790722d1b51196e7e25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/f9cddd7523454f2acfdd9574c9573cceb52787f3",
-                "reference": "f9cddd7523454f2acfdd9574c9573cceb52787f3",
+                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/43b808a9d799d9b08dca5790722d1b51196e7e25",
+                "reference": "43b808a9d799d9b08dca5790722d1b51196e7e25",
                 "shasum": ""
             },
             "require": {
@@ -798,7 +862,7 @@
                 "bootstrap",
                 "yii2"
             ],
-            "time": "2014-12-07 16:46:05"
+            "time": "2015-01-01 14:54:18"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -917,9 +981,9 @@
                 "bower-asset/jquery": ">=1.7"
             },
             "require-dev": {
-                "bower-asset/jasmine-ajax": ">=1.3.1,<1.4",
-                "bower-asset/jasmine-jquery": ">=1.5.2,<1.6",
-                "bower-asset/jquery": ">=1.7,<1.8"
+                "bower-asset/jasmine-ajax": "~1.3.1",
+                "bower-asset/jasmine-jquery": "~1.5.2",
+                "bower-asset/jquery": "~1.7"
             },
             "type": "bower-asset-library",
             "extra": {
@@ -1060,12 +1124,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "f5ba19d53b8d7f69a26770f6e546d32c433fd6f7"
+                "reference": "7da794a53c4c91d906b1552a7bc73534d60b7307"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/f5ba19d53b8d7f69a26770f6e546d32c433fd6f7",
-                "reference": "f5ba19d53b8d7f69a26770f6e546d32c433fd6f7",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/7da794a53c4c91d906b1552a7bc73534d60b7307",
+                "reference": "7da794a53c4c91d906b1552a7bc73534d60b7307",
                 "shasum": ""
             },
             "require": {
@@ -1099,7 +1163,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2014-12-16 22:58:29"
+            "time": "2014-12-22 21:00:11"
         },
         {
             "name": "yiisoft/yii2-faker",
@@ -1201,7 +1265,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "wapmorgan/image-editor": 20
+        "wapmorgan/image-editor": 20,
+        "fxp/composer-asset-plugin": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

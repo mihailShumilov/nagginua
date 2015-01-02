@@ -40,6 +40,9 @@ AppAsset::register($this);
                 [ 'label' => 'Category Words', 'url' => [ '/category-words/index' ] ],
                 [ 'label' => 'Content Stop Words', 'url' => [ '/content-stop-words/index' ] ],
                 [ 'label' => 'Parser test', 'url' => [ '/parser/test' ] ],
+                [ 'label' => 'News', 'url' => [ '/news/index' ] ],
+                [ 'label' => 'Pending News', 'url' => [ '/pending-news/index' ] ],
+                [ 'label' => 'Npn', 'url' => [ '/npn/index' ] ],
             ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
