@@ -68,6 +68,15 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        Yii::$app->view->title = 'Свежие новости';
+        Yii::$app->view->registerMetaTag( [ 'name'    => 'keywords',
+                                            'content' => 'новости, свежие новости, новости украины, новости сегодня, агрегатор новостей'
+        ] );
+        Yii::$app->view->registerMetaTag( [ 'name'    => 'description',
+                                            'content' => 'Свежие новости со всех Украинских сайтов в одном сайте. Агрегатор новостей'
+        ], 'description' );
+        Yii::$app->view->registerMetaTag( [ 'name' => 'og:title', 'content' => Yii::$app->view->title ], 'og:title' );
+
         $this->layout = 'front';
         $notInIds = [ ];
 

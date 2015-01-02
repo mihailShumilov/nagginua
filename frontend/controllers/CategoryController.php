@@ -20,6 +20,7 @@
     {
         public function actionIndex( $slug )
         {
+
             $this->layout = 'category';
 
             $query = News::find();
@@ -45,6 +46,17 @@
             $breadCrumbs[] = [ 'label' => 'Главная', 'url' => '/' ];
             $breadCrumbs[] = [ 'label' => 'Категории', 'url' => '/category/all' ];
             $breadCrumbs[] = [ 'label' => ( isset( $category ) ? $category->name : "Все новости" ) ];
+
+            Yii::$app->view->title = isset( $category ) ? $category->name : "Все новости";
+            Yii::$app->view->registerMetaTag( [ 'name'    => 'keywords',
+                                                'content' => ( isset( $category ) ? $category->name : "Все новости" ) . ' новости, свежие новости, новости украины, новости сегодня, агрегатор новостей'
+            ] );
+            Yii::$app->view->registerMetaTag( [ 'name'    => 'description',
+                                                'content' => 'Свежие новости со всех Украинских сайтов в одном сайте. Агрегатор новостей'
+            ], 'description' );
+            Yii::$app->view->registerMetaTag( [ 'name' => 'og:title', 'content' => Yii::$app->view->title ],
+                'og:title' );
+
             return $this->render( 'index', [
                 'provider'    => $provider,
                 'slug'        => $slug,

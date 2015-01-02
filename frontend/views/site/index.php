@@ -1,8 +1,3 @@
-<?php
-/* @var $this yii\web\View */
-    $this->title = 'Свежие новости';
-?>
-
 <!-- Slider -->
 <section id="slider">
     <div class="container">

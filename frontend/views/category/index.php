@@ -1,4 +1,3 @@
-<?php $this->title = $category; ?>
 <?php $this->params['breadcrumbs'] = $breadcrumbs; ?>
 <?php $news = $provider->getModels(); ?>
 <div class="column-two-third">

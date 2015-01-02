@@ -18,7 +18,6 @@
 <script type="text/javascript" src="/js/news.js"></script>
 
 <script src="https://platform.twitter.com/widgets.js"></script>
-<?php $this->endBody() ?>
 <script>
     (
         function ( i, s, o, g, r, a, m )
@@ -42,5 +41,8 @@
     ga( 'send', 'pageview' );
 
 </script>
+<?php $this->endBody() ?>
+
 </body>
 </html>
+<?php //$this->endPage() ?>

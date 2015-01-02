@@ -28,7 +28,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode( $this->title ) ?> - Агрегатор новостей</title>
+
     <?php $this->head() ?>
+    <?php
+        //Yii hack
+        if ( ! empty( $this->metaTags )) {
+            $lines[] = implode( "\n", $this->metaTags );
+        }
+
+        if ( ! empty( $this->linkTags )) {
+            $lines[] = implode( "\n", $this->linkTags );
+        }
+        if ( ! empty( $this->cssFiles )) {
+            $lines[] = implode( "\n", $this->cssFiles );
+        }
+        if ( ! empty( $this->css )) {
+            $lines[] = implode( "\n", $this->css );
+        }
+        if ( ! empty( $this->jsFiles[\yii\web\View::POS_HEAD] )) {
+            $lines[] = implode( "\n", $this->jsFiles[\yii\web\View::POS_HEAD] );
+        }
+        if ( ! empty( $this->js[\yii\web\View::POS_HEAD] )) {
+            $lines[] = Html::script( implode( "\n", $this->js[\yii\web\View::POS_HEAD] ),
+                [ 'type' => 'text/javascript' ] );
+        }
+        echo empty( $lines ) ? '' : implode( "\n", $lines );
+    ?>
 
 
     <link rel="shortcut icon" href="/img/sms-4.ico"/>
