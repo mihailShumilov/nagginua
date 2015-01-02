@@ -179,4 +179,9 @@ class SiteController extends Controller
         }
         $this->redirect( "/" );
     }
+
+    public function actionXml()
+    {
+        $this->layout = "xml";
+    }
 }
