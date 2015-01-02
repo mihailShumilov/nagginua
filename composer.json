@@ -22,7 +22,8 @@
         "mihailshumilov/documenthash": "*",
         "mihailshumilov/readability": "*",
         "wapmorgan/image-editor": "dev-master",
-        "jublonet/codebird-php": "*"
+        "jublonet/codebird-php": "*",
+        "fxp/composer-asset-plugin": "1.0.*@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
