@@ -5,6 +5,8 @@
     use Yii;
     use yii\db\Expression;
     use common\models\NewsHasCategory;
+    use himiklab\sitemap\behaviors\SitemapBehavior;
+
 
     /**
      * This is the model class for table "news".
@@ -19,6 +21,28 @@
      */
     class News extends \yii\db\ActiveRecord
     {
+
+        public function behaviors()
+        {
+            return [
+                'sitemap' => [
+                    'class'       => SitemapBehavior::className(),
+                    'scope'       => function ( $model ) {
+                        /** @var \yii\db\ActiveQuery $model */
+                        $model->andWhere( [ 'status' => 'done' ] );
+                    },
+                    'dataClosure' => function ( $model ) {
+                        /** @var self $model */
+                        return [
+                            'loc'        => $model->getLink(),
+                            'lastmod'    => strtotime( $model->updated_at ),
+                            'changefreq' => SitemapBehavior::CHANGEFREQ_DAILY,
+                            'priority'   => 0.8
+                        ];
+                    }
+                ],
+            ];
+        }
         /**
          * @inheritdoc
          */

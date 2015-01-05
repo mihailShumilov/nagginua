@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b8a02cbaf793c14f34d5001abefca607",
+    "hash": "69f305966dd59788e3e268b5b51842d0",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -102,16 +102,16 @@
         },
         {
             "name": "bower-asset/jquery.inputmask",
-            "version": "3.1.49",
+            "version": "3.1.50",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RobinHerbots/jquery.inputmask.git",
-                "reference": "4a0bda47031b9d2074b0c77c3b447df71ed1ca95"
+                "reference": "f44d5deec804c72fe85da31819b18bdcdad26f65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/4a0bda47031b9d2074b0c77c3b447df71ed1ca95",
-                "reference": "4a0bda47031b9d2074b0c77c3b447df71ed1ca95",
+                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/f44d5deec804c72fe85da31819b18bdcdad26f65",
+                "reference": "f44d5deec804c72fe85da31819b18bdcdad26f65",
                 "shasum": ""
             },
             "require": {
@@ -418,12 +418,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/francoispluchino/composer-asset-plugin.git",
-                "reference": "4cbcb3a5c589defd8ecd8c322ab66164c4118391"
+                "reference": "565dadfe0f9ea51d5a4f2384ca9fd8552f9fe6de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/francoispluchino/composer-asset-plugin/zipball/4cbcb3a5c589defd8ecd8c322ab66164c4118391",
-                "reference": "4cbcb3a5c589defd8ecd8c322ab66164c4118391",
+                "url": "https://api.github.com/repos/francoispluchino/composer-asset-plugin/zipball/565dadfe0f9ea51d5a4f2384ca9fd8552f9fe6de",
+                "reference": "565dadfe0f9ea51d5a4f2384ca9fd8552f9fe6de",
                 "shasum": ""
             },
             "require": {
@@ -466,7 +466,49 @@
                 "npm",
                 "package"
             ],
-            "time": "2014-12-31 14:44:43"
+            "time": "2015-01-02 11:35:42"
+        },
+        {
+            "name": "himiklab/yii2-sitemap-module",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/himiklab/yii2-sitemap-module.git",
+                "reference": "3bac5e284203a4476d45b5bd25d8fa3bb30f243d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/himiklab/yii2-sitemap-module/zipball/3bac5e284203a4476d45b5bd25d8fa3bb30f243d",
+                "reference": "3bac5e284203a4476d45b5bd25d8fa3bb30f243d",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "himiklab\\sitemap\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "HimikLab",
+                    "homepage": "https://github.com/himiklab"
+                }
+            ],
+            "description": "Yii2 module for automatically generation XML Sitemap",
+            "keywords": [
+                "Sitemap",
+                "module",
+                "xml",
+                "yii2"
+            ],
+            "time": "2015-01-05 08:23:22"
         },
         {
             "name": "jublonet/codebird-php",
@@ -647,12 +689,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/videlalvaro/php-amqplib.git",
-                "reference": "4d57fde8c3eb5b4a9577cef15ab874150c7655cb"
+                "reference": "581eb37b7eb7f6e55ac591017eeba3be3a39d81b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/videlalvaro/php-amqplib/zipball/4d57fde8c3eb5b4a9577cef15ab874150c7655cb",
-                "reference": "4d57fde8c3eb5b4a9577cef15ab874150c7655cb",
+                "url": "https://api.github.com/repos/videlalvaro/php-amqplib/zipball/581eb37b7eb7f6e55ac591017eeba3be3a39d81b",
+                "reference": "581eb37b7eb7f6e55ac591017eeba3be3a39d81b",
                 "shasum": ""
             },
             "require": {
@@ -693,7 +735,7 @@
                 "queue",
                 "rabbitmq"
             ],
-            "time": "2014-11-27 15:11:55"
+            "time": "2015-01-05 20:29:36"
         },
         {
             "name": "wapmorgan/image-editor",
@@ -735,12 +777,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "20069178d2c399006a994ed4a7bc79b559ef14f1"
+                "reference": "d0f57972a38b31f54306d2e9010d1eda739d1983"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/20069178d2c399006a994ed4a7bc79b559ef14f1",
-                "reference": "20069178d2c399006a994ed4a7bc79b559ef14f1",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/d0f57972a38b31f54306d2e9010d1eda739d1983",
+                "reference": "d0f57972a38b31f54306d2e9010d1eda739d1983",
                 "shasum": ""
             },
             "require": {
@@ -816,7 +858,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-01-01 17:27:52"
+            "time": "2015-01-05 02:51:46"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -996,12 +1038,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "d82603adc7aa0f7d47c2e767fd33636803f4117a"
+                "reference": "9d9bd78a9c875e6cd8ab9555823017ef3182ece5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/d82603adc7aa0f7d47c2e767fd33636803f4117a",
-                "reference": "d82603adc7aa0f7d47c2e767fd33636803f4117a",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/9d9bd78a9c875e6cd8ab9555823017ef3182ece5",
+                "reference": "9d9bd78a9c875e6cd8ab9555823017ef3182ece5",
                 "shasum": ""
             },
             "require": {
@@ -1010,6 +1052,9 @@
             "require-dev": {
                 "phpunit/phpunit": "~4.0",
                 "squizlabs/php_codesniffer": "~1.5"
+            },
+            "suggest": {
+                "ext-intl": "*"
             },
             "type": "library",
             "extra": {
@@ -1037,7 +1082,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-12-18 07:45:28"
+            "time": "2015-01-04 23:56:37"
         },
         {
             "name": "phpspec/php-diff",
