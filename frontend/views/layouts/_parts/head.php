@@ -9,6 +9,7 @@
 
     AppAsset::register( $this );
 
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

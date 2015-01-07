@@ -17,7 +17,7 @@
                          alt="<?= \yii\helpers\Html::encode( $item->title ); ?>" class="alignleft"/>
                     <h6 class="regular"><a
                             href="<?= $item->getLink(); ?>"><?= \yii\helpers\Html::encode( $item->title ); ?></a></h6>
-                <span class="meta"><?= date( "d M, Y", strtotime( $item->created_at ) ); ?>
+                <span class="meta"><?= Yii::$app->formatter->asDate( $item->created_at, "php:d M, Y" ); ?>
                     <?php if ($categories = $item->getCategoryList()): ?>
                         <?php foreach ($categories as $category): ?>
                             \\ <a href="<?= $category->getLink(); ?>"><?= $category->name; ?></a>
