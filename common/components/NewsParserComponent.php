@@ -70,7 +70,7 @@
             echo "Try parse `{$this->url}`\n";
             if ($html = PageLoaderComponent::load( $this->url )) {
 
-                preg_match( '/<meta.*?charset=("|\")(.*?)("|\")/i', $html, $matches );
+                preg_match( '/<meta.*?charset=("?|\")(.*?)("|\")/i', $html, $matches );
                 if (isset( $matches[2] )) {
 
                     if ($charset = $matches[2]) {
