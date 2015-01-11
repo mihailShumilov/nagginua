@@ -70,10 +70,14 @@
             echo "Try parse `{$this->url}`\n";
             if ($html = PageLoaderComponent::load( $this->url )) {
 
-                preg_match( '/<meta.*?charset=(|\")(.*?)("|\")/i', $html, $matches );
+                preg_match( '/<meta.*?charset=("|\")(.*?)("|\")/i', $html, $matches );
                 if (isset( $matches[2] )) {
-                    $charset = $matches[2];
-                    $html    = mb_convert_encoding( $html, "UTF-8", $charset );
+
+                    if ($charset = $matches[2]) {
+                        $html = mb_convert_encoding( $html, "UTF-8", $charset );
+                    } else {
+                        echo "ERROR ON ENCODING DETECTING";
+                    }
                 } else {
                     $html = mb_convert_encoding( $html, "UTF-8" );
                 }
