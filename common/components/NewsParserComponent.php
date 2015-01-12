@@ -142,6 +142,11 @@
                                         }
                                     }
                                     if ($this->pendingNews->save()) {
+
+                                        $mq = new RabbitMQComponent();
+                                        $mq->postMessage( "compile", "compile",
+                                            json_encode( [ "pn_id" => $this->pendingNews->id ] ) );
+
                                         $this->parserQueue->status = ParserQueue::STATUS_DONE;
                                         $this->parserQueue->save();
                                         return true;
