@@ -79,7 +79,16 @@
                         echo "ERROR ON ENCODING DETECTING";
                     }
                 } else {
-                    $html = mb_convert_encoding( $html, "UTF-8" );
+                    if ($defaultEncoding = SourcesSettings::findOne( [
+                        'source_id' => $this->source->id,
+                        'name'      => 'default_encoding'
+                    ] )
+                    ) {
+                        $html = mb_convert_encoding( $html, "UTF-8", $defaultEncoding );
+                    } else {
+                        $html = mb_convert_encoding( $html, "UTF-8" );
+                    }
+
                 }
 
                 try {
