@@ -186,12 +186,15 @@
         public function afterSave( $insert, $changedAttributes )
         {
 
-            if (isset( $changedAttributes['search_content'] ) || ( $insert && ( mb_strlen( trim( $this->search_content ),
+            if (( isset( $changedAttributes['search_content'] ) && ( ! empty( $changedAttributes['search_content'] ) ) && ( $changedAttributes['search_content'] != '&nbsp;' ) ) || ( $insert && ( mb_strlen( trim( $this->search_content ),
                             "utf-8" ) > 6 ) )
             ) {
+                try {
+                    self::fillSearchDB( $this->search_content, $this->id );
+                    self::fillTags( $this->search_content, $this->id );
+                } catch ( \Exception $e ) {
 
-                self::fillSearchDB( $this->search_content, $this->id );
-                self::fillTags( $this->search_content, $this->id );
+                }
                 $mq = new RabbitMQComponent();
                 $mq->postMessage( "compile", "compile", json_encode( [ "pn_id" => $this->id ] ) );
             }
