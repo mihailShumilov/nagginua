@@ -84,7 +84,7 @@
                         'name'      => 'default_encoding'
                     ] )
                     ) {
-                        $html = mb_convert_encoding( $html, "UTF-8", $defaultEncoding );
+                        $html = mb_convert_encoding( $html, "UTF-8", $defaultEncoding->value );
                     } else {
                         $html = mb_convert_encoding( $html, "UTF-8" );
                     }
