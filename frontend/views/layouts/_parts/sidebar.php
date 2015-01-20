@@ -10,7 +10,7 @@
             <li>
                 <a href="https://twitter.com/intent/follow?original_referer=<?php echo urlencode( $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] ) . "&region=follow_link&screen_name=nagginua&tw_p=followbutton&variant=2.0"; ?>"
                    class="twitter"><i class="icon-twitter"></i></a>
-                <span>7 <br/> <i>читателей</i></span>
+                <span>12 <br/> <i>читателей</i></span>
             </li>
             <li>
                 <a href="#" class="rss"><i class="icon-rss"></i></a>
