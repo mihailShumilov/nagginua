@@ -595,17 +595,19 @@ ul.sharebox {
     width: 100%;
     float: left;
     clear: both;
-    margin: 20px 0;
+    margin: 15px 0 20px;
     padding: 0;
 }
 
 ul.sharebox li {
+    margin-top: 5px;
     float: right;
     margin-right: 5px;
     font-size: 11px;
 }
 
 ul.sharebox li a {
+    display: block;
     color: #696969;
     border: 1px solid #dbdbdb;
     padding: 5px 15px 2px 10px;
