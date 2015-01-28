@@ -95,14 +95,14 @@
                         $returnIds[] = array( 'id' => $ihs->doc_id, 'weight' => 100 );
                     }
                 }
-                $hashClause = "0";
+                $hashClause = "0 = 0";
 
                 foreach ($dh->getCrc32array() as $token_hash) {
                     $hashClause .= " OR word_hash=$token_hash";
                 }
 
 
-                $findCmd = Yii::$app->db->createCommand( "SELECT doc_id, COUNT(id) as inters FROM items_hashes WHERE 1 AND ($hashClause) GROUP BY doc_id HAVING inters>1" );
+                $findCmd = Yii::$app->db->createCommand( "SELECT doc_id, COUNT(id) as inters FROM items_hashes WHERE 1 = 1 AND ($hashClause) GROUP BY doc_id HAVING COUNT(id)>1" );
 
                 $dataReader = $findCmd->query();
                 while (( $row = $dataReader->read() ) !== false) {

@@ -144,6 +144,7 @@
                         $pn->pq_id = $parser_queue->id;
                     }
                     $pn->created_at = new \yii\db\Expression( "NOW()" );
+                    $pn->update_at = new \yii\db\Expression( "NOW()" );
                     if ($pn->save()) {
                         if ($parser_queue) {
                             $parser_queue->status = ParserQueue::STATUS_DONE;

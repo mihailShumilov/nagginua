@@ -137,6 +137,7 @@
                                 $pqItem->url        = $newsParams['link'];
                                 $pqItem->status     = ParserQueue::STATUS_INPROCESS;
                                 $pqItem->created_at = new \yii\db\Expression( 'NOW()' );
+                                $pqItem->updated_at = new \yii\db\Expression( 'NOW()' );
                                 if ($pqItem->save()) {
 
                                     PendingNews::add(
