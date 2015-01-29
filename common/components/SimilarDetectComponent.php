@@ -118,14 +118,15 @@ order by sml desc" );
             $news->title      = NewsParserComponent::replace4byte( $pn->title );
             $news->thumb      = $pn->thumb_src;
             $news->status     = "in_process";
+            $news->cnt = 0;
             $news->created_at = new \yii\db\Expression( 'NOW()' );
             $news->updated_at = new \yii\db\Expression( 'NOW()' );
             if ($news->save()) {
 
-            $this->linkNews( $news->id, $pn->id );
+                $this->linkNews( $news->id, $pn->id );
 
-            $news->status = "done";
-            $news->save();
+                $news->status = "done";
+                $news->save();
 
                 if ($news->thumb) {
                     $mq = new RabbitMQComponent();
