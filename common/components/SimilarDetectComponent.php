@@ -88,29 +88,17 @@
         {
             if ($content) {
                 $returnIds = array();
-                $dh        = new \DocumentHash( $content );
-                if ($results = ItemsHashesSummary::findAll( [ "full_hash" => $dh->docMD5, "length" => $dh->length ] )
-                ) {
-                    foreach ($results as $ihs) {
-                        $returnIds[] = array( 'id' => $ihs->doc_id, 'weight' => 100 );
-                    }
-                }
-                $hashClause = "0 = 0";
 
-                foreach ($dh->getCrc32array() as $token_hash) {
-                    $hashClause .= " OR word_hash=$token_hash";
-                }
-
-
-                $findCmd = Yii::$app->db->createCommand( "SELECT doc_id, COUNT(id) as inters FROM items_hashes WHERE 1 = 1 AND ($hashClause) GROUP BY doc_id HAVING COUNT(id)>1" );
+                $findCmd = Yii::$app->db->createCommand( "SELECT id, title, similarity(search_content, :text) as sml
+from pending_news
+where
+similarity(search_content, :text) > 0.3
+order by sml desc" );
+                $findCmd->bindParam( ":text", $content );
 
                 $dataReader = $findCmd->query();
                 while (( $row = $dataReader->read() ) !== false) {
-                    $result2     = ItemsHashesSummary::findOne( [ "doc_id" => $row['doc_id'] ] );
-                    $length      = $result2->length;
-                    $length      = min( $length, $dh->length );
-                    $weight      = ( $row['inters'] / $length ) * 100;
-                    $returnIds[] = array( 'id' => $row['doc_id'], 'weight' => $weight );
+                    $returnIds[] = array( 'id' => $row['id'], 'weight' => $row['sml'] * 100 );
                 }
 
                 return $returnIds;

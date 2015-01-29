@@ -144,8 +144,6 @@
                                     if ($this->pendingNews->save()) {
 
                                         try {
-                                            PendingNews::fillSearchDB( $this->pendingNews->search_content,
-                                                $this->pendingNews->id );
                                             PendingNews::fillTags( $this->pendingNews->search_content,
                                                 $this->pendingNews->id );
                                         } catch ( \Exception $e ) {

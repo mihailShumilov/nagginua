@@ -161,28 +161,7 @@
             }
         }
 
-        public static function fillSearchDB( $content, $newsID )
-        {
-            $dh = new \DocumentHash( $content );
 
-            $ihs            = new ItemsHashesSummary();
-            $ihs->doc_id    = $newsID;
-            $ihs->full_hash = $dh->docMD5;
-            $tockens        = array_unique( $dh->getCrc32array() );
-            $ihs->length    = sizeof( $tockens );
-            $ihs->save();
-
-            foreach ($tockens as $token) {
-                $ih            = new ItemsHashes();
-                $ih->doc_id    = $newsID;
-                $ih->word_hash = $token;
-                if ( ! $ih->save()) {
-//                print_r($ih->getErrors());
-//                die;
-                }
-            }
-
-        }
 
         public function afterSave( $insert, $changedAttributes )
         {
@@ -191,7 +170,6 @@
                             "utf-8" ) > 6 ) )
             ) {
                 try {
-                    self::fillSearchDB( $this->search_content, $this->id );
                     self::fillTags( $this->search_content, $this->id );
                 } catch ( \Exception $e ) {
 
