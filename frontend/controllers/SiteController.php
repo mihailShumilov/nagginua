@@ -80,12 +80,12 @@ class SiteController extends Controller
         $this->layout = 'front';
         $notInIds = [ ];
 
-        $sliders = News::find()->where( "created_at BETWEEN DATE_ADD(NOW(), INTERVAL -6 hour) AND NOW() AND thumb  IS NOT NULL" )->orderBy( [ "cnt" => SORT_DESC ] )->limit( 8 )->all();
+        $sliders = News::find()->where( "created_at BETWEEN NOW() - INTERVAL '6 hour' AND NOW() AND thumb  IS NOT NULL" )->orderBy( [ "cnt" => SORT_DESC ] )->limit( 8 )->all();
         foreach ($sliders as $item) {
             $notInIds[] = $item->id;
         }
 
-        $topNews = News::find()->where( "created_at BETWEEN DATE_ADD(NOW(), INTERVAL -6 hour) AND NOW() AND thumb  IS NOT NULL  AND id NOT IN(" . implode( ",",
+        $topNews = News::find()->where( "created_at BETWEEN NOW() - INTERVAL '6 hour' AND NOW() AND thumb  IS NOT NULL  AND id NOT IN(" . implode( ",",
                 $notInIds ) . ")" )->orderBy( [ "cnt" => SORT_DESC ] )->limit( 4 )->all();
         foreach ($topNews as $item) {
             $notInIds[] = $item->id;

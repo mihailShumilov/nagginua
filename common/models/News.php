@@ -145,7 +145,7 @@
 
         public static function getPopularNews( $count = 4 )
         {
-            return News::find()->where( "created_at BETWEEN DATE_ADD(NOW(), INTERVAL -1 day) AND NOW()" )->orderBy( [ "cnt" => SORT_DESC ] )->limit( $count )->all();
+            return News::find()->where( "created_at BETWEEN NOW() - INTERVAL '1 day' AND NOW()" )->orderBy( [ "cnt" => SORT_DESC ] )->limit( $count )->all();
         }
 
         public function get_in_translate_to_en( $string, $gost = false )
