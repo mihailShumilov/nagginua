@@ -126,40 +126,48 @@
                 return $npn->news_id;
             }
 
-            $news         = new News();
-            $news->title  = NewsParserComponent::replace4byte( $pn->title );
-            $news->thumb  = $pn->thumb_src;
-            $news->status = "in_process";
-            $news->save();
+            $news             = new News();
+            $news->title      = NewsParserComponent::replace4byte( $pn->title );
+            $news->thumb      = $pn->thumb_src;
+            $news->status     = "in_process";
+            $news->created_at = new \yii\db\Expression( 'NOW()' );
+            $news->updated_at = new \yii\db\Expression( 'NOW()' );
+            if ($news->save()) {
 
             $this->linkNews( $news->id, $pn->id );
 
             $news->status = "done";
             $news->save();
-            if ($news->thumb) {
-                $mq = new RabbitMQComponent();
-                $mq->postMessage( "image", "image", json_encode( [ "news_id" => $news->id, "src" => $news->thumb ] ) );
-                $mq->postMessage( "twitter", "twitter",
-                    json_encode( [ "news_id" => $news->id, "src" => $news->thumb ] ) );
-            } else {
-                if ($giData = PageLoaderComponent::load( "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" . urlencode( $news->title ) . "&userip=127.0.0.1&imgsz=large" )) {
-                    $data = json_decode( $giData );
-                    if (isset( $data->responseData->results[0] )) {
-                        $news->thumb = $data->responseData->results[0]->unescapedUrl;
-                        $news->save();
-                        $mq = new RabbitMQComponent();
-                        $mq->postMessage( "image", "image", json_encode( [
-                            "news_id" => $news->id,
-                            "src"     => $data->responseData->results[0]->unescapedUrl
-                        ] ) );
-                        $mq->postMessage( "twitter", "twitter",
-                            json_encode( [
+
+                if ($news->thumb) {
+                    $mq = new RabbitMQComponent();
+                    $mq->postMessage( "image", "image",
+                        json_encode( [ "news_id" => $news->id, "src" => $news->thumb ] ) );
+                    $mq->postMessage( "twitter", "twitter",
+                        json_encode( [ "news_id" => $news->id, "src" => $news->thumb ] ) );
+                } else {
+                    if ($giData = PageLoaderComponent::load( "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" . urlencode( $news->title ) . "&userip=127.0.0.1&imgsz=large" )) {
+                        $data = json_decode( $giData );
+                        if (isset( $data->responseData->results[0] )) {
+                            $news->thumb = $data->responseData->results[0]->unescapedUrl;
+                            $news->save();
+                            $mq = new RabbitMQComponent();
+                            $mq->postMessage( "image", "image", json_encode( [
                                 "news_id" => $news->id,
                                 "src"     => $data->responseData->results[0]->unescapedUrl
                             ] ) );
+                            $mq->postMessage( "twitter", "twitter",
+                                json_encode( [
+                                    "news_id" => $news->id,
+                                    "src"     => $data->responseData->results[0]->unescapedUrl
+                                ] ) );
+                        }
                     }
                 }
+            } else {
+                print_r( $news->getErrors() );
             }
+
             return $news->id;
         }
 

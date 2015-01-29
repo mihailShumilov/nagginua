@@ -300,23 +300,25 @@
 
         private function processExcludeElements( $html )
         {
-            if ($patterns = ExcludeElements::findAll(
-                array( "source_id" => $this->source->id )
-            )
-            ) {
-                $htmlDoc                 = mb_convert_encoding( $html, 'HTML-ENTITIES', "UTF-8" );
-                $doc                     = new \DOMDocument( "1.0", "utf-8" );
-                $doc->preserveWhiteSpace = false;
-                libxml_use_internal_errors( true );
-                $doc->loadHTML( $htmlDoc );
-                $xpath = new \DOMXpath( $doc );
+            if ($html) {
+                if ($patterns = ExcludeElements::findAll(
+                    array( "source_id" => $this->source->id )
+                )
+                ) {
+                    $htmlDoc                 = mb_convert_encoding( $html, 'HTML-ENTITIES', "UTF-8" );
+                    $doc                     = new \DOMDocument( "1.0", "utf-8" );
+                    $doc->preserveWhiteSpace = false;
+                    libxml_use_internal_errors( true );
+                    $doc->loadHTML( $htmlDoc );
+                    $xpath = new \DOMXpath( $doc );
 
-                foreach ($patterns as $pattern) {
-                    if ($element = $xpath->query( $pattern->pattern )->item( 0 )) {
-                        $replace = $doc->saveHTML( $element );
-                        $html    = str_replace( $replace, '', $html );
+                    foreach ($patterns as $pattern) {
+                        if ($element = $xpath->query( $pattern->pattern )->item( 0 )) {
+                            $replace = $doc->saveHTML( $element );
+                            $html    = str_replace( $replace, '', $html );
+                        }
+
                     }
-
                 }
             }
             return $html;

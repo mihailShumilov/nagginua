@@ -27,9 +27,10 @@
             $params = json_decode( $msg->body );
             print_r( $params );
             try {
-                $pn       = PendingNews::findOne( [ 'id' => $params->pn_id ] );
-                $detector = new SimilarDetectComponent( $pn );
-                $detector->detect();
+                if ($pn = PendingNews::findOne( [ 'id' => $params->pn_id ] )) {
+                    $detector = new SimilarDetectComponent( $pn );
+                    $detector->detect();
+                }
             } catch ( Exception $e ) {
                 echo $e->getMessage();
             }

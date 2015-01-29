@@ -121,6 +121,7 @@
                 if ($newsList = $xpath->query( $pattern->value )) {
                     for ($i = 0; $i < $newsList->length; $i ++) {
                         $news                 = $newsList->item( $i );
+
                         $newsParams           = array();
                         $newsParams['source'] = $this->source->source;
                         foreach ($news->childNodes as $node) {
@@ -154,7 +155,6 @@
                                 }
                             }
                         }
-
                         try {
                             if (array_key_exists( "link", $newsParams )) {
 
@@ -163,6 +163,7 @@
                                 $pqItem->url        = $newsParams['link'];
                                 $pqItem->status     = ParserQueue::STATUS_INPROCESS;
                                 $pqItem->created_at = new \yii\db\Expression( 'NOW()' );
+                                $pqItem->updated_at = new \yii\db\Expression( 'NOW()' );
                                 if ($pqItem->save()) {
 
                                     $pn                 = new PendingNews();
@@ -181,6 +182,7 @@
                                         $pn->pq_id = $pqItem->id;
                                     }
                                     $pn->created_at = new \yii\db\Expression( "NOW()" );
+                                    $pn->update_at = new \yii\db\Expression( "NOW()" );
                                     if ($pn->save()) {
                                         if ($pqItem) {
                                             $pqItem->status = ParserQueue::STATUS_DONE;
@@ -201,7 +203,7 @@
                             }
 
                         } catch ( \yii\db\Exception $e ) {
-//                            print_r( $e->getMessage() );
+                            print_r( $e->getMessage() );
                         }
 
                     }
