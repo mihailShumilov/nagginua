@@ -153,7 +153,7 @@
                                 }
                             }
                         } catch ( Exception $e ) {
-                            print_r( $e->getMessage() );
+//                            print_r( $e->getMessage() );
                         }
 
                     }

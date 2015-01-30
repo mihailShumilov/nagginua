@@ -69,7 +69,7 @@
                             if ($pqItem->save()) {
 
                             } else {
-                                print_r( $pqItem->getErrors() );
+//                                print_r( $pqItem->getErrors() );
                             }
                         } catch ( \yii\db\Exception $e ) {
 
@@ -198,12 +198,12 @@
                                         }
                                     }
                                 } else {
-                                    print_r( $pqItem->errors );
+//                                    print_r( $pqItem->errors );
                                 }
                             }
 
                         } catch ( \yii\db\Exception $e ) {
-                            print_r( $e->getMessage() );
+//                            print_r( $e->getMessage() );
                         }
 
                     }
