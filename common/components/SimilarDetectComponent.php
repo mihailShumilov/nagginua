@@ -93,6 +93,7 @@
 from pending_news
 where
 similarity(search_content, :text) > 0.2
+and created_at > (NOW() - interval '24 hours')
 order by sml desc" );
                 $findCmd->bindParam( ":text", $content );
 
