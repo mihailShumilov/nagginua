@@ -283,8 +283,10 @@
                 libxml_use_internal_errors( true );
                 $doc->loadHTML( $html );
                 $xpath = new \DOMXpath( $doc );
-                if ($elements = $xpath->query( $this->source->thumb_pattern )->item( 0 )) {
-                    $thumbSrc = $this->fixUrl( $elements->attributes->getNamedItem( 'src' )->nodeValue );
+                if ($xpath->query( $this->source->thumb_pattern )) {
+                    if ($elements = $xpath->query( $this->source->thumb_pattern )->item( 0 )) {
+                        $thumbSrc = $this->fixUrl( $elements->attributes->getNamedItem( 'src' )->nodeValue );
+                    }
                 }
             }
 
@@ -311,11 +313,12 @@
                     $xpath = new \DOMXpath( $doc );
 
                     foreach ($patterns as $pattern) {
-                        if ($element = $xpath->query( $pattern->pattern )->item( 0 )) {
-                            $replace = $doc->saveHTML( $element );
-                            $html    = str_replace( $replace, '', $html );
+                        if ($xpath->query( $pattern->pattern )) {
+                            if ($element = $xpath->query( $pattern->pattern )->item( 0 )) {
+                                $replace = $doc->saveHTML( $element );
+                                $html    = str_replace( $replace, '', $html );
+                            }
                         }
-
                     }
                 }
             }
