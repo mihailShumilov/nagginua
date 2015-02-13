@@ -8,12 +8,15 @@
     namespace console\controllers;
 
     use common\components\PageLoaderComponent;
+    use common\models\ParserQueue;
+    use common\models\PendingNews;
     use yii\console\Controller;
     use common\components\RabbitMQComponent;
 
     use \ForceUTF8\Encoding;
 
     use Yii;
+    use yii\db\Expression;
 
     class ParseController extends \yii\console\Controller {
         public function actionIndex() {
@@ -46,5 +49,21 @@
             }
 
             print_r( $data );
+        }
+
+        public function actionCheck()
+        {
+            $pq             = new ParserQueue();
+            $pq->source_id  = 1;
+            $pq->url        = 'http://test.loc';
+            $pq->status     = 'new';
+            $pq->created_at = new Expression( "NOW()" );
+            $pq->updated_at = new Expression( "NOW()" );
+            if ($pq->insert()) {
+                echo "\nSAVED with id {$pq->id}\n";
+            } else {
+                echo "\nFAILED\n";
+                var_dump( $pq->getErrors() );
+            }
         }
     }
