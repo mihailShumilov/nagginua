@@ -25,17 +25,17 @@
         private $channel;
 
         public function __construct(
-            $host = "localhost",
-            $port = 5672,
-            $user = "guest",
-            $pass = "'S4rZ]i9>DkYLNmosI",
-            $path = "/"
+            $host = false,
+            $port = false,
+            $user = false,
+            $pass = false,
+            $path = false
         ) {
-            $this->host = $host;
-            $this->port = $port;
-            $this->user = $user;
-            $this->pass = $pass;
-            $this->path = $path;
+            $this->host = $host ? $host : Yii::$app->params['rabbitmq']['host'];
+            $this->port = $port ? $port : Yii::$app->params['rabbitmq']['port'];
+            $this->user = $user ? $user : Yii::$app->params['rabbitmq']['user'];
+            $this->pass = $pass ? $pass : Yii::$app->params['rabbitmq']['pass'];
+            $this->path = $path ? $path : Yii::$app->params['rabbitmq']['path'];
             $this->connect();
         }
 

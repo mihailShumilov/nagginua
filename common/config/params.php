@@ -16,5 +16,12 @@
             'consumer_key'        => '2w3GOplwzQm2LJqGg2TCcf0TW',
             'consumer_secret'     => 'c16LNrR7b1l1RUW9mrEwyIX0OkWd5LFVwBzCYgIQlZX4vBrx9h'
         ],
-        'domainName'                    => 'http://nagg.in.ua'
+        'domainName' => 'http://nagg.in.ua',
+        "rabbitmq"   => [
+            "host" => "localhost",
+            "port" => "5672",
+            "user" => "guest",
+            "pass" => "'S4rZ]i9>DkYLNmosI",
+            "path" => "/"
+        ]
     ];
