@@ -28,7 +28,7 @@
             $host = "localhost",
             $port = 5672,
             $user = "guest",
-            $pass = "guest",
+            $pass = "'S4rZ]i9>DkYLNmosI",
             $path = "/"
         ) {
             $this->host = $host;
