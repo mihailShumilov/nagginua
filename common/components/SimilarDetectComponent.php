@@ -92,7 +92,7 @@
                 $findCmd = Yii::$app->db->createCommand( "SELECT id, title, similarity(search_content, :text) as sml
 from pending_news
 where
-similarity(search_content, :text) > 0.2
+similarity(search_content, :text) > 0.4
 and created_at > (NOW() - interval '24 hours')
 order by sml desc" );
                 $findCmd->bindParam( ":text", $content );
