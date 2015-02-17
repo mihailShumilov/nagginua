@@ -28,12 +28,18 @@
          * @var PendingNews
          */
         private $news = false;
-        private $minSimiar = 0;
+        private $titleSimilar = 0.8;
+        private $contentSimilar = 0.5;
 
         public function __construct( PendingNews $pn )
         {
+            if ($contentWeight = Settings::findOne( [ 'name' => 'similar_weight' ] )) {
+                $this->contentSimilar = $contentWeight->value;
+            }
+            if ($titleWeight = Settings::findOne( [ 'name' => 'title_similar_weight' ] )) {
+                $this->titleSimilar = $titleWeight->value;
+            }
             $this->news      = $pn;
-            $this->minSimiar = Settings::findOne( [ 'name' => 'similar_weight' ] )->value;
         }
 
         public function detect()
@@ -47,10 +53,7 @@
             if ($data) {
                 $ids_to_update = [ ];
                 foreach ($data as $ids) {
-
-                    if ($ids['weight'] > $this->minSimiar) {
-                        $ids_to_update[$ids['id']] = $ids['weight'];
-                    }
+                    $ids_to_update[$ids['id']] = $ids['weight'];
                 }
                 if (array_key_exists( $this->news->id, $ids_to_update )) {
                     unset( $ids_to_update[$this->news->id] );
@@ -77,12 +80,12 @@
 
         protected function  searchByTitle()
         {
-            return $this->search( $this->news->title, 'title', 0.8 );
+            return $this->search( $this->news->title, 'title', $this->titleSimilar );
         }
 
         public function searchByContent( $index_name = 'search_content' )
         {
-            return $this->search( $this->news->search_content, $index_name );
+            return $this->search( $this->news->search_content, $index_name, $this->contentSimilar );
         }
 
         public function searchByTitleContent( $index_name = 'search_content' )
