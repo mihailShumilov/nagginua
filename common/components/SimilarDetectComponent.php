@@ -38,7 +38,13 @@
 
         public function detect()
         {
-            if ($data = $this->searchByContent()) {
+
+            $data = $this->searchByTitle();
+            if ( ! $data) {
+                $data = $this->searchByContent();
+            }
+
+            if ($data) {
                 $ids_to_update = [ ];
                 foreach ($data as $ids) {
 
@@ -71,7 +77,7 @@
 
         protected function  searchByTitle()
         {
-            return $this->search( $this->news->title );
+            return $this->search( $this->news->title, 'title', 0.8 );
         }
 
         public function searchByContent( $index_name = 'search_content' )
@@ -84,25 +90,29 @@
             return $this->search( $this->news->title . ", " . $this->news->search_content, $index_name );
         }
 
-        protected function search( $content, $index_name = 'search_content' )
+        protected function search( $content, $field = 'search_content', $similar_weight = 0.5 )
         {
             if ($content) {
                 $returnIds = array();
 
-                $findCmd = Yii::$app->db->createCommand( "SELECT id, title, similarity(search_content, :text) as sml
+                $findCmd = Yii::$app->db->createCommand( "SELECT id, title, similarity({$field}, :text) as sml
 from pending_news
 where
-similarity(search_content, :text) > 0.5
+similarity({$field}, :text) > {$similar_weight}
 and created_at > (NOW() - interval '24 hours')
+and id <> {$this->news->id}
 order by sml desc" );
+
+
                 $findCmd->bindParam( ":text", $content );
 
-                $dataReader = $findCmd->query();
-                while (( $row = $dataReader->read() ) !== false) {
-                    $returnIds[] = array( 'id' => $row['id'], 'weight' => $row['sml'] * 100 );
+                if ($dataReader = $findCmd->query()) {
+                    while (( $row = $dataReader->read() ) !== false) {
+                        $returnIds[] = array( 'id' => $row['id'], 'weight' => $row['sml'] * 100 );
+                    }
                 }
 
-                return $returnIds;
+                return empty( $returnIds ) ? false : $returnIds;
             } else {
                 return false;
             }
