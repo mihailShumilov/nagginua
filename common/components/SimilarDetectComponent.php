@@ -104,6 +104,7 @@ where
 similarity({$field}, :text) > {$similar_weight}
 and created_at > (NOW() - interval '24 hours')
 and id <> {$this->news->id}
+and search_content <> '&nbsp;'
 order by sml desc" );
 
 
