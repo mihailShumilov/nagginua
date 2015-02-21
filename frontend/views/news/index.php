@@ -12,7 +12,8 @@
     </div>
 
     <h6 class="title"><?= \yii\helpers\Html::encode( $news->title ); ?></h6>
-    <span class="meta"><?= Yii::$app->formatter->asDate( $news->created_at, "php:d M, Y" ); ?>
+    <span class="meta"><?= Yii::$app->formatter->asDate( $news->created_at,
+            "php:" . Yii::$app->params['newsDateFormat'] ); ?>
         .   <?php if ($categories = $news->getCategoryList()): ?>
             <?php foreach ($categories as $category): ?>
                 \\ <a href="<?= $category->getLink(); ?>"><?= $category->name; ?></a>

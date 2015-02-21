@@ -17,7 +17,8 @@
 
         <h6 class="regular"><a href="<?= $item->getLink(); ?>"><?= \yii\helpers\Html::encode( $item->title ); ?></a>
         </h6>
-        <span class="meta"><?= Yii::$app->formatter->asDate( $item->created_at, "php:d M, Y" ); ?>
+        <span class="meta"><?= Yii::$app->formatter->asDate( $item->created_at,
+                "php:" . Yii::$app->params['newsDateFormat'] ); ?>
             <?php if ($categories = $item->getCategoryList()): ?>
                 <?php foreach ($categories as $category): ?>
                     \\ <a href="<?= $category->getLink(); ?>"><?= $category->name; ?></a>
@@ -44,7 +45,8 @@
 
         <h6 class="regular"><a href="<?= $item->getLink(); ?>"><?= \yii\helpers\Html::encode( $item->title ); ?></a>
         </h6>
-        <span class="meta"><?= Yii::$app->formatter->asDate( $item->created_at, "php:d M, Y" ); ?>
+        <span class="meta"><?= Yii::$app->formatter->asDate( $item->created_at,
+                "php:" . Yii::$app->params['newsDateFormat'] ); ?>
             <?php if ($categories = $item->getCategoryList()): ?>
                 <?php foreach ($categories as $category): ?>
                     \\ <a href="<?= $category->getLink(); ?>"><?= $category->name; ?></a>

@@ -4,7 +4,8 @@
                                             class="alignleft"/></a>
 
     <p>
-        <span><?= Yii::$app->formatter->asDate( $item->created_at, "php:d M, Y" ); ?></span>
+        <span><?= Yii::$app->formatter->asDate( $item->created_at,
+                "php:" . Yii::$app->params['newsDateFormat'] ); ?></span>
         <a href="<?= \yii\helpers\Html::encode( $item->getLink() ); ?>"><?= \yii\helpers\Html::encode( ( mb_strlen( $item->title,
                     'utf-8' ) > 53 ) ? mb_substr( $item->title, 0, 50, 'utf-8' ) . "..." : $item->title ); ?></a>
     </p>
