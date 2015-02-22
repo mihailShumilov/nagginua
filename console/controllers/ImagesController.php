@@ -25,6 +25,7 @@
 
         public static function processMessage( $msg )
         {
+            $msg->delivery_info['channel']->basic_ack( $msg->delivery_info['delivery_tag'] );
             $params = json_decode( $msg->body );
             print_r( $params );
             try {
@@ -62,7 +63,7 @@
                 echo $e->getMessage();
             }
 
-            $msg->delivery_info['channel']->basic_ack( $msg->delivery_info['delivery_tag'] );
+
         }
 
     }
