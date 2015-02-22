@@ -1,23 +1,29 @@
 <?php
     $this->params['breadcrumbs'] = $breadcrumbs;
 ?>
-<div class="column-two-third single">
+<div itemscope itemtype="http://schema.org/Article" class="column-two-third single">
+    <?php foreach ($news->pendingNews as $item): ?>
+        <meta itemprop="articleBody" content="<?= \yii\helpers\Html::encode( $item->content ); ?>"/>
+    <?php endforeach; ?>
     <div class="flexslider">
         <ul class="slides">
             <li>
-                <img src="<?= $news->getThumbLink( "topNews" ); ?>"
+                <img itemprop="image" src="<?= $news->getThumbLink( "topNews" ); ?>"
                      alt="<?= \yii\helpers\Html::encode( $news->title ); ?>"/>
             </li>
         </ul>
     </div>
 
-    <h6 class="title"><?= \yii\helpers\Html::encode( $news->title ); ?></h6>
-    <span class="meta"><?= Yii::$app->formatter->asDate( $news->created_at,
-            "php:" . Yii::$app->params['newsDateFormat'] ); ?>
+    <h6 itemprop="name" class="title"><?= \yii\helpers\Html::encode( $news->title ); ?></h6>
+    <span class="meta"><span itemprop="datePublished" content="<?= Yii::$app->formatter->asDate( $news->created_at,
+            "php:" . Yii::$app->params['newsDateFormat'] ); ?>"><?= Yii::$app->formatter->asDate( $news->created_at,
+                "php:" . Yii::$app->params['newsDateFormat'] ); ?></span>
         .   <?php if ($categories = $news->getCategoryList()): ?>
+            <span itemprop="articleSection">
             <?php foreach ($categories as $category): ?>
                 \\ <a href="<?= $category->getLink(); ?>"><?= $category->name; ?></a>
             <?php endforeach; ?>
+            </span>
                 <?php endif; ?></span>
     <?php foreach ($news->pendingNews as $item): ?>
         <div class="pendingNews" id="<?= $item->id; ?>" style="display: none;">
