@@ -49,7 +49,8 @@
                 $thumb = new \Imagick();
                 $thumb->newImage( $width, $height, $bg );
                 $thumb->setImageFormat( "png" );
-                $thumb->setImageCompressionQuality( 75 );
+                $thumb->setCompression( \Imagick::COMPRESSION_ZIP );
+                $thumb->setImageCompressionQuality( 0 );
                 $thumb->compositeImage( $overlay, \Imagick::COMPOSITE_DEFAULT, $resizeParams['left'],
                     $resizeParams['top'] );
                 $thumb->writeImageFile( fopen( $path, "wb" ) );
