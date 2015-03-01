@@ -8,6 +8,7 @@
 
     namespace console\controllers;
 
+    use common\components\ImageEditor;
     use common\components\PageLoaderComponent;
     use Yii;
     use common\components\RabbitMQComponent;
@@ -41,29 +42,26 @@
                     if ($handle = @fopen( $originFile, 'r' )) {
                         try {
                             if (file_exists( $originFile ) && ( $data = @getimagesize( $originFile ) )) {
+                                $image = new ImageEditor();
+                                $image->load( $originFile );
                                 foreach (Yii::$app->params['image_sizes'] as $title => $size) {
-                                    $image = \ImageEditor::createFromFile( $originFile );
-                                    $image->zoomWidthTo( $size['width'] );
-                                    if ($image->getHeight() > $size['height']) {
-                                        $marginTop    = ( $image->getHeight() - $size['height'] ) / 2;
-                                        $marginBottom = $image->getHeight() - $marginTop;
-                                        $image->crop( 0, $marginTop, $size['width'], $marginBottom );
-                                        $image->zoomHeightTo( $size['height'] );
-                                    }
-                                    $image->save( $dirPath . $title . ".png", "png", 100 );
+                                    $image->softThumb( $size['width'], $size['height'], $dirPath . $title . ".png" );
+
                                 }
+                            } else {
+                                throw new \Exception( "Origin file isn't an image", 400 );
                             }
                         } catch ( Exception $e ) {
                             echo "Error: {$e->getMessage()}" . PHP_EOL;
                         }
                         fclose( $handle );
+                    } else {
+                        throw new \Exception( "Can't open origin file", 400 );
                     }
                 }
-            } catch ( Exception $e ) {
+            } catch ( \Exception $e ) {
                 echo $e->getMessage();
             }
-
-
         }
 
     }

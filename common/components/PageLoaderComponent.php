@@ -51,7 +51,7 @@
         public static function loadFile( $url )
         {
             if ($url) {
-                $timeout  = 5;
+                $timeout = 15;
                 $tmpfname = tempnam( sys_get_temp_dir(), "img_" ) . ".png";
                 $fp       = fopen( $tmpfname, "w" );
                 $ch       = curl_init();
