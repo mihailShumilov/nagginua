@@ -178,6 +178,7 @@ nav#nav {
     width: 380px;
     margin: 0 10px 14px 10px;
     position: relative;
+    background: #000;
 }
 
 .slider3 {
@@ -185,6 +186,7 @@ nav#nav {
     width: 180px;
     margin: 0 10px;
     position: relative;
+    background: #000;
 }
 
 .slider2 img, .slider3 img {
