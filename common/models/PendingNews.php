@@ -24,11 +24,13 @@
      * @property integer $processed
      * @property string $created_at
      * @property string $update_at
+     * @property string $additonal_data
      *
      * @property LockNews $lockNews
      * @property News[] $news
      * @property Sources $source
      * @property ParserQueue $pq
+     * @inheritdoc
      */
     class PendingNews extends \yii\db\ActiveRecord
     {
@@ -55,7 +57,7 @@
             return [
                 [ [ 'source_id', 'title', 'content', 'search_content', 'group_hash' ], 'required' ],
                 [ [ 'source_id', 'pq_id', 'processed' ], 'integer' ],
-                [ [ 'title', 'content', 'search_content', 'thumb_src', 'status' ], 'string' ],
+                [ [ 'title', 'content', 'search_content', 'thumb_src', 'status', 'additonal_data' ], 'string' ],
                 [ [ 'created_at', 'update_at' ], 'safe' ],
                 [ [ 'group_hash' ], 'string', 'max' => 45 ]
             ];
@@ -79,6 +81,7 @@
                 'processed'      => 'Processed',
                 'created_at'     => 'Created At',
                 'update_at'      => 'Update At',
+                'additonal_data' => 'Additonal Data'
             ];
         }
 
@@ -120,7 +123,8 @@
             $content,
             $image_src,
             $status = PendingNews::STATUS_NEW,
-            ParserQueue $parser_queue = null
+            ParserQueue $parser_queue = null,
+            $data = [ ]
         ) {
 
 
@@ -142,6 +146,9 @@
                     $pn->thumb_src      = $image_src;
                     if ($parser_queue) {
                         $pn->pq_id = $parser_queue->id;
+                    }
+                    if ( ! empty( $data )) {
+                        $pn->additonal_data = json_encode( $data );
                     }
                     $pn->created_at = new \yii\db\Expression( "NOW()" );
                     $pn->update_at = new \yii\db\Expression( "NOW()" );

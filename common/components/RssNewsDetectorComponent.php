@@ -114,6 +114,13 @@
                 $imagePattern = $imagePattern->value;
             }
 
+            if ($categoryPattern = SourcesSettings::findOne( [
+                'source_id' => $this->source->source_id,
+                'name'      => 'rss_category'
+            ] )
+            ) {
+                $categoryPattern = $categoryPattern->value;
+            }
 
 
             foreach ($itemPatterns as $pattern) {
@@ -123,10 +130,20 @@
                         $news                 = $newsList->item( $i );
 
                         $newsParams           = array();
+                        $newsParams['data'] = [ ];
                         $newsParams['source'] = $this->source->source;
                         foreach ($news->childNodes as $node) {
                             if ($titlePattern == $node->nodeName) {
                                 $newsParams['title'] = $node->nodeValue;
+                            }
+                            if ($categoryPattern) {
+                                if ($categoryPattern == $node->nodeName) {
+                                    $newsParams['data']['category'] = $node->nodeValue;
+                                }
+                            } else {
+                                if ("category" == strtolower( $node->nodeName )) {
+                                    $newsParams['data']['category'] = $node->nodeValue;
+                                }
                             }
                             if ($linkPattern == $node->nodeName) {
                                 $newsParams['link'] = str_replace( $this->source->source->url, '', $node->nodeValue );
@@ -180,6 +197,9 @@
                                     }
                                     if ($pqItem) {
                                         $pn->pq_id = $pqItem->id;
+                                    }
+                                    if ( ! empty( $newsParams['data'] )) {
+                                        $pn->additonal_data = json_encode( $newsParams['data'] );
                                     }
                                     $pn->created_at = new \yii\db\Expression( "NOW()" );
                                     $pn->update_at = new \yii\db\Expression( "NOW()" );

@@ -25,6 +25,8 @@
 
         private $imagePattern;
 
+        private $categoryPattern;
+
         public function __construct( RssSources $source )
         {
             echo "Start parsing: {$source->source->label}\n";
@@ -64,11 +66,19 @@
                 $this->imagePattern = $imagePattern->value;
             }
 
+            if ($categoryPattern = SourcesSettings::findOne( [
+                'source_id' => $this->source->source_id,
+                'name'      => 'rss_category'
+            ] )
+            ) {
+                $this->categoryPattern = $categoryPattern->value;
+            }
+
         }
 
         public function run()
         {
-            $rss                     = PageLoaderComponent::load( $this->source->url );
+            $rss = PageLoaderComponent::load( $this->source->url );
 
             preg_match( '/<\?xml.*?encoding=(\'|")(.*)("|\")/i', $rss, $matches );
             $charset = "utf-8";
@@ -79,7 +89,7 @@
 //                $rss = mb_convert_encoding( $rss, "UTF-8" );
             }
 
-            $doc = new \DOMDocument( "1.1", $charset );
+            $doc                            = new \DOMDocument( "1.1", $charset );
             $doc->preserveWhiteSpace = false;
             libxml_use_internal_errors( true );
             $doc->loadXML( $rss );
@@ -91,6 +101,7 @@
                     for ($i = 0; $i < $newsList->length; $i ++) {
                         $news                 = $newsList->item( $i );
                         $newsParams           = array();
+                        $newsParams['data'] = [ ];
                         $newsParams['source'] = $this->source->source;
                         foreach ($news->childNodes as $node) {
                             if ($this->titlePattern == $node->nodeName) {
@@ -101,6 +112,9 @@
                             }
                             if ($this->linkPattern == $node->nodeName) {
                                 $newsParams['link'] = $node->nodeValue;
+                            }
+                            if ($this->categoryPattern == $node->nodeName) {
+                                $newsParams['data']['category'] = $node->nodeValue;
                             }
                             if ($this->imagePattern == $node->nodeName) {
                                 if (preg_match_all(
@@ -146,7 +160,8 @@
                                         $newsParams['content'],
                                         isset( $newsParams['image_src'] ) ? $newsParams['image_src'] : false,
                                         PendingNews::STATUS_NEW,
-                                        $pqItem
+                                        $pqItem,
+                                        $newsParams['data']
                                     );
 
 
