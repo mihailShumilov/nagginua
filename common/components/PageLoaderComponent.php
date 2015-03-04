@@ -24,6 +24,7 @@
                     curl_setopt( $ch, CURLOPT_URL, $url );
                     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
                     curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $timeout );
+                    curl_setopt( $ch, CURLOPT_TIMEOUT, $timeout );
                     curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, true );
                     curl_setopt(
                         $ch,
@@ -51,13 +52,14 @@
         public static function loadFile( $url )
         {
             if ($url) {
-                $timeout = 15;
+                $timeout = 30;
                 $tmpfname = tempnam( sys_get_temp_dir(), "img_" ) . ".png";
                 $fp       = fopen( $tmpfname, "w" );
                 $ch       = curl_init();
                 curl_setopt( $ch, CURLOPT_URL, $url );
                 curl_setopt( $ch, CURLOPT_FILE, $fp );
                 curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, $timeout );
+                curl_setopt( $ch, CURLOPT_TIMEOUT, $timeout );
                 curl_exec( $ch );
                 curl_close( $ch );
                 fclose( $fp );
