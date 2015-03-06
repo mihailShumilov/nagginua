@@ -207,7 +207,6 @@ order by sml desc" );
 
         protected function detectCategories( $news_id, $pn_id )
         {
-            echo "\n++++++++++++++++++++++++\n";
             $categoryWords = CategoryWords::find()->all();
             $pn            = PendingNews::findOne( $pn_id );
 
@@ -215,17 +214,13 @@ order by sml desc" );
             $content       = mb_strtolower( $pn->search_content, 'utf-8' );
             if ($pn->additonal_data) {
                 $data = json_decode( $pn->additonal_data );
-                print_r( $data );
                 if ($data->category) {
                     $content = mb_strtolower( $data->category, 'utf-8' );
-                    echo "HAS category:  {$content}\n";
                 }
             }
 
             foreach ($categoryWords as $cw) {
-                echo "Tri find {$cw->word}\n";
                 if (mb_strpos( $content, mb_strtolower( $cw->word, 'utf-8' ), 0, 'utf-8' ) !== false) {
-                    echo "WINNNN!!!\n";
                     if ( ! $nhc = NewsHasCategory::findOne( [
                         'category_id' => $cw->category_id,
                         'news_id'     => $news_id
