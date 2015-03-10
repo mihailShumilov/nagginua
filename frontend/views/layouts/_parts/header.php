@@ -7,11 +7,11 @@
             </div>
 
             <div class="search">
-                <!--                <form action="" method="post">-->
-                <!--                    <input type="text" value="Поиск." onblur="if(this.value=='') this.value='Поиск.';"-->
-                <!--                           onfocus="if(this.value=='Поиск.') this.value='';" class="ft"/>-->
-                <!--                    <input type="submit" value="" class="fs">-->
-                <!--                </form>-->
+                                <form action="/search" method="get">
+                                    <input type="text" value="Поиск." onblur="if(this.value=='') this.value='Поиск.';"
+                                           onfocus="if(this.value=='Поиск.') this.value='';" class="ft" name="q"/>
+                                    <input type="submit" value="" class="fs">
+                                </form>
             </div>
 
             <!-- Nav -->

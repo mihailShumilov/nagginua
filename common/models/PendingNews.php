@@ -98,7 +98,13 @@
          */
         public function getNews()
         {
-            return $this->hasMany( News::className(), [ 'pending_news_id' => 'id' ] );
+            return $this->hasOne( News::className(), [ 'id' => 'news_id' ] )->viaTable( 'npn',
+                [ 'pending_news_id' => 'id' ] );
+        }
+
+        public function getNpn()
+        {
+            return $this->hasOne( Npn::className(), [ 'pending_news_id' => 'id' ] );
         }
 
         /**
@@ -167,7 +173,6 @@
                 }
             }
         }
-
 
 
         public function afterSave( $insert, $changedAttributes )
