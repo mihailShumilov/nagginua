@@ -35,14 +35,16 @@
 
             $provider = new SqlDataProvider( [
                 'sql' => "SELECT DISTINCT  news.id, news.title,
-ts_rank_cd(to_tsvector('russian',pending_news.search_content), plainto_tsquery('russian',:text)) AS rank,
+sum(ts_rank_cd(to_tsvector('russian',pending_news.search_content), plainto_tsquery('russian',:text)))/count(news.id) AS rank,
 news.created_at, news.cnt
                     from pending_news
                     inner join npn ON npn.pending_news_id = pending_news.id
                      inner join news on news.id = npn.news_id
                     where
                     	to_tsvector('russian',pending_news.search_content) @@ plainto_tsquery('russian',:text)
-                    and search_content <> '&nbsp;'",
+                    and search_content <> '&nbsp;'
+                    GROUP BY news.id
+                    ",
                 'params'     => [ ':text' => $q ],
                 'totalCount' => $count,
                 'sort'       => [
