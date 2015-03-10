@@ -8,7 +8,12 @@
 
             <div class="search">
                                 <form action="/search" method="get">
-                                    <input type="text" value="Поиск." onblur="if(this.value=='') this.value='Поиск.';"
+                                    <input type="text" value="<?php if (isset( $this->params['searchQuery'] )) {
+                                        echo \yii\helpers\Html::encode( $this->params['searchQuery'] );
+                                    } else {
+                                        echo "Поиск.";
+                                    } ?>" onblur="if(this.value=='') {this.value='Поиск.';
+}"
                                            onfocus="if(this.value=='Поиск.') this.value='';" class="ft" name="q"/>
                                     <input type="submit" value="" class="fs">
                                 </form>

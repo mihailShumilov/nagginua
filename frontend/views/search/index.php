@@ -1,6 +1,8 @@
 <?php $this->params['breadcrumbs'] = $breadcrumbs; ?>
+<?php $this->params['searchQuery'] = $query; ?>
 <?php $news = $provider->getModels(); ?>
 
+<?php if ( ! empty( $news )): ?>
 <div class="column-two-third">
     <?php $item = array_shift( $news );
         if ($item = common\models\News::findOne( [ 'id' => $item['id'] ] )):
@@ -8,7 +10,7 @@
             <div class="outertight m-t-no">
 
                 <div class="badg">
-                    <p><a href="<?= $item->getLink(); ?>">Свежая.</a></p>
+                    <p><a href="<?= $item->getLink(); ?>">Лучшая.</a></p>
                 </div>
                 <div class="flexslider">
                     <ul class="slides">
@@ -43,7 +45,7 @@
             <div class="outertight m-r-no m-t-no">
 
                 <div class="badg">
-                    <p><a href="<?= $item->getLink(); ?>">Свежая.</a></p>
+                    <p><a href="<?= $item->getLink(); ?>">Лучшая.</a></p>
                 </div>
                 <div class="flexslider">
                     <ul class="slides">
@@ -95,5 +97,8 @@
         ] );
         ?>
     </div>
+    <?php else: ?>
+        <h1>Ничего не найдено по запросу: `<?= \yii\helpers\Html::encode( $query ); ?>`</h1>
+    <?php endif; ?>
 
 </div>

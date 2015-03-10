@@ -77,11 +77,17 @@ news.created_at, news.cnt
                 ],
             ] );
 
+            $breadCrumbs   = [ ];
+            $breadCrumbs[] = [ 'label' => 'Главная', 'url' => '/' ];
+            $breadCrumbs[] = [ 'label' => 'Поиск' ];
+            $breadCrumbs[] = [ 'label' => $q ];
+
             return $this->render( 'index', [
                 'provider'    => $provider,
                 'slug'        => "Search",
                 'category'    => "Search",
-                'breadcrumbs' => [ ]
+                'breadcrumbs' => $breadCrumbs,
+                'query'       => $q
             ] );
         }
     }
