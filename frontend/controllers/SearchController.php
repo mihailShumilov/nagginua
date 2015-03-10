@@ -22,7 +22,7 @@
             $similar_weight = 0.1;
 
             $count = \Yii::$app->db->createCommand( "
-    SELECT count(news.id)
+    SELECT count(DISTINCT news.id)
                     from pending_news
                     inner join npn ON npn.pending_news_id = pending_news.id
                      inner join news on news.id = npn.news_id
@@ -34,7 +34,7 @@
 
 
             $provider = new SqlDataProvider( [
-                'sql'        => "SELECT news.id, news.title,
+                'sql' => "SELECT DISTINCT  news.id, news.title,
 ts_rank_cd(to_tsvector('russian',pending_news.search_content), plainto_tsquery('russian',:text)) AS rank,
 news.created_at, news.cnt
                     from pending_news
