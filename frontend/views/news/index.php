@@ -15,6 +15,18 @@
     </div>
 
     <h6 itemprop="name" class="title"><?= \yii\helpers\Html::encode( $news->title ); ?></h6>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- Под тайтлом новости -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-9725027434111611"
+         data-ad-slot="2990349687"
+         data-ad-format="auto"></ins>
+    <script>
+        (
+            adsbygoogle = window.adsbygoogle || []
+        ).push( {} );
+    </script>
     <span class="meta"><span itemprop="datePublished" content="<?= Yii::$app->formatter->asDate( $news->created_at,
             "php:" . Yii::$app->params['newsDateFormat'] ); ?>"><?= Yii::$app->formatter->asDate( $news->created_at,
                 "php:" . Yii::$app->params['newsDateFormat'] ); ?></span>
