@@ -10,6 +10,7 @@
 
     use common\components\ImageEditor;
     use common\components\PageLoaderComponent;
+    use common\models\News;
     use Yii;
     use common\components\RabbitMQComponent;
     use yii\base\Exception;
@@ -30,7 +31,11 @@
             $params = json_decode( $msg->body );
             print_r( $params );
             try {
-                $dirPath = Yii::getAlias( '@frontend' ) . '/web/uploads/' . date( "Y" ) . '/' . date( "m" ) . "/" . date( "d" ) . "/" . $params->news_id . "/";
+                $news    = News::findOne( [ 'id' => $params->news_id ] );
+                $dirPath = Yii::getAlias( '@frontend' ) . '/web/uploads/' . date( "Y",
+                        strtotime( $news->created_at ) ) . '/' . date( "m",
+                        strtotime( $news->created_at ) ) . "/" . date( "d",
+                        strtotime( $news->created_at ) ) . "/" . $params->news_id . "/";
                 if ( ! file_exists( $dirPath )) {
                     mkdir( $dirPath, 0777, true );
                 }
