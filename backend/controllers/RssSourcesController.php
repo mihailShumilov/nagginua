@@ -2,6 +2,7 @@
 
     namespace backend\controllers;
 
+    use common\models\SourcesSettings;
     use Yii;
     use common\models\RssSources;
     use backend\models\RssSourcesSearch;
@@ -77,7 +78,18 @@
         {
             $model = new RssSources();
 
-            if ($model->load( Yii::$app->request->post() ) && $model->save()) {
+            $postData = Yii::$app->request->post();
+
+            if ($model->load( $postData ) && $model->save()) {
+                if (isset( $postData['RssSources']['settings'] )) {
+                    foreach ($postData['RssSources']['settings'] as $name => $value) {
+                        $sourcesSettings            = new SourcesSettings();
+                        $sourcesSettings->source_id = $model->source_id;
+                        $sourcesSettings->name      = $name;
+                        $sourcesSettings->value     = $value;
+                        $sourcesSettings->save();
+                    }
+                }
                 return $this->redirect( [ 'view', 'id' => $model->id ] );
             } else {
                 return $this->render( 'create', [
@@ -98,7 +110,20 @@
         {
             $model = $this->findModel( $id );
 
-            if ($model->load( Yii::$app->request->post() ) && $model->save()) {
+            $postData = Yii::$app->request->post();
+
+            if ($model->load( $postData ) && $model->save()) {
+                SourcesSettings::deleteAll( [ 'source_id' => $model->source_id ] );
+                if (isset( $postData['RssSources']['settings'] )) {
+                    foreach ($postData['RssSources']['settings'] as $name => $value) {
+                        $sourcesSettings            = new SourcesSettings();
+                        $sourcesSettings->source_id = $model->source_id;
+                        $sourcesSettings->name      = $name;
+                        $sourcesSettings->value     = $value;
+                        $sourcesSettings->save();
+                    }
+                }
+
                 return $this->redirect( [ 'view', 'id' => $model->id ] );
             } else {
                 return $this->render( 'update', [
