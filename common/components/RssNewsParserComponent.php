@@ -79,6 +79,9 @@
         public function run()
         {
             $rss = PageLoaderComponent::load( $this->source->url );
+            $rss = trim( $rss );
+            $rss = preg_replace( "/<rss([^>]+)>/mi", "<rss>", $rss );
+
 
             preg_match( '/<\?xml.*?encoding=(\'|")(.*)("|\")/i', $rss, $matches );
             $charset = "utf-8";
