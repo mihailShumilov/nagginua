@@ -39,7 +39,7 @@
             $provider = new ActiveDataProvider( [
                 'query'      => $query,
                 'pagination' => [
-                    'pageSize' => 16,
+                    'pageSize' => 26,
                 ],
             ] );
             $breadCrumbs = [ ];
