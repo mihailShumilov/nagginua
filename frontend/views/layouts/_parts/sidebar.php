@@ -20,25 +20,6 @@
     </div>
 
     <div class="sidebar">
-        <h5 class="line"><span>Реламма</span></h5>
-
-        <div>
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- Сайдбар -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-9725027434111611"
-                 data-ad-slot="7147374081"
-                 data-ad-format="auto"></ins>
-            <script>
-                (
-                    adsbygoogle = window.adsbygoogle || []
-                ).push( {} );
-            </script>
-        </div>
-    </div>
-
-    <div class="sidebar">
         <div id="tabs">
             <ul>
                 <li><a href="#tabs1">Последние.</a></li>
@@ -67,6 +48,24 @@
     <div class="sidebar">
         <div id="minfincomua_i_usd">Загружаем межбанк от <a href="http://minfin.com.ua/">minfin.com.ua</a></div>
         <script type="text/javascript" src="http://informer.minfin.com.ua/interbank/usd.js"></script>
+    </div>
+    <div class="sidebar">
+        <h5 class="line"><span>Реламма</span></h5>
+
+        <div>
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- Сайдбар -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-9725027434111611"
+                 data-ad-slot="7147374081"
+                 data-ad-format="auto"></ins>
+            <script>
+                (
+                    adsbygoogle = window.adsbygoogle || []
+                ).push( {} );
+            </script>
+        </div>
     </div>
     <div class="sidebar">
         <div id="minfincomua_i_eur">Загружаем межбанк от <a href="http://minfin.com.ua/">minfin.com.ua</a></div>
