@@ -50,7 +50,7 @@
         <script type="text/javascript" src="http://informer.minfin.com.ua/interbank/usd.js"></script>
     </div>
     <div class="sidebar">
-        <h5 class="line"><span>Реламма</span></h5>
+        <h5 class="line"><span>Реклама</span></h5>
 
         <div>
             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
