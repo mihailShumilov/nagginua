@@ -17,6 +17,25 @@
 
     class NewsController extends Controller
     {
+
+        public function behaviors()
+        {
+            return [
+                [
+                    'class'      => 'yii\filters\PageCache',
+                    'only'       => [ 'index' ],
+                    'duration'   => 3600,
+                    'variations' => [
+                        \Yii::$app->language,
+                    ],
+                    'dependency' => [
+                        'class' => 'yii\caching\DbDependency',
+                        'sql'   => 'SELECT cnt FROM news WHERE id = ' . Yii::$app->request->get( 'id' ),
+                    ],
+                ],
+            ];
+        }
+
         public function actionIndex( $id, $title )
         {
             $this->layout = 'category';
