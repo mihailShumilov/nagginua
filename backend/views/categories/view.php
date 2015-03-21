@@ -18,9 +18,9 @@
         <?= Html::a( 'Update', [ 'update', 'id' => $model->id ], [ 'class' => 'btn btn-primary' ] ) ?>
         <?= Html::a( 'Delete', [ 'delete', 'id' => $model->id ], [
             'class' => 'btn btn-danger',
-            'data'  => [
+            'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
-                'method'  => 'post',
+                'method' => 'post',
             ],
         ] ) ?>
     </p>
@@ -31,6 +31,7 @@
             'id',
             'name',
             'slug',
+            'parent_id',
         ],
     ] ) ?>
 

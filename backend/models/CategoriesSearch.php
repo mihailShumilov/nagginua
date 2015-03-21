@@ -12,16 +12,16 @@
      */
     class CategoriesSearch extends Categories
     {
-        /**
-         * @inheritdoc
-         */
+    /**
+     * @inheritdoc
+     */
         public function rules()
-        {
-            return [
-                [ [ 'id' ], 'integer' ],
-                [ [ 'name', 'slug' ], 'safe' ],
-            ];
-        }
+    {
+        return [
+            [ [ 'id', 'parent_id' ], 'integer' ],
+            [ [ 'name', 'slug' ], 'safe' ],
+        ];
+    }
 
         /**
          * @inheritdoc
@@ -47,17 +47,22 @@
                 'query' => $query,
             ] );
 
-            if ( ! ( $this->load( $params ) && $this->validate() )) {
-                return $dataProvider;
-            }
+            $this->load( $params );
+
+            if ( ! $this->validate()) {
+                // uncomment the following line if you do not want to any records when validation fails
+                // $query->where('0=1');
+            return $dataProvider;
+        }
 
             $query->andFilterWhere( [
-                'id' => $this->id,
+                'id'        => $this->id,
+                'parent_id' => $this->parent_id,
             ] );
 
             $query->andFilterWhere( [ 'like', 'name', $this->name ] )
                   ->andFilterWhere( [ 'like', 'slug', $this->slug ] );
 
             return $dataProvider;
-        }
+    }
     }

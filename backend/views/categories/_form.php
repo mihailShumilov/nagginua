@@ -16,6 +16,12 @@
 
     <?= $form->field( $model, 'slug' )->textInput( [ 'maxlength' => 45 ] ) ?>
 
+    <?= $form->field( $model,
+        'parent_id' )->dropDownList( \yii\helpers\ArrayHelper::map( array_merge( [ 'id' => null, 'name' => null ],
+        \common\models\Categories::find()->orderBy( 'name' )->asArray()->all() ),
+        'id',
+        'name' ), [ 'value' => $model->parent_id ] ) ?>
+
     <div class="form-group">
         <?= Html::submitButton( $model->isNewRecord ? 'Create' : 'Update',
             [ 'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary' ] ) ?>
