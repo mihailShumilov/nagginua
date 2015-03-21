@@ -30,9 +30,16 @@
             }
 
             if ('all' != $slug) {
+                $catArr   = [ ];
+                $catArr[] = $category->id;
+                if ($subcatList = $category->child) {
+                    foreach ($subcatList as $subcat) {
+                        $catArr[] = $subcat->id;
+                    }
+                }
                 $query->join( 'INNER JOIN', NewsHasCategory::tableName(),
                     NewsHasCategory::tableName() . ".news_id = " . News::tableName() . ".id" );
-                $query->where( [ NewsHasCategory::tableName() . '.category_id' => $category->id ] );
+                $query->where( [ NewsHasCategory::tableName() . '.category_id' => $catArr ] );
             }
             $query->orderBy( [ 'id' => SORT_DESC ] );
 
