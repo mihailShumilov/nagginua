@@ -34,7 +34,6 @@
                     <?php endif; ?>
                 </ul>
             </div>
-            <?php if ($this->beginCache( "sidebarPopular", [ 'duration' => 3600 ] )): ?>
             <div id="tabs2">
                 <ul>
                     <?php if ($news = \common\models\News::getPopularNews()): ?>
@@ -44,7 +43,6 @@
                     <?php endif; ?>
                 </ul>
             </div>
-            <?php endif; ?>
         </div>
     </div>
     <div class="sidebar">
