@@ -15,16 +15,17 @@
      * @property integer $is_combine
      * @property string $created_at
      * @property string $updated_at
+     * @property integer $category_id
      */
     class RssSources extends \yii\db\ActiveRecord
     {
-        /**
-         * @inheritdoc
-         */
+    /**
+     * @inheritdoc
+     */
         public static function tableName()
-        {
-            return 'rss_sources';
-        }
+    {
+        return 'rss_sources';
+    }
 
         /**
          * @inheritdoc
@@ -33,7 +34,7 @@
         {
             return [
                 [ [ 'source_id', 'url' ], 'required' ],
-                [ [ 'source_id', 'active', 'is_full', 'is_combine' ], 'integer' ],
+                [ [ 'source_id', 'active', 'is_full', 'is_combine', 'category_id' ], 'integer' ],
                 [ [ 'created_at', 'updated_at' ], 'safe' ],
                 [ [ 'url' ], 'string', 'max' => 255 ]
             ];
@@ -45,16 +46,17 @@
         public function attributeLabels()
         {
             return [
-                'id'         => 'ID',
-                'source_id'  => 'Source ID',
-                'url'        => 'Url',
-                'active'     => 'Active',
-                'is_full'    => 'Is Full',
-                'is_combine' => 'Is Combine',
-                'created_at' => 'Created At',
-                'updated_at' => 'Updated At',
+                'id'          => 'ID',
+                'source_id'   => 'Source ID',
+                'url'         => 'Url',
+                'active'      => 'Active',
+                'is_full'     => 'Is Full',
+                'is_combine'  => 'Is Combine',
+                'created_at'  => 'Created At',
+                'updated_at'  => 'Updated At',
+                'category_id' => 'Category ID',
             ];
-        }
+    }
 
         public function getSource()
         {

@@ -21,9 +21,10 @@
 
     <?= GridView::widget( [
         'dataProvider' => $dataProvider,
-        'filterModel'  => $searchModel,
-        'columns'      => [
+        'filterModel' => $searchModel,
+        'columns'     => [
             [ 'class' => 'yii\grid\SerialColumn' ],
+
             'id',
             'source_id',
             'url:url',
@@ -32,6 +33,7 @@
             // 'is_combine',
             // 'created_at',
             // 'updated_at',
+            // 'category_id',
 
             [ 'class' => 'yii\grid\ActionColumn' ],
         ],

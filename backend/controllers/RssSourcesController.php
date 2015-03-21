@@ -31,7 +31,7 @@
                         ],
                     ],
                 ],
-                'verbs' => [
+                'verbs'  => [
                     'class'   => VerbFilter::className(),
                     'actions' => [
                         'delete' => [ 'post' ],
@@ -40,20 +40,20 @@
             ];
         }
 
-        /**
-         * Lists all RssSources models.
-         * @return mixed
-         */
+    /**
+     * Lists all RssSources models.
+     * @return mixed
+     */
         public function actionIndex()
-        {
-            $searchModel  = new RssSourcesSearch();
-            $dataProvider = $searchModel->search( Yii::$app->request->queryParams );
+    {
+        $searchModel  = new RssSourcesSearch();
+        $dataProvider = $searchModel->search( Yii::$app->request->queryParams );
 
-            return $this->render( 'index', [
-                'searchModel'  => $searchModel,
-                'dataProvider' => $dataProvider,
-            ] );
-        }
+        return $this->render( 'index', [
+            'searchModel'  => $searchModel,
+            'dataProvider' => $dataProvider,
+        ] );
+    }
 
         /**
          * Displays a single RssSources model.
@@ -94,7 +94,7 @@
             } else {
                 return $this->render( 'create', [
                     'model' => $model,
-                ] );
+                ]);
             }
         }
 
@@ -108,7 +108,7 @@
          */
         public function actionUpdate( $id )
         {
-            $model = $this->findModel( $id );
+            $model = $this->findModel( $id);
 
             $postData = Yii::$app->request->post();
 
@@ -128,7 +128,7 @@
             } else {
                 return $this->render( 'update', [
                     'model' => $model,
-                ] );
+                ]);
             }
         }
 
@@ -161,7 +161,7 @@
             if (( $model = RssSources::findOne( $id ) ) !== null) {
                 return $model;
             } else {
-                throw new NotFoundHttpException( 'The requested page does not exist.' );
+                throw new NotFoundHttpException( 'The requested page does not exist.');
             }
-        }
     }
+}

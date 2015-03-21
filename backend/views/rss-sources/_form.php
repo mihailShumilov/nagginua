@@ -47,7 +47,7 @@
                 "defaultValue" => "yandex:full-text"
             ],
             "rss_category"          => [
-                "label"        => "Category",
+                "label" => "RSS Category",
                 "defaultValue" => "category"
             ]
         ];
@@ -69,6 +69,12 @@
             </div>
 
         <?php endforeach; ?>
+
+    <?= $form->field( $model, 'category_id' )->dropDownList( \yii\helpers\ArrayHelper::map( array_merge( [ 'id'   => null,
+                                                                                                           'name' => null
+    ], \common\models\Categories::find()->orderBy( 'name' )->asArray()->all() ),
+        'id',
+        'name' ), [ 'value' => $model->category_id ] ) ?>
 
     <div class="form-group">
         <?= Html::submitButton( $model->isNewRecord ? 'Create' : 'Update',
