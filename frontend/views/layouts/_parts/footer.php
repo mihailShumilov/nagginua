@@ -21,7 +21,7 @@
         <div class="column-one-fourth">
             <h5 class="line"><span>Навигация.</span></h5>
             <ul class="footnav">
-                <?php if ($categories = \common\models\Categories::find()->all()): ?>
+                <?php if ($categories = \common\models\Categories::find()->where( 'parent_id IS NULL' )->orderBy( 'order ASC' )->all()): ?>
 
                     <?php foreach ($categories as $category): ?>
                         <li>
