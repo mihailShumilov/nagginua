@@ -37,7 +37,16 @@
                     'class' => 'yii\web\UrlRule',
                     ''      => 'user/index',
                 ]
+            ],
+            'response'     => [
+                'format'  => yii\web\Response::FORMAT_JSON,
+                'charset' => 'UTF-8',
             ]
+        ],
+        'modules'             => [
+            'news' => [
+                'class' => 'app\api\modules\v1\News',
+            ],
         ],
         'params'              => $params,
     ];
