@@ -22,13 +22,14 @@
     <?= GridView::widget( [
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'columns'     => [
+        'columns' => [
             [ 'class' => 'yii\grid\SerialColumn' ],
 
             'id',
             'name',
             'slug',
             'parent_id',
+            'order',
             [ 'class' => 'yii\grid\ActionColumn' ],
         ],
     ] ); ?>

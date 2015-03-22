@@ -18,19 +18,19 @@
         public function rules()
     {
         return [
-            [ [ 'id', 'parent_id' ], 'integer' ],
+            [ [ 'id', 'parent_id', 'order' ], 'integer' ],
             [ [ 'name', 'slug' ], 'safe' ],
         ];
     }
 
-        /**
-         * @inheritdoc
-         */
+    /**
+     * @inheritdoc
+     */
         public function scenarios()
-        {
-            // bypass scenarios() implementation in the parent class
-            return Model::scenarios();
-        }
+    {
+        // bypass scenarios() implementation in the parent class
+        return Model::scenarios();
+    }
 
         /**
          * Creates data provider instance with search query applied
@@ -58,6 +58,7 @@
             $query->andFilterWhere( [
                 'id'        => $this->id,
                 'parent_id' => $this->parent_id,
+                'order'     => $this->order,
             ] );
 
             $query->andFilterWhere( [ 'like', 'name', $this->name ] )

@@ -32,6 +32,7 @@
             'name',
             'slug',
             'parent_id',
+            'order',
         ],
     ] ) ?>
 

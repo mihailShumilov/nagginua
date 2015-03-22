@@ -23,7 +23,7 @@
             <!-- Nav -->
             <nav id="nav">
                 <ul class="sf-menu">
-                    <?php if ($categories = \common\models\Categories::find()->where( 'parent_id IS NULL' )->with( 'child' )->all()): ?>
+                    <?php if ($categories = \common\models\Categories::find()->where( 'parent_id IS NULL' )->with( 'child' )->orderBy( 'order ASC' )->all()): ?>
                         <?php $current = \common\models\Categories::findOne( [ 'slug' => isset( Yii::$app->requestedParams[0] ) ? Yii::$app->requestedParams[0] : 'all' ] ); ?>
 
 
