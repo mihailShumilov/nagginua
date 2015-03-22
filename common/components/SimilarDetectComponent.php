@@ -207,17 +207,29 @@ order by sml desc" );
 
         protected function detectCategories( $news_id, $pn_id )
         {
-            $categoryWords = CategoryWords::find()->all();
             $pn            = PendingNews::findOne( $pn_id );
-
-
             $content       = mb_strtolower( $pn->search_content, 'utf-8' );
             if ($pn->additonal_data) {
                 $data = json_decode( $pn->additonal_data );
+                if (isset( $data->category_id )) {
+                    if ( ! $nhc = NewsHasCategory::findOne( [
+                        'category_id' => $data->category_id,
+                        'news_id'     => $news_id
+                    ] )
+                    ) {
+                        $nhc              = new NewsHasCategory();
+                        $nhc->news_id     = $news_id;
+                        $nhc->category_id = $data->category_id;
+                        $nhc->save();
+                        return true;
+                    }
+                }
                 if ($data->category) {
                     $content = mb_strtolower( $data->category, 'utf-8' );
                 }
             }
+
+            $categoryWords = CategoryWords::find()->all();
 
             foreach ($categoryWords as $cw) {
                 if (mb_strpos( $content, mb_strtolower( $cw->word, 'utf-8' ), 0, 'utf-8' ) !== false) {

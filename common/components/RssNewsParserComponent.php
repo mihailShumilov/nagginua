@@ -105,6 +105,9 @@
                         $news                 = $newsList->item( $i );
                         $newsParams           = array();
                         $newsParams['data'] = [ ];
+                        if ($this->source->category_id) {
+                            $newsParams['data']['category_id'] = $this->source->category_id;
+                        }
                         $newsParams['source'] = $this->source->source;
                         foreach ($news->childNodes as $node) {
                             if ($this->titlePattern == $node->nodeName) {
