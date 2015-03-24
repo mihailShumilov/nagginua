@@ -11,7 +11,6 @@
         'basePath'            => dirname( __DIR__ ),
         'controllerNamespace' => 'api\controllers',
         'bootstrap'           => [ 'log' ],
-        'modules'             => [ ],
         'components'          => [
             'user'         => [
                 'identityClass'   => 'common\models\User',
@@ -34,18 +33,22 @@
                 'enableStrictParsing' => false,
                 'showScriptName'      => false,
                 'rules'               => [
-                    'class' => 'yii\web\UrlRule',
-                    ''      => 'user/index',
+                    [
+                        'class'      => 'yii\rest\UrlRule',
+                        'controller' => [
+                            'v1/categories' => 'v1/categories'
+                        ]
+                    ]
                 ]
             ],
-            'response'     => [
-                'format'  => yii\web\Response::FORMAT_JSON,
-                'charset' => 'UTF-8',
-            ]
+//            'response'     => [
+//                'format'  => yii\web\Response::FORMAT_JSON,
+//                'charset' => 'UTF-8',
+//            ]
         ],
         'modules'             => [
-            'news' => [
-                'class' => 'app\api\modules\v1\News',
+            'v1' => [
+                'class' => 'app\modules\v1\Module',
             ],
         ],
         'params'              => $params,

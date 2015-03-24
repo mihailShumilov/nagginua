@@ -1,10 +1,10 @@
 <?php
 
-    namespace api\modules\v1;
+    namespace app\modules\v1;
 
-    class News extends \yii\base\Module
+    class Module extends \yii\base\Module
     {
-        public $controllerNamespace = 'app\api\modules\v1\controllers';
+        public $controllerNamespace = 'app\modules\v1\controllers';
 
         public function init()
         {

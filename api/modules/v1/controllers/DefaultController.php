@@ -1,13 +1,13 @@
 <?php
 
-    namespace api\modules\v1\controllers;
+    namespace app\modules\v1\controllers;
 
     use yii\web\Controller;
 
     class DefaultController extends Controller
     {
         public function actionIndex()
-        {
-            return $this->render( 'index' );
-        }
+    {
+        return $this->render( 'index' );
+    }
     }
