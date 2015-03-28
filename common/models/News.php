@@ -82,6 +82,7 @@
         public function beforeSave( $insert )
         {
             if ($insert) {
+                $this->title = html_entity_decode( $this->title );
                 $this->created_at = new Expression( "NOW()" );
             }
             return parent::beforeSave( $insert );
