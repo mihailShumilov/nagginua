@@ -2,7 +2,7 @@
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'language' => 'ru-RU',
-
+    'timeZone' => 'EET',
     'components' => [
 
         'cache' => [
