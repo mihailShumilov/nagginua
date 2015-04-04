@@ -44,8 +44,6 @@
                     'media[]' => $params->src
                 );
                 $reply  = $cb->statuses_updateWithMedia( $params );
-                print_r( $reply );
-
 
             } catch ( Exception $e ) {
                 echo $e->getMessage();
