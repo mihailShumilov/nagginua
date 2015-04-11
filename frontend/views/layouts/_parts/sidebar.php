@@ -50,7 +50,7 @@
         <script type="text/javascript" src="http://informer.minfin.com.ua/interbank/usd.js"></script>
     </div>
     <div class="sidebar">
-        <h5 class="line"><span>Реклама</span></h5>
+        <h5 class="line"><span>Реклама.</span></h5>
 
         <div>
             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -74,6 +74,19 @@
     <div class="sidebar">
         <div id="minfincomua_i_rub">Загружаем межбанк от <a href="http://minfin.com.ua/">minfin.com.ua</a></div>
         <script type="text/javascript" src="http://informer.minfin.com.ua/interbank/rub.js"></script>
+    </div>
+    <div class="sidebar">
+        <h5 class="line"><span>Поддержать проект.</span></h5>
+
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0"
+                   name="submit" alt="PayPal - The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+
     </div>
     <div class="sidebar">
         <!--LiveInternet counter-->
