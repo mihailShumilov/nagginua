@@ -40,7 +40,7 @@
     <?php foreach ($news->pendingNews as $item): ?>
         <div class="pendingNews" id="<?= $item->id; ?>" style="display: none;">
             <p>Источник: <a href="<?= $item->source->url; ?>" target="_blank"><?= $item->source->label; ?></a></p>
-            <?= \yii\helpers\HtmlPurifier::process( $item->content ); ?>
+            <?= \yii\helpers\HtmlPurifier::process( nl2br( $item->content ) ); ?>
         </div>
     <?php endforeach; ?>
     <ul class="sharebox">
