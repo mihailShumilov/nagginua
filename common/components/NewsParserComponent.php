@@ -3,6 +3,7 @@
 
 
     use common\models\Sources;
+    use readability\Readabillity;
     use Yii;
     use yii\base\Component;
     use common\components\PageLoaderComponent;
@@ -18,8 +19,9 @@
     use yii\base\Exception;
     use \ForceUTF8\Encoding;
 
-    require_once( Yii::getAlias( '@vendor' ) . '/mihailshumilov/documenthash/DocumentHash.php' );
-    require_once( Yii::getAlias( '@vendor' ) . '/mihailshumilov/readability/Readability.php' );
+
+    require_once( Yii::getAlias( '@vendor' ) . '/mihailshumilov/readability/Readabillity.php' );
+
 
     /**
      * Created by PhpStorm.
@@ -93,28 +95,27 @@
 
                 try {
                     $html = $this->stripTagWithContent( $html, "script" );
-                    $htmlToDetect = $this->processExcludeElements( $html );
-                    $content      = $this->tryContentDetect( $htmlToDetect );
+//                    $htmlToDetect = $this->processExcludeElements( $html );
+//                    $content      = $this->tryContentDetect( $htmlToDetect );
 
-                    $readability                          = new \Readability( $html, $this->url );
-                    $readability->debug                   = false;
-                    $readability->convertLinksToFootnotes = false;
-                    $result                               = $readability->init();
-                    if ($result) {
-                        $title                      = $readability->getTitle()->textContent;
+
+                    $readability = new Readabillity( $this->url );
+                    if ($readability) {
+                        $title = "test title";
                         $title                      = $this->processTitleStopWords( $title );
-                        if ( ! $content) {
-                            $content = $readability->getContent()->innerHTML;
-                        }
+//                        if ( ! $content) {
+                        $content = $readability->getContent();
+//                        die("content: ".$content);
+//                        }
                         $content = $this->processContentStopWords( $content );
                         $content = preg_replace( '/\n/', ' ', $content );
-                        $content                    = strip_tags( $content,
-                            "<p><div><img><span><br><ul><li><embed><iframe><strong><h1><h2><h3><h4>" );
+//                        $content                    = strip_tags( $content,
+//                            "<p><div><img><span><br><ul><li><embed><iframe><strong><h1><h2><h3><h4>" );
                         $content = $this->fixUrls( $content );
 
 
                         $content = $this->processExcludeElements( $content );
-                        if ($date = $this->processPublishDate( $html )) {
+                        if ($date = $this->processPublishDate( $content )) {
                             if ( ! ( date( "Y-m-d" ) == date( "Y-m-d", $date ) )) {
                                 throw new Exception( "Old post" );
                             }
@@ -196,7 +197,7 @@
                         throw new Exception( 'Looks like we couldn\'t find the content. :(' );
                     }
                 } catch ( Exception $e ) {
-
+                    print_r( $e );
                     $this->parserQueue->status = ParserQueue::STATUS_FAIL;
                     $this->parserQueue->save();
                 }
@@ -248,29 +249,6 @@
                 $url = $this->source->url . $url;
             }
             return $url;
-        }
-
-        private function fillSearchDB( $content, $newsID )
-        {
-            $dh = new \DocumentHash( $content );
-
-            $ihs            = new ItemsHashesSummary();
-            $ihs->doc_id    = $newsID;
-            $ihs->full_hash = $dh->docMD5;
-            $tockens        = array_unique( $dh->getCrc32array() );
-            $ihs->length    = sizeof( $tockens );
-            $ihs->save();
-
-            foreach ($tockens as $token) {
-                $ih            = new ItemsHashes();
-                $ih->doc_id    = $newsID;
-                $ih->word_hash = $token;
-                if ( ! $ih->save()) {
-//                print_r($ih->getErrors());
-//                die;
-                }
-            }
-
         }
 
         private function detectThumb( $html, $preparedHtml )
