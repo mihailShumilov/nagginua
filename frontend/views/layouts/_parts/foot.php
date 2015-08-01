@@ -11,6 +11,8 @@
 <script type="text/javascript" src="/js/timeago.js"></script>
 <script type="text/javascript" src="/js/jflickrfeed.min.js"></script>
 <script type="text/javascript" src="/js/mobilemenu.js"></script>
+<script type="text/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
 
 <!--[if lt IE 9]>
 <script type="text/javascript" src="/js/html5.js"></script> <![endif]-->
@@ -45,4 +47,4 @@
 
 </body>
 </html>
-<?php //$this->endPage() ?>
+<?php $this->endPage() ?>

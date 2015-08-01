@@ -7,7 +7,11 @@
     use frontend\assets\AppAsset;
     use frontend\widgets\Alert;
 
+    /* @var $this \yii\web\View */
+    /* @var $content string */
+
     AppAsset::register( $this );
+
 
 
 ?>
@@ -76,6 +80,8 @@
           media="only screen and (min-width: 200px) and (max-width: 479px)"/>
     <link href='http://fonts.googleapis.com/css?family=Merriweather+Sans:400,300,700,800' rel='stylesheet'
           type='text/css'>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
     <!--[if lt IE 9]>
     <script type="text/javascript" src="/js/customM.js"></script> <![endif]-->
 

@@ -20,12 +20,14 @@ function submitForm() {
 }
 jQuery(function () {
     // -----------------------------------------------------  FLEXSLIDER
-    jQuery('.flexslider').flexslider({
-        animation: 'fade',
-        controlNav: false,
-        slideshowSpeed: 4000,
-        animationDuration: 300
-    });
+    if (jQuery( '.flexslider' ).length) {
+        jQuery( '.flexslider' ).flexslider( {
+            animation: 'fade',
+            controlNav: false,
+            slideshowSpeed: 4000,
+            animationDuration: 300
+        } );
+    }
 
 })
 
