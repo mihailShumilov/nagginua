@@ -30,28 +30,34 @@
     <span class="meta"><span itemprop="datePublished" content="<?= Yii::$app->formatter->asDate( $news->created_at,
             "php:" . Yii::$app->params['newsDateFormat'] ); ?>"><?= Yii::$app->formatter->asDate( $news->created_at,
                 "php:" . Yii::$app->params['newsDateFormat'] ); ?></span>
-        .   <?php if ($categories = $news->getCategoryList()): ?>
+        . <?php if ($categories = $news->getCategoryList()): ?>
             <span itemprop="articleSection">
             <?php foreach ($categories as $category): ?>
                 \\ <a href="<?= $category->getLink(); ?>"><?= $category->name; ?></a>
             <?php endforeach; ?>
             </span>
-                <?php endif; ?></span>
-    <?php foreach ($news->pendingNews as $item): ?>
-        <div class="pendingNews" id="<?= $item->id; ?>" style="display: none;">
-            <p>Источник: <a href="<?= $item->source->url; ?>" target="_blank"><?= $item->source->label; ?></a></p>
-            <?= \yii\helpers\HtmlPurifier::process( nl2br( $item->content ) ); ?>
-        </div>
-    <?php endforeach; ?>
+        <?php endif; ?></span>
+
+    <div id="newsContent">
+        <ul>
+            <?php foreach ($news->pendingNews as $item): ?>
+                <li><a href="#tabs-<?= $item->id; ?>"><?= $item->source->label; ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+        <?php foreach ($news->pendingNews as $item): ?>
+
+            <div id="tabs-<?= $item->id; ?>">
+                <p>Источник: <a href="<?= $item->source->url; ?>" target="_blank"><?= $item->source->label; ?></a></p>
+                <?= \yii\helpers\HtmlPurifier::process( nl2br( $item->content ) ); ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
     <ul class="sharebox">
         <?php foreach ($news->pendingNews as $item): ?>
             <li><a class="sourceSwitch" href="#<?= $item->id; ?>"><?= $item->source->label ?></a></li>
         <?php endforeach; ?>
 
     </ul>
-
-
-
 
     <div class="comments">
         <div id="disqus_thread"></div>
@@ -68,7 +74,7 @@
                     dsq.async = true;
                     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
                     (
-                    document.getElementsByTagName( 'head' )[0] || document.getElementsByTagName( 'body' )[0]
+                        document.getElementsByTagName( 'head' )[0] || document.getElementsByTagName( 'body' )[0]
                     ).appendChild( dsq );
                 }
             )();
