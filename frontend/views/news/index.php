@@ -52,13 +52,14 @@
             </div>
         <?php endforeach; ?>
     </div>
+    <?php if ($tagList = \common\models\NewsHasTags::findAll( [ 'news_id' => $news->id ] )): ?>
     <ul class="sharebox">
-        <?php foreach ($news->pendingNews as $item): ?>
-            <li><a class="sourceSwitch" href="#<?= $item->id; ?>"><?= $item->source->label ?></a></li>
+        <?php foreach ($tagList as $tag): ?>
+            <li><a href="javascript: void(0);"><?= $tag->tag->name ?></a></li>
         <?php endforeach; ?>
 
     </ul>
-
+    <?php endif; ?>
     <div class="comments">
         <div id="disqus_thread"></div>
         <script type="text/javascript">
