@@ -50,6 +50,18 @@
 
             </nav>
             <!-- /Nav -->
+<div style="margin-top: 20px; float: left; width: 100%; clear: both;">
+       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- под мен�~N -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9725027434111611"
+     data-ad-slot="6304153288"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
         </div>
     </div>
 </header>
