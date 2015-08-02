@@ -1,44 +1,49 @@
 {
-    "name": "yiisoft/yii2-app-advanced",
-    "description": "Yii 2 Advanced Application Template",
-    "keywords": ["yii2", "framework", "advanced", "application template"],
-    "homepage": "http://www.yiiframework.com/",
-    "type": "project",
-    "license": "BSD-3-Clause",
-    "support": {
-        "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/yii2"
-    },
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=5.4.0",
-        "yiisoft/yii2": "*",
-        "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*",
-        "videlalvaro/php-amqplib": "*",
-        "mihailshumilov/documenthash": "*",
-        "mihailshumilov/readability": "*",
-        "wapmorgan/image-editor": "dev-master",
-        "jublonet/codebird-php": "*",
-        "fxp/composer-asset-plugin": "1.0.*@dev",
-        "himiklab/yii2-sitemap-module": "*"
-    },
-    "require-dev": {
-        "yiisoft/yii2-codeception": "*",
-        "yiisoft/yii2-debug": "*",
-        "yiisoft/yii2-gii": "*",
-        "yiisoft/yii2-faker": "*"
-    },
-    "config": {
-        "process-timeout": 1800
-    },
-    "extra": {
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
-        }
+  "name": "yiisoft/yii2-app-advanced",
+  "description": "Yii 2 Advanced Application Template",
+  "keywords": [
+    "yii2",
+    "framework",
+    "advanced",
+    "application template"
+  ],
+  "homepage": "http://www.yiiframework.com/",
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://github.com/yiisoft/yii2/issues?state=open",
+    "forum": "http://www.yiiframework.com/forum/",
+    "wiki": "http://www.yiiframework.com/wiki/",
+    "irc": "irc://irc.freenode.net/yii",
+    "source": "https://github.com/yiisoft/yii2"
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=5.4.0",
+    "yiisoft/yii2": "*",
+    "yiisoft/yii2-bootstrap": "dev-master",
+    "yiisoft/yii2-swiftmailer": "*",
+    "videlalvaro/php-amqplib": "*",
+    "mihailshumilov/documenthash": "*",
+    "mihailshumilov/readability": "dev-prod",
+    "wapmorgan/image-editor": "dev-master",
+    "jublonet/codebird-php": "*",
+    "fxp/composer-asset-plugin": "dev-master",
+    "himiklab/yii2-sitemap-module": "*"
+  },
+  "require-dev": {
+    "yiisoft/yii2-codeception": "*",
+    "yiisoft/yii2-debug": "*",
+    "yiisoft/yii2-gii": "*",
+    "yiisoft/yii2-faker": "*"
+  },
+  "config": {
+    "process-timeout": 1800
+  },
+  "extra": {
+    "asset-installer-paths": {
+      "npm-asset-library": "vendor/npm",
+      "bower-asset-library": "vendor/bower"
     }
+  }
 }
