@@ -41,12 +41,12 @@
     <div id="newsContent">
         <ul>
             <?php foreach ($news->pendingNews as $item): ?>
-                <li><a href="#tabs-<?= $item->id; ?>"><?= $item->source->label; ?></a></li>
+                <li><a href="#<?= $item->id; ?>"><?= $item->source->label; ?></a></li>
             <?php endforeach; ?>
         </ul>
         <?php foreach ($news->pendingNews as $item): ?>
 
-            <div id="tabs-<?= $item->id; ?>">
+            <div id="<?= $item->id; ?>">
                 <p>Источник: <a href="<?= $item->source->url; ?>" target="_blank"><?= $item->source->label; ?></a></p>
                 <?= \yii\helpers\HtmlPurifier::process( nl2br( $item->content ) ); ?>
             </div>

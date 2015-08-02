@@ -3,18 +3,11 @@
  */
 $( document ).ready( function ()
 {
-    console.log( 'NEWS.JS' );
-    $( ".sourceSwitch" ).click( function ()
-    {
-        $( ".pendingNews" ).hide();
-        $( "#" + $( this ).attr( "href" ).substr( 1 ) ).show();
+
+    jQuery( "#newsContent" ).tabs( {
+        activate: function ( event, ui )
+        {
+            window.location.hash = ui.newPanel.selector;
+        }
     } );
-
-    if ($( location ).attr( 'hash' )) {
-        $( $( location ).attr( 'hash' ) ).show();
-    } else {
-//        $(".sourceSwitch:first").click();
-    }
-
-    jQuery( "#newsContent" ).tabs();
 } );
