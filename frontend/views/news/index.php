@@ -14,7 +14,7 @@
         </ul>
     </div>
 
-    <h6 itemprop="name" class="title"><?= \yii\helpers\Html::encode( $news->title ); ?></h6>
+    <h1 itemprop="name" class="title"><?= \yii\helpers\Html::encode( $news->title ); ?></h1>
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <!-- Под тайтлом новости -->
     <ins class="adsbygoogle"
