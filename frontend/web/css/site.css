@@ -93,3 +93,51 @@ a.desc:after {
 .pendingNews {
     color: #696969;
 }
+
+#newsContent.ui-tabs .ui-tabs-nav {
+    float: left;
+    margin: 0 -1px 0 0;
+    padding: 0;
+    max-width: 120px;
+}
+#newsContent.ui-tabs .ui-tabs-nav li {
+    font-size: 9px;
+    border: 1px solid #ea4748;
+    margin: -1px 0 0;
+    float: none;
+    border-radius: 0;
+    background: #ffffff;
+}
+#newsContent.ui-tabs .ui-tabs-nav li:first-child {
+    border-radius: 5px 0 0 0;
+}
+#newsContent.ui-tabs .ui-tabs-nav li:last-child {
+    border-radius: 0 0 0 5px;
+}
+#newsContent.ui-tabs .ui-tabs-nav li a{
+    display: block;
+    float: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 5px 5px;
+    overflow: hidden;
+}
+#newsContent.ui-tabs .ui-tabs-nav li.ui-tabs-active{
+    border-right: 1px solid #ffffff;
+    position: relative;
+    z-index: 2;
+}
+#newsContent.ui-tabs .ui-tabs-panel{
+    overflow: hidden;
+    padding: 0 0 0 1.5em;
+    border-top: 0;
+    border-left: 1px solid #ea4748;
+    box-shadow: -4px 0 2px -2px rgba(0,0,0,.1);
+
+}
+
+@media (max-width: 480px){
+    #newsContent.ui-tabs .ui-tabs-nav {
+        max-width: 90px;
+    }
+}
